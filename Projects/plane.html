@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simple Plane Control – Ahmed Alaa</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div id="lightbox" onclick="closeLightbox()">
+  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation()">
+</div>
+<header>
+  <a class="header-brand" href="../index.html">Ahmed Alaa</a>
+  <button class="menu-toggle" id="menuIcon" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
+  <nav id="nav-menu">
+    <a href="../index.html#about" onclick="closeMenu()">About</a>
+    <a href="../index.html#skills" onclick="closeMenu()">Skills</a>
+    <a href="../index.html#projects" onclick="closeMenu()">Projects</a>
+    <a href="../index.html#pathway" onclick="closeMenu()">Unity Pathway</a>
+    <a href="../index.html#youtube" onclick="closeMenu()">YouTube</a>
+    <a href="../index.html#experience" onclick="closeMenu()">Experience</a>
+    <a href="../index.html#contact" onclick="closeMenu()">Contact</a>
+    <a href="../Ahmed_Alaa_Unity_Game_Developer.pdf" target="_blank" class="nav-btn">Resume</a>
+  </nav>
+</header>
+
+<div class="page-content">
+
+  <a href="../index.html#pathway" class="pd-back">← Back to Pathway</a>
+
+  <div class="pd-tags">
+    <span class="pd-tag">Unity Pathway</span>
+    <span class="pd-tag">Unit 1 Challenge</span>
+    <span class="pd-tag">Physics</span>
+  </div>
+  <h1 class="pd-title">Simple Plane Control</h1>
+
+  <div class="pd-body">
+    <div class="pd-left">
+
+      <div class="pd-video">
+        <iframe width="100%" height="340" src="https://www.youtube.com/embed/qI8u-08rihM?si=WWaeviO3_LABtZK-" frameborder="0" allowfullscreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+      </div>
+
+      <div class="pd-carousel" data-id="plane">
+        <div class="pd-carousel-track-wrap"><div class="pd-carousel-track">
+          <img src="../Images/PlaneSim1.jpg" alt="Plane Control screenshot 1">
+          <img src="../Images/PlaneSim2.jpg" alt="Plane Control screenshot 2">
+        </div></div>
+        <button class="pd-carousel-btn prev" onclick="carouselMove('plane',-1)">&#8249;</button>
+        <button class="pd-carousel-btn next" onclick="carouselMove('plane',1)">&#8250;</button>
+        <div class="pd-carousel-dots" id="dots-plane"></div>
+      </div>
+
+      <div class="pd-writeup">
+        <div>
+          <div class="pd-section-title">About this project</div>
+          <div class="pd-section-text">
+            The Challenge 1 project from Unit 1 of the Junior Programmer Pathway — applying the same controller concepts from the driving simulator to a flying vehicle with completely different physics behaviour.
+          </div>
+        </div>
+        <div>
+          <div class="pd-section-title">What I Built</div>
+          <div class="pd-section-text">
+            <ul>
+              <li>Flying vehicle controller with tilt-based movement and constant forward thrust</li>
+              <li>Camera follow system adapted for aerial perspective</li>
+              <li>Spinning propeller animation tied to speed</li>
+              <li>Camera POV switching between cockpit and chase views</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="pd-section-title">What I Learned</div>
+          <div class="pd-section-text">
+            Adapting ground vehicle logic to a flying vehicle taught me how different movement models require different physics approaches. The tilt-to-turn mechanic forced me to think about rotation axes more carefully than a simple car controller does. Reusing and modifying existing scripts rather than rewriting from scratch was also a good habit reinforced here.
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="pd-right">
+      <div class="pd-meta">
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Pathway Unit</div>
+          <div class="pd-meta-value">Unit 1 — Challenge</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Tech Stack</div>
+          <div class="pd-meta-value">Unity, C#, Physics Engine</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Platform</div>
+          <div class="pd-meta-value">PC</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <a href="https://www.youtube.com/watch?v=qI8u-08rihM" target="_blank" class="pd-link-btn">Watch on YouTube ↗</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script src="../main.js"></script>
+</body>
+</html>

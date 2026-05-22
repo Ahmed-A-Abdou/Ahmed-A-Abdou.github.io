@@ -4,436 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ahmed Alaa - Game Dev Portfolio</title>
-<style>
-:root {
-  --card:#1e293b;
-  --accent:#00c3d1;
-  --text:#ffffff;
-}
-
-html { scroll-behavior:smooth; }
-
-body {
-  margin:0;
-  font-family:Arial;
-  color:var(--text);
-  background: linear-gradient(135deg, #020617, #0d1422, #020617);
-  min-height:100vh;
-  overflow-x:hidden;
-}
-
-#particles {
-  position:fixed;
-  width:100%; height:100%;
-  top:0; left:0;
-  z-index:-1;
-}
-
-header {
-  position:fixed;
-  width:100%;
-  background:rgba(0,0,0,0.6);
-  backdrop-filter:blur(10px);
-  padding:15px;
-  text-align:center;
-  z-index:1000;
-  box-sizing:border-box;
-}
-
-nav {
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  flex-wrap:wrap;
-}
-
-nav a {
-  margin:8px 10px;
-  color:var(--accent);
-  text-decoration:none;
-  position:relative;
-  transition:0.3s;
-}
-
-nav a::after {
-  content:"";
-  position:absolute;
-  left:0; bottom:-5px;
-  width:0%; height:2px;
-  background:var(--accent);
-  transition:0.3s;
-}
-
-nav a:hover::after { width:100%; }
-nav a:hover { text-shadow:0 0 8px var(--accent); }
-
-.nav-btn {
-  display:inline-block;
-  margin-left:15px;
-  padding:6px 14px;
-  border-radius:6px;
-  background:var(--accent);
-  color:#000 !important;
-  font-weight:bold;
-  text-decoration:none;
-  box-shadow:0 0 10px var(--accent);
-  transition:0.3s;
-}
-
-.nav-btn:hover {
-  transform:scale(1.08);
-  box-shadow:0 0 20px var(--accent), 0 0 40px var(--accent);
-}
-
-.menu-toggle {
-  display:none;
-  font-size:28px;
-  color:var(--accent);
-  cursor:pointer;
-  background:none;
-  border:none;
-  padding:0;
-  line-height:1;
-}
-
-section {
-  padding:100px 20px;
-  max-width:1000px;
-  margin:auto;
-}
-
-section h2 {
-  color:var(--accent);
-  font-size:1.8rem;
-  margin-bottom:10px;
-  text-shadow:0 0 12px rgba(0,195,209,0.4);
-}
-
-section h3 { color:var(--accent); margin-top:0; }
-
-.hero {
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-}
-
-.hero img {
-  width:100%;
-  max-width:440px;
-  border-radius:50%;
-  border:15px solid #00c3d1;
-  border-style:double;
-  box-shadow:0 0 30px var(--accent);
-  transition:0.4s;
-}
-
-.hero img:hover {
-  transform:scale(1.05);
-  box-shadow:0 0 60px var(--accent);
-}
-
-.typing {
-  border-right:2px solid var(--accent);
-  white-space:nowrap;
-  overflow:hidden;
-  animation:typing 3s steps(30), blink .5s infinite;
-}
-
-@keyframes typing { from{width:0} to{width:100%} }
-@keyframes blink { 50%{border-color:transparent} }
-
-.card {
-  background:var(--card);
-  padding:20px;
-  border-radius:12px;
-  margin:20px 0;
-  border-left:3px solid var(--accent);
-  transition:0.3s;
-}
-
-.card:hover {
-  transform:translateY(-6px);
-  box-shadow:0 10px 25px rgba(0,0,0,0.5);
-}
-
-.skills span {
-  display:inline-block;
-  margin:5px;
-  padding:10px;
-  background:#0f172a;
-  border-radius:8px;
-  transition:0.3s;
-}
-
-.skills span:hover {
-  background:var(--accent);
-  color:#000;
-  transform:scale(1.1);
-  box-shadow:0 0 10px var(--accent);
-}
-
-.pathway-card { border-left:3px solid #7c3aed; }
-.pathway-card h3 { color:#a78bfa !important; }
-
-iframe {
-  border-radius:10px;
-  transition:0.3s;
-  display:block;
-}
-
-iframe:hover {
-  transform:scale(1.02);
-  box-shadow:0 0 20px var(--accent);
-}
-
-.btn {
-  display:inline-block;
-  margin:10px 5px;
-  padding:10px 20px;
-  background:var(--accent);
-  color:#000;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
-  box-shadow:0 0 10px var(--accent);
-  transition:0.3s;
-}
-
-.btn:hover {
-  transform:scale(1.08);
-  box-shadow:0 0 20px var(--accent), 0 0 40px var(--accent);
-}
-
-/* ── CAROUSEL ── */
-.carousel {
-  position:relative;
-  margin-top:16px;
-  border-radius:10px;
-  overflow:hidden;
-  background:#0a1628;
-}
-
-.carousel-track-wrap {
-  overflow:hidden;
-  border-radius:10px;
-}
-
-.carousel-track {
-  display:flex;
-  transition:transform 0.4s ease;
-}
-
-.carousel-track img {
-  min-width:100%;
-  width:100%;
-  height:260px;
-  object-fit:cover;
-  flex-shrink:0;
-  border-radius:0;
-  cursor:zoom-in;
-  transition:opacity 0.2s;
-}
-
-.carousel-track img:hover {
-  opacity:0.85;
-}
-
-.carousel-btn {
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  background:rgba(0,0,0,0.6);
-  border:1px solid var(--accent);
-  color:var(--accent);
-  font-size:20px;
-  width:38px; height:38px;
-  border-radius:50%;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  transition:0.3s;
-  z-index:10;
-  padding:0;
-}
-
-.carousel-btn:hover { background:var(--accent); color:#000; }
-.carousel-btn.prev { left:10px; }
-.carousel-btn.next { right:10px; }
-
-.carousel-dots {
-  display:flex;
-  justify-content:center;
-  gap:8px;
-  padding:10px 0 6px;
-}
-
-.carousel-dots span {
-  width:8px; height:8px;
-  border-radius:50%;
-  background:rgba(255,255,255,0.25);
-  cursor:pointer;
-  transition:0.3s;
-  display:inline-block;
-}
-
-.carousel-dots span.active {
-  background:var(--accent);
-  box-shadow:0 0 6px var(--accent);
-}
-
-.carousel-empty {
-  padding:24px;
-  text-align:center;
-  color:rgba(255,255,255,0.3);
-  font-size:13px;
-  font-style:italic;
-}
-
-/* ── LIGHTBOX ── */
-#lightbox {
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:9999;
-  background:rgba(0,0,0,0.92);
-  justify-content:center;
-  align-items:center;
-  cursor:zoom-out;
-  padding:20px;
-  box-sizing:border-box;
-}
-
-#lightbox.active {
-  display:flex;
-}
-
-#lightbox img {
-  max-width:100%;
-  max-height:90vh;
-  object-fit:contain;
-  border-radius:8px;
-  box-shadow:0 0 40px rgba(0,195,209,0.3);
-  cursor:default;
-  animation:lb-in 0.25s ease;
-}
-
-@keyframes lb-in {
-  from { opacity:0; transform:scale(0.92); }
-  to   { opacity:1; transform:scale(1); }
-}
-
-#lightbox-close {
-  position:fixed;
-  top:16px;
-  right:20px;
-  font-size:32px;
-  color:var(--accent);
-  cursor:pointer;
-  line-height:1;
-  background:none;
-  border:none;
-  transition:0.2s;
-  z-index:10000;
-}
-
-#lightbox-close:hover { transform:scale(1.2); }
-
-/* MOBILE */
-@media (max-width:768px){
-
-  body {
-    background:linear-gradient(135deg, #020617, #0d1422, #020617) !important;
-    background-attachment:scroll;
-    min-height:100vh;
-  }
-
-  .card {
-    background:#1e293b !important;
-    border-left:3px solid var(--accent);
-  }
-
-  .pathway-card { border-left:3px solid #7c3aed !important; }
-
-  .skills span {
-    background:#0f172a !important;
-    color:#ffffff !important;
-  }
-
-  header {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:12px 20px;
-    position:fixed;
-  }
-
-  header h2 { font-size:18px; margin:0; }
-  .menu-toggle { display:block; flex-shrink:0; }
-
-  nav {
-    position:absolute;
-    top:100%; left:0;
-    width:100%;
-    background:rgba(0,0,0,0.95);
-    backdrop-filter:blur(10px);
-    flex-direction:column;
-    align-items:center;
-    flex-wrap:nowrap;
-    max-height:0;
-    overflow:hidden;
-    opacity:0;
-    pointer-events:none;
-    transition:max-height 0.4s ease, opacity 0.3s ease;
-  }
-
-  nav.active { max-height:600px; opacity:1; pointer-events:auto; }
-
-  nav a {
-    width:100%;
-    padding:15px;
-    text-align:center;
-    margin:0;
-    border-bottom:1px solid rgba(0,195,209,0.1);
-  }
-
-  nav a::after { display:none; }
-
-  .nav-btn {
-    display:block;
-    width:calc(100% - 40px);
-    margin:12px 20px;
-    padding:14px;
-    text-align:center;
-    border-radius:8px;
-    box-sizing:border-box;
-  }
-
-  .hero { height:auto; padding-top:120px; }
-  .hero img { max-width:200px; border-width:8px; }
-  .typing { white-space:normal; border:none; animation:none; }
-  h1 { font-size:20px; }
-  iframe { height:200px; }
-  .carousel-track img { height:180px; }
-  .btn { width:100%; margin:8px 0; }
-  #yt-content .btn { width:auto; display:inline-block; margin:8px auto; }
-}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <canvas id="particles"></canvas>
 
-<!-- LIGHTBOX -->
 <div id="lightbox" onclick="closeLightbox()">
   <button id="lightbox-close" onclick="closeLightbox()">✕</button>
   <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation()">
 </div>
 
 <header>
-  <h2>Ahmed Alaa</h2>
+  <a class="header-brand" href="index.html">Ahmed Alaa</a>
   <button class="menu-toggle" id="menuIcon" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
   <nav id="nav-menu">
     <a href="#about" onclick="closeMenu()">About</a>
@@ -447,41 +30,44 @@ iframe:hover {
   </nav>
 </header>
 
+<!-- HERO -->
 <section id="hero" class="hero">
   <div>
-    <img src="profile Picture.jpg" alt="Profile Picture">
-    <h1 class="typing">Game Developer • Game Programmer • PC & VR | Unity</h1>
+    <img src="profile Picture.jpg" alt="Ahmed Alaa">
+    <h1 class="typing">Game Developer • Game Programmer • PC &amp; VR | Unity</h1>
     <p>Game Developer and Instructor</p>
   </div>
 </section>
 
+<!-- ABOUT -->
 <section id="about">
   <h2>About Me</h2>
   <div class="card">
     <p>Unity Game Developer specializing in gameplay systems, AI mechanics, and interactive experiences across PC and VR platforms. I focus on building scalable, maintainable systems using clean architecture principles and design patterns, with strong attention to performance and player experience.</p>
-    <p>Professionally, I have contributed to both single-player and multiplayer projects, including a Photon PUN-based endless runner and system-driven gameplay prototypes. I enjoy solving complex technical problems and translating ideas into polished, responsive gameplay.</p>
-    <p>Alongside development, I have 3+ years of experience as a Game Development Instructor, where I design structured learning paths, mentor students, and help them ship real projects.</p>
+    <p style="margin-top:12px;">Professionally, I have contributed to both single-player and multiplayer projects, including a Photon PUN-based endless runner and system-driven gameplay prototypes. I enjoy solving complex technical problems and translating ideas into polished, responsive gameplay.</p>
+    <p style="margin-top:12px;">Alongside development, I have 3+ years of experience as a Game Development Instructor, where I design structured learning paths, mentor students, and help them ship real projects.</p>
   </div>
 </section>
 
+<!-- SKILLS -->
 <section id="skills">
   <h2>Skills</h2>
   <div class="card skills">
     <span>Unity Engine</span>
     <span>C# Programming</span>
-    <span>Roblox & Lua</span>
+    <span>Roblox &amp; Lua</span>
     <span>Gameplay Systems Design</span>
     <span>AI (State Machines)</span>
     <span>Object Pooling</span>
     <span>Scriptable Objects</span>
     <span>Event-Driven Architecture</span>
-    <span>Physics & Player Controllers</span>
+    <span>Physics &amp; Player Controllers</span>
     <span>Multiplayer (Photon PUN)</span>
     <span>Firebase Integration</span>
     <span>UI/UX Implementation</span>
-    <span>Optimization & Performance</span>
-    <span>Debugging & Problem Solving</span>
-    <span>Git & Version Control</span>
+    <span>Optimization &amp; Performance</span>
+    <span>Debugging &amp; Problem Solving</span>
+    <span>Git &amp; Version Control</span>
     <span>Agile / Scrum Workflow</span>
     <span>Curriculum Design</span>
     <span>Technical Mentoring</span>
@@ -489,172 +75,144 @@ iframe:hover {
   </div>
 </section>
 
+<!-- PROJECTS -->
 <section id="projects">
   <h2>Projects</h2>
+  <div class="project-grid">
 
-  <div class="card">
-    <h3>ZiRunner</h3>
-    <iframe width="100%" height="250" src="https://www.youtube.com/embed/N7kuuCKZ6uI"></iframe>
-    <ul>
-      <li>Developed a multiplayer endless runner using Photon PUN</li>
-      <li>Implemented player synchronization and core gameplay loop</li>
-      <li>Designed scalable systems for Data Management and Synchronization</li>
-    </ul>
+    <a href="projects/zirunner.html" class="project-card">
+      <div class="project-card-thumb-placeholder"><div class="play-icon"></div></div>
+      <div class="project-card-body">
+        <div class="project-card-tags">
+          <span class="project-card-tag">UNITY</span>
+          <span class="project-card-tag">PHOTON PUN</span>
+          <span class="project-card-tag">MULTIPLAYER</span>
+        </div>
+        <div class="project-card-title">ZiRunner</div>
+        <div class="project-card-desc">Real-time multiplayer endless runner. Player sync, object pooling, and scalable data management systems.</div>
+      </div>
+    </a>
+
+    <a href="projects/cam3.html" class="project-card">
+      <div class="project-card-thumb-placeholder"><div class="play-icon"></div></div>
+      <div class="project-card-body">
+        <div class="project-card-tags">
+          <span class="project-card-tag">UNITY</span>
+          <span class="project-card-tag">AI</span>
+          <span class="project-card-tag">HORROR</span>
+          <span class="project-card-tag">WIP</span>
+        </div>
+        <div class="project-card-title">Cam3 Horror Game</div>
+        <div class="project-card-desc">Security camera survival game with monster tracking, event-driven architecture, and observation-based tension mechanics.</div>
+      </div>
+    </a>
+
+    <a href="projects/firebase.html" class="project-card">
+      <div class="project-card-thumb-placeholder"><div class="play-icon"></div></div>
+      <div class="project-card-body">
+        <div class="project-card-tags">
+          <span class="project-card-tag">UNITY</span>
+          <span class="project-card-tag">FIREBASE</span>
+          <span class="project-card-tag">BACKEND</span>
+        </div>
+        <div class="project-card-title">Firebase Inventory System</div>
+        <div class="project-card-desc">Real-time inventory system integrated with Firebase. Modular, reusable backend-connected architecture.</div>
+      </div>
+    </a>
+
+    <a href="projects/los.html" class="project-card">
+      <div class="project-card-thumb-placeholder"><div class="play-icon"></div></div>
+      <div class="project-card-body">
+        <div class="project-card-tags">
+          <span class="project-card-tag">UNITY</span>
+          <span class="project-card-tag">AI</span>
+          <span class="project-card-tag">RAYCASTING</span>
+        </div>
+        <div class="project-card-title">Line-of-Sight Monster Mechanic</div>
+        <div class="project-card-desc">Visibility-based AI using raycasting and frustum checks. Optimized detection logic for smooth runtime performance.</div>
+      </div>
+    </a>
+
+    <a href="projects/rpg.html" class="project-card">
+      <div class="project-card-thumb-placeholder"><div class="play-icon"></div></div>
+      <div class="project-card-body">
+        <div class="project-card-tags">
+          <span class="project-card-tag">UNITY</span>
+          <span class="project-card-tag">STATE MACHINES</span>
+          <span class="project-card-tag">RPG</span>
+        </div>
+        <div class="project-card-title">RPG Battle System Prototype</div>
+        <div class="project-card-desc">Turn-based combat with modular state management architecture designed for extensibility and clean separation of concerns.</div>
+      </div>
+    </a>
+
   </div>
-
-  <div class="card">
-    <h3>Cam3 Horror Game - Work in Progress</h3>
-    <iframe width="100%" height="250" src="https://www.youtube.com/embed/mtu0YiJJ53c"></iframe>
-    <ul>
-      <li>Designed immersive horror experience</li>
-      <li>Implemented camera-based monster tracking system</li>
-      <li>Built observation-based gameplay mechanics</li>
-      <li>More Updates Coming Soon!</li>
-    </ul>
-  </div>
-
-  <div class="card">
-    <h3>Firebase Inventory System</h3>
-    <iframe width="100%" height="250" src="https://www.youtube.com/embed/9_xd8Zw_LMM?rel=0&modestbranding=1"></iframe>
-    <ul>
-      <li>Built a real-time inventory system integrated with Firebase</li>
-      <li>Handled data syncing, storage and retrieval</li>
-      <li>Designed reusable and modular backend-connected systems</li>
-    </ul>
-  </div>
-
-  <div class="card">
-    <h3>Line-of-Sight Monster Mechanic</h3>
-    <iframe width="100%" height="250" src="https://www.youtube.com/embed/-GzE9am3SuE?rel=0&modestbranding=1"></iframe>
-    <ul>
-      <li>Implemented visibility-based AI using camera detection</li>
-      <li>Used raycasting and frustum checks for accuracy</li>
-      <li>Optimized detection logic for performance</li>
-    </ul>
-  </div>
-
-  <div class="card">
-    <h3>RPG Battle System Prototype</h3>
-    <iframe width="100%" height="250" src="https://www.youtube.com/embed/VIDlAuVy_yA?rel=0&modestbranding=1"></iframe>
-    <!-- Carousel commented out — uncomment and add images when ready:
-    <div class="carousel" data-id="rpg">
-      <div class="carousel-track-wrap"><div class="carousel-track">
-        <img src="images/rpg1.jpg" alt="RPG screenshot 1">
-      </div></div>
-      <button class="carousel-btn prev" onclick="carouselMove('rpg',-1)">&#8249;</button>
-      <button class="carousel-btn next" onclick="carouselMove('rpg',1)">&#8250;</button>
-      <div class="carousel-dots" id="dots-rpg"></div>
-    </div> -->
-    <ul>
-      <li>Built turn-based combat logic and state management</li>
-      <li>Designed modular combat system architecture</li>
-      <li>Focused on extensibility for future features</li>
-    </ul>
-  </div>
-
 </section>
 
-<!-- UNITY PATHWAY PROJECTS -->
+<!-- UNITY PATHWAY -->
 <section id="pathway">
-  <h2>Unity Junior Programmer Pathway Projects</h2>
-  <p style="color:rgba(255,255,255,0.6); margin-top:-5px; margin-bottom:20px;">Projects built during the Junior Programmer Unity Pathway</p>
+  <h2>Unity Junior Programmer Pathway</h2>
+  <p style="color:rgba(255,255,255,0.5); margin-top:-14px; margin-bottom:20px; font-size:14px;">Projects built during the Junior Programmer Unity Pathway</p>
+  <div class="pathway-grid">
 
-  <!-- Pathway Project 1 -->
-  <div class="card pathway-card">
-    <h3>Simple Driving Simulator Prototype</h3>
-    <iframe width="100%" height="250" src="https://www.youtube.com/embed/1i45sKmSH6k?si=asKyR5axMHQbBd4b"></iframe>
-    <div class="carousel" data-id="pathway1">
-      <div class="carousel-track-wrap"><div class="carousel-track">
-        <img src="Images/DrivingSim1.jpg" alt="Simple Driving Simulator screenshot 1">
-        <img src="Images/DrivingSim2.jpg" alt="Simple Driving Simulator screenshot 2">
-      </div></div>
-      <button class="carousel-btn prev" onclick="carouselMove('pathway1',-1)">&#8249;</button>
-      <button class="carousel-btn next" onclick="carouselMove('pathway1',1)">&#8250;</button>
-      <div class="carousel-dots" id="dots-pathway1"></div>
-    </div>
-    <ul>
-      <li>Character Controller and Camera Follow Scripts</li>
-      <li>Vehicle Physics Implementation</li>
-      <li>Basic Driving Mechanics</li>
-      <li>Oncoming Traffic</li>
-      <li>Camera Point of View Switching</li>
-      <li>Local Multiplayer Support</li>
-    </ul>
+    <a href="projects/driving.html" class="pathway-card">
+      <div class="pathway-card-thumb-placeholder"><div class="play-icon-purple"></div></div>
+      <div class="pathway-card-body">
+        <div class="pathway-card-tag">UNIT 1 · DRIVING</div>
+        <div class="pathway-card-title">Simple Driving Simulator</div>
+        <div class="pathway-card-desc">Vehicle physics, oncoming traffic, POV switching, local multiplayer.</div>
+      </div>
+    </a>
+
+    <a href="projects/plane.html" class="pathway-card">
+      <div class="pathway-card-thumb-placeholder"><div class="play-icon-purple"></div></div>
+      <div class="pathway-card-body">
+        <div class="pathway-card-tag">UNIT 1 · CHALLENGE</div>
+        <div class="pathway-card-title">Simple Plane Control</div>
+        <div class="pathway-card-desc">Flying mechanics, tilt movement, propeller animation, POV switching.</div>
+      </div>
+    </a>
+
+    <a href="projects/animals.html" class="pathway-card">
+      <div class="pathway-card-thumb-placeholder"><div class="play-icon-purple"></div></div>
+      <div class="pathway-card-body">
+        <div class="pathway-card-tag">UNIT 2 · TOP-DOWN</div>
+        <div class="pathway-card-title">Feed the Animals</div>
+        <div class="pathway-card-desc">Projectile throwing, animal spawning, collision detection, game over logic.</div>
+      </div>
+    </a>
+
   </div>
-
-  <!-- Pathway Project 2 -->
-  <div class="card pathway-card">
-    <h3>Simple Plane Control Prototype (Challenge 1 - Plane Programming)</h3>
-    <iframe width="100%" height="250" src="https://www.youtube.com/embed/qI8u-08rihM?si=WWaeviO3_LABtZK-"></iframe>
-    <div class="carousel" data-id="pathway2">
-      <div class="carousel-track-wrap"><div class="carousel-track">
-        <img src="Images/PlaneSim1.jpg" alt="Simple Plane Control screenshot 1">
-        <img src="Images/PlaneSim2.jpg" alt="Simple Plane Control screenshot 2">
-      </div></div>
-      <button class="carousel-btn prev" onclick="carouselMove('pathway2',-1)">&#8249;</button>
-      <button class="carousel-btn next" onclick="carouselMove('pathway2',1)">&#8250;</button>
-      <div class="carousel-dots" id="dots-pathway2"></div>
-    </div>
-    <ul>
-      <li>Character Controller and Camera Follow Scripts</li>
-      <li>Flying Vehicle Physics Implementation</li>
-      <li>Basic Flying Mechanics: Tilt and Forward Movement</li>
-      <li>Spinning Propeller Animation</li>
-      <li>Camera Point of View Switching</li>
-    </ul>
-  </div>
-
-  <!-- Pathway Project 3 -->
-  <div class="card pathway-card">
-    <h3>Feed the Animals Prototype</h3>
-    <iframe width="100%" height="250" src="https://www.youtube.com/embed/rA9OnaA1X5M?si=Ydh-tEuk5csHGrwn"></iframe>
-    <div class="carousel" data-id="pathway3">
-      <div class="carousel-track-wrap"><div class="carousel-track">
-        <img src="Images/SecondPrototypeImage1.jpg" alt="Feed the Animals screenshot 1">
-        <img src="Images/SecondPrototypeImage2.jpg" alt="Feed the Animals screenshot 2">
-      </div></div>
-      <button class="carousel-btn prev" onclick="carouselMove('pathway3',-1)">&#8249;</button>
-      <button class="carousel-btn next" onclick="carouselMove('pathway3',1)">&#8250;</button>
-      <div class="carousel-dots" id="dots-pathway3"></div>
-    </div>
-    <ul>
-      <li>Top-down player movement</li>
-      <li>Projectile throwing mechanic to launch food at animals</li>
-      <li>Animals randomly spawning and charging toward the player</li>
-      <li>Collision detection between food and animals</li>
-      <li>Game over on animal reaching the player</li>
-    </ul>
-  </div>
-
 </section>
 
-<!-- YOUTUBE LATEST VIDEO -->
+<!-- YOUTUBE -->
 <section id="youtube">
   <h2>Latest Video</h2>
-  <p style="color:rgba(255,255,255,0.6); margin-top:-5px; margin-bottom:20px;">Fresh from my YouTube channel</p>
-  <div class="card" id="yt-card" style="text-align:center;">
-    <div id="yt-loading" style="padding:40px 0; color:rgba(255,255,255,0.5);">Loading latest video...</div>
+  <p style="color:rgba(255,255,255,0.5); margin-top:-14px; margin-bottom:20px; font-size:14px;">Fresh from my YouTube channel</p>
+  <div class="card" id="yt-card">
+    <div id="yt-loading">Loading latest video...</div>
     <div id="yt-content" style="display:none;">
-      <h3 id="yt-title" style="margin-bottom:12px;"></h3>
-      <iframe id="yt-iframe" width="100%" height="350" frameborder="0" allowfullscreen
+      <h3 id="yt-title"></h3>
+      <iframe id="yt-iframe" width="100%" height="380" frameborder="0" allowfullscreen
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        style="border-radius:10px;"></iframe>
-      <p style="margin-top:14px;">
+        style="border-radius:10px; margin-top:12px; display:block;"></iframe>
+      <p style="margin-top:16px; text-align:center;">
         <a href="https://www.youtube.com/@AbuAlaa007" target="_blank" class="btn" style="text-decoration:none;">Visit Channel</a>
       </p>
     </div>
-    <div id="yt-error" style="display:none; padding:40px 0; color:rgba(255,255,255,0.4);">
+    <div id="yt-error" style="display:none;">
       Could not load video. <a href="https://www.youtube.com/@AbuAlaa007" target="_blank" style="color:var(--accent);">Visit channel directly →</a>
     </div>
   </div>
 </section>
 
+<!-- EXPERIENCE -->
 <section id="experience">
   <h2>Experience</h2>
 
-  <div class="card">
+  <div class="exp-card">
     <h3>Junior Game Developer @ Zinad</h3>
-    <p><strong>July 2025 - Present</strong></p>
+    <p class="date">July 2025 – Present</p>
     <ul>
       <li>Developing a rhythm-based fitness VR game for Meta Quest 3</li>
       <li>Designed and implemented scalable gameplay systems</li>
@@ -666,9 +224,9 @@ iframe:hover {
     </ul>
   </div>
 
-  <div class="card">
+  <div class="exp-card">
     <h3>Game Development Instructor @ Da3em Academy</h3>
-    <p><strong>2023 - 2025</strong></p>
+    <p class="date">2023 – 2025</p>
     <ul>
       <li>Delivered structured courses in Unity and Roblox development</li>
       <li>Designed full curricula covering programming, physics, and UI systems</li>
@@ -677,166 +235,24 @@ iframe:hover {
       <li>Helped students build portfolios and real-world projects</li>
     </ul>
   </div>
-
 </section>
 
+<!-- CONTACT -->
 <section id="contact">
   <h2>Contact</h2>
   <div class="card">
-    <p>Email: Ahmed.A.Abdou@outlook.com</p>
-    <p>Phone: +20 102 099 4208</p>
+    <p style="margin-bottom:6px;">Email: Ahmed.A.Abdou@outlook.com</p>
+    <p style="margin-bottom:16px;">Phone: +20 102 099 4208</p>
     <button class="btn" onclick="window.open('https://www.linkedin.com/in/ahmedalaa277/')">LinkedIn</button>
     <button class="btn" onclick="window.open('https://github.com/Ahmed-A-Abdou')">GitHub</button>
     <button class="btn" onclick="window.open('https://www.youtube.com/@AbuAlaa007')">YouTube</button>
-    <button class="btn" onclick="window.open('Ahmed_Alaa_Unity_Game_Developer.pdf', '_blank')">Download Resume</button>
+    <button class="btn" onclick="window.open('Ahmed_Alaa_Unity_Game_Developer.pdf','_blank')">Download Resume</button>
   </div>
 </section>
 
+<script src="main.js"></script>
 <script>
-// ── NAV ──
-function toggleMenu() {
-  const menu = document.getElementById("nav-menu");
-  const icon = document.getElementById("menuIcon");
-  menu.classList.toggle("active");
-  icon.textContent = menu.classList.contains("active") ? "✖" : "☰";
-}
-
-function closeMenu() {
-  document.getElementById("nav-menu").classList.remove("active");
-  document.getElementById("menuIcon").textContent = "☰";
-}
-
-document.addEventListener("click", function(e) {
-  const menu = document.getElementById("nav-menu");
-  const icon = document.getElementById("menuIcon");
-  if (menu.classList.contains("active") && !menu.contains(e.target) && e.target !== icon) {
-    menu.classList.remove("active");
-    icon.textContent = "☰";
-  }
-});
-
-// ── LIGHTBOX ──
-function openLightbox(src, alt) {
-  const lb = document.getElementById('lightbox');
-  const img = document.getElementById('lightbox-img');
-  img.src = src;
-  img.alt = alt;
-  lb.classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeLightbox() {
-  document.getElementById('lightbox').classList.remove('active');
-  document.body.style.overflow = '';
-}
-
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closeLightbox();
-});
-
-// ── CAROUSEL ──
-const carouselState = {};
-
-function initCarousels() {
-  document.querySelectorAll('.carousel').forEach(function(carousel) {
-    const id = carousel.getAttribute('data-id');
-    const imgs = carousel.querySelectorAll('.carousel-track img');
-    const dotsContainer = document.getElementById('dots-' + id);
-    const track = carousel.querySelector('.carousel-track');
-    const prevBtn = carousel.querySelector('.prev');
-    const nextBtn = carousel.querySelector('.next');
-
-    if (imgs.length === 0) {
-      prevBtn.style.display = 'none';
-      nextBtn.style.display = 'none';
-      track.innerHTML = '<div class="carousel-empty">Images coming soon — add &lt;img&gt; tags inside the carousel-track div</div>';
-      return;
-    }
-
-    carouselState[id] = 0;
-
-    // Attach lightbox click to each image
-    imgs.forEach(function(img, i) {
-      img.addEventListener('click', function() {
-        openLightbox(img.src, img.alt);
-      });
-
-      const dot = document.createElement('span');
-      if (i === 0) dot.classList.add('active');
-      dot.onclick = function() { goToSlide(id, i); };
-      dotsContainer.appendChild(dot);
-    });
-  });
-}
-
-function goToSlide(id, index) {
-  const carousel = document.querySelector('.carousel[data-id="' + id + '"]');
-  const imgs = carousel.querySelectorAll('.carousel-track img');
-  const track = carousel.querySelector('.carousel-track');
-  const dots = document.querySelectorAll('#dots-' + id + ' span');
-  if (imgs.length === 0) return;
-  index = (index + imgs.length) % imgs.length;
-  carouselState[id] = index;
-  track.style.transform = 'translateX(-' + (index * 100) + '%)';
-  dots.forEach(function(d, i) { d.classList.toggle('active', i === index); });
-}
-
-function carouselMove(id, dir) {
-  goToSlide(id, (carouselState[id] || 0) + dir);
-}
-
-// ── PARTICLES ──
-const canvas = document.getElementById('particles');
-const ctx = canvas.getContext('2d');
-
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-
-let particles = [];
-for (let i = 0; i < 80; i++) {
-  particles.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, r: Math.random() * 2 });
-}
-
-function animate() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = '#00c3d1';
-  particles.forEach(function(p) {
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fill();
-    p.y += 0.3;
-    if (p.y > canvas.height) p.y = 0;
-  });
-  requestAnimationFrame(animate);
-}
-animate();
-
-// ── YOUTUBE RSS ──
-(async function() {
-  const channelId = 'UCJfMo3Oe7bB5RyNhvE8K2Qw';
-  const api = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent('https://www.youtube.com/feeds/videos.xml?channel_id=' + channelId);
-  try {
-    const res = await fetch(api);
-    const data = await res.json();
-    if (data.status === 'ok' && data.items && data.items.length > 0) {
-      const video = data.items[0];
-      const videoId = video.link.split('v=')[1];
-      document.getElementById('yt-title').textContent = video.title;
-      document.getElementById('yt-iframe').src = 'https://www.youtube.com/embed/' + videoId + '?rel=0&modestbranding=1';
-      document.getElementById('yt-loading').style.display = 'none';
-      document.getElementById('yt-content').style.display = 'block';
-    } else { throw new Error(); }
-  } catch(e) {
-    document.getElementById('yt-loading').style.display = 'none';
-    document.getElementById('yt-error').style.display = 'block';
-  }
-})();
-
-initCarousels();
+  loadYouTube('UCJfMo3Oe7bB5RyNhvE8K2Qw');
 </script>
 
 </body>
