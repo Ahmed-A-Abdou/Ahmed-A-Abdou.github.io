@@ -146,18 +146,35 @@ section h2 {
 }
 
 /* ── HERO ── */
+#hero {
+  max-width: 100% !important;
+  padding: 0 !important;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
 .hero {
   height: 100vh;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
   padding: 0 20px;
+  width: 100%;
+}
+
+.hero > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .hero img {
-  width: 200px; height: 200px;
+  width: 350px; height: 350px;
   border-radius: 50%;
   border: 6px double var(--accent);
   box-shadow: 0 0 30px var(--accent);
