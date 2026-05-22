@@ -2,7 +2,6 @@
 document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('a[href]').forEach(function(link) {
     const href = link.getAttribute('href');
-    // Only intercept same-site page links, not anchors, not external, not PDF
     if (
       href &&
       !href.startsWith('#') &&
@@ -19,6 +18,13 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     }
   });
+});
+
+// Fix browser back button restoring page with fade-out stuck on
+window.addEventListener('pageshow', function(e) {
+  document.body.classList.remove('fade-out');
+  document.body.style.pointerEvents = '';
+  document.body.style.opacity = '';
 });
 
 // ── NAV ──
