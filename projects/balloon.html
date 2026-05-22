@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Feed the Animals – Ahmed Alaa</title>
+<title>Balloon Cash Collector – Ahmed Alaa</title>
 <link rel="stylesheet" href="../style.css">
 </head>
 <body>
@@ -33,54 +33,59 @@
 
   <div class="pd-tags">
     <span class="pd-tag">Unity Pathway</span>
-    <span class="pd-tag">Unit 2</span>
-    <span class="pd-tag">Top-Down</span>
+    <span class="pd-tag">Unit 3 Challenge</span>
+    <span class="pd-tag">Side-Scroller</span>
+    <span class="pd-tag">3D</span>
   </div>
-  <h1 class="pd-title">Feed the Animals</h1>
+  <h1 class="pd-title">Balloon Cash Collector</h1>
 
   <div class="pd-body">
     <div class="pd-left">
 
       <div class="pd-video">
-        <iframe width="100%" height="340" src="https://www.youtube.com/embed/kuCQOr_vzFk?si=JPDHcnt2yxviQU4E" frameborder="0" allowfullscreen
+        <!-- Replace VIDEO_ID with your YouTube video ID -->
+        <iframe width="100%" height="340" src="https://www.youtube.com/embed/b5HGv3UrQv0?si=2rtMcPSo50Rd-9P8" frameborder="0" allowfullscreen
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
       </div>
 
-      <div class="pd-carousel" data-id="animals">
+      <!-- Uncomment and add images when ready:
+      <div class="pd-carousel" data-id="balloon">
         <div class="pd-carousel-track-wrap"><div class="pd-carousel-track">
-          <img src="../Images/SecondPrototypeImage1.jpg" alt="Feed the Animals screenshot 1">
-          <img src="../Images/SecondPrototypeImage2.jpg" alt="Feed the Animals screenshot 2">
+          <img src="../Images/Balloon1.jpg" alt="Balloon game screenshot 1">
+          <img src="../Images/Balloon2.jpg" alt="Balloon game screenshot 2">
         </div></div>
-        <button class="pd-carousel-btn prev" onclick="carouselMove('animals',-1)">&#8249;</button>
-        <button class="pd-carousel-btn next" onclick="carouselMove('animals',1)">&#8250;</button>
-        <div class="pd-carousel-dots" id="dots-animals"></div>
+        <button class="pd-carousel-btn prev" onclick="carouselMove('balloon',-1)">&#8249;</button>
+        <button class="pd-carousel-btn next" onclick="carouselMove('balloon',1)">&#8250;</button>
+        <div class="pd-carousel-dots" id="dots-balloon"></div>
       </div>
+      -->
 
       <div class="pd-writeup">
         <div>
           <div class="pd-section-title">About this project</div>
           <div class="pd-section-text">
-            Unit 2 prototype from the Junior Programmer Pathway — a top-down survival game where animals charge toward the player from multiple directions. The player must throw food to satisfy them before they get too hungry and overwhelm you. This project was extended beyond the base lesson with additional gameplay systems that added real complexity.
+            The Challenge 3 project — applying the endless runner systems from Unit 3 to a completely different concept. Instead of a running character, the player controls a balloon floating through a side-scrolling world, collecting falling cash while dodging bombs. Same core architecture, entirely different feel.
           </div>
         </div>
         <div>
           <div class="pd-section-title">What I Built</div>
           <div class="pd-section-text">
             <ul>
-              <li>Top-down player movement with directional aiming and rotation</li>
-              <li>Projectile throwing mechanic — food launched toward incoming animals</li>
-              <li>Multi-directional animal spawning from the top and both sides of the map</li>
-              <li>Hunger bar system using a UI Slider — animals despawn when fully fed before the bar fills</li>
-              <li>Collision detection between food projectiles and animals</li>
-              <li>Game over trigger when an animal reaches the player</li>
-              <li>Spawn rate management to scale difficulty over time</li>
+              <li>Balloon player controller with buoyant, floaty movement physics</li>
+              <li>Dual-object spawning system — cash pickups and bomb hazards spawning simultaneously</li>
+              <li>Scrolling background adapted from the runner prototype</li>
+              <li>Collection mechanic — cash increases score on contact</li>
+              <li>Bomb collision triggering game over or damage state</li>
+              <li>Particle effects on collection and explosion events</li>
+              <li>Score and lives UI system</li>
+              <li>Difficulty scaling through spawn rate over time</li>
             </ul>
           </div>
         </div>
         <div>
           <div class="pd-section-title">What I Learned</div>
           <div class="pd-section-text">
-            Extending the base lesson pushed me to think about spawn management across multiple screen edges — not just one direction. The hunger bar system introduced me to UI Sliders as a gameplay mechanic rather than just a settings tool, and connecting it to despawn logic taught me how UI state and game logic need to communicate cleanly. Managing multiple simultaneous animals also made me more deliberate about how I structure per-object behaviour.
+            The challenge of this project was taking the same underlying architecture and adapting it to a movement model that feels completely different. A balloon doesn't move like a runner — it needs inertia, float, and a different relationship with gravity. I learned how small physics parameter changes have a huge impact on game feel, and how to build a spawner that handles two different object types with different gameplay consequences without duplicating logic.
           </div>
         </div>
       </div>
@@ -90,17 +95,17 @@
       <div class="pd-meta">
         <div class="pd-meta-row">
           <div class="pd-meta-label">Pathway Unit</div>
-          <div class="pd-meta-value">Unit 2 — Player Control</div>
+          <div class="pd-meta-value">Unit 3 — Challenge</div>
         </div>
         <div class="pd-meta-divider"></div>
         <div class="pd-meta-row">
           <div class="pd-meta-label">Tech Stack</div>
-          <div class="pd-meta-value">Unity, C#, Physics Engine, UI System</div>
+          <div class="pd-meta-value">Unity, C#, Animator Controller, Particle System</div>
         </div>
         <div class="pd-meta-divider"></div>
         <div class="pd-meta-row">
           <div class="pd-meta-label">Key Skills</div>
-          <div class="pd-meta-value">Top-down movement, Projectile systems, Multi-directional spawning, UI Sliders, Collision detection, Game loop management</div>
+          <div class="pd-meta-value">Custom physics movement, Dual-object spawning, Pickup systems, World scrolling, Particle effects, Difficulty scaling, UI score system</div>
         </div>
         <div class="pd-meta-divider"></div>
         <div class="pd-meta-row">
@@ -108,7 +113,8 @@
           <div class="pd-meta-value">PC</div>
         </div>
         <div class="pd-meta-divider"></div>
-        <a href="https://www.youtube.com/embed/kuCQOr_vzFk?si=JPDHcnt2yxviQU4E" target="_blank" class="pd-link-btn">Watch on YouTube ↗</a>
+        <!-- Replace VIDEO_ID below with your actual YouTube video ID -->
+        <a href="https://www.youtube.com/embed/b5HGv3UrQv0?si=2rtMcPSo50Rd-9P8" target="_blank" class="pd-link-btn">Watch on YouTube ↗</a>
       </div>
     </div>
   </div>
