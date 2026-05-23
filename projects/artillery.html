@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artillery Aftermath – Ahmed Alaa</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div id="lightbox" onclick="closeLightbox()">
+  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation()">
+</div>
+<header>
+  <a class="header-brand" href="../index.html">Ahmed Alaa</a>
+  <button class="menu-toggle" id="menuIcon" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
+  <nav id="nav-menu">
+    <a href="../index.html#about" onclick="closeMenu()">About</a>
+    <a href="../index.html#skills" onclick="closeMenu()">Skills</a>
+    <a href="../index.html#projects" onclick="closeMenu()">Projects</a>
+    <a href="../index.html#pathway" onclick="closeMenu()">Unity Pathway</a>
+    <a href="../index.html#youtube" onclick="closeMenu()">YouTube</a>
+    <a href="../index.html#experience" onclick="closeMenu()">Experience</a>
+    <a href="../index.html#contact" onclick="closeMenu()">Contact</a>
+    <a href="../Ahmed_Alaa_Unity_Game_Developer.pdf" target="_blank" class="nav-btn">Resume</a>
+  </nav>
+</header>
+
+<div class="page-content">
+
+  <a href="../index.html#gamejam" class="pd-back">← Back to Game Jam</a>
+
+  <div class="pd-tags">
+    <span class="pd-tag">EGY Game Jam</span>
+    <span class="pd-tag">🏆 1st Place — Advanced Mechanics</span>
+    <span class="pd-tag">Team Project</span>
+    <span class="pd-tag">24 Hours</span>
+  </div>
+  <h1 class="pd-title">Artillery Aftermath</h1>
+
+  <div class="pd-body">
+    <div class="pd-left">
+
+      <div class="pd-video">
+        <iframe width="100%" height="340" src="https://www.youtube.com/embed/R4ROr8yobhI" frameborder="0" allowfullscreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+      </div>
+
+      <div class="pd-writeup">
+        <div>
+          <div class="pd-section-title">The Goal</div>
+          <div class="pd-section-text">
+            Built in under 24 hours for the EGY Game Jam, Artillery Aftermath is a game centered on a single satisfying mechanic — an artillery cannon that fires through a low-poly canyon environment and physically destroys everything in its path. The challenge was delivering a complete, polished gameplay experience within the jam time limit while making the core mechanic feel genuinely impactful.
+          </div>
+        </div>
+        <div>
+          <div class="pd-section-title">What I Built</div>
+          <div class="pd-section-text">
+            <ul>
+              <li>Full scene setup — camera placement, lighting, and environment composition in the low-poly canyon</li>
+              <li>Artillery mechanic with aiming and firing controls</li>
+              <li>Real-time trajectory ray showing the projectile's predicted path before firing</li>
+              <li>Destructible environment system — structures physically break apart and scatter on impact</li>
+              <!-- <li>Particle effects for explosions and environmental destruction</li> -->
+              <li>Projectile physics with accurate collision and impact response</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="pd-section-title">What I Learned</div>
+          <div class="pd-section-text">
+            A 24-hour jam is a completely different kind of pressure than a normal project. Every decision has to be fast and deliberate — there's no time to over-engineer. I learned how to scope tightly around one mechanic and make it feel great rather than building broadly and shipping something half-finished. The destructible environment system was the hardest part to get right under time pressure, and getting it to feel satisfying by the deadline was the most rewarding part of the experience. Working with a 3D artist also showed me how much cleaner a project runs when responsibilities are clearly split from the start.
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="pd-right">
+      <div class="pd-meta">
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Event</div>
+          <div class="pd-meta-value">EGY Game Jam</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Result</div>
+          <div class="pd-meta-value">🏆 1st Place — Advanced Mechanics</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Time Limit</div>
+          <div class="pd-meta-value">24 Hours</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Role</div>
+          <div class="pd-meta-value">Game Programmer — scene setup, artillery system, trajectory ray, destruction logic</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Team</div>
+          <div class="pd-meta-value">2 people — Game Programmer + 3D Artist</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Tech Stack</div>
+          <div class="pd-meta-value">Unity, C#, Physics Engine, Particle System</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Key Skills</div>
+          <div class="pd-meta-value">Trajectory prediction, Destructible environments, Projectile physics, Scene composition</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Platform</div>
+          <div class="pd-meta-value">PC</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <a href="https://youtu.be/R4ROr8yobhI" target="_blank" class="pd-link-btn">Watch Gameplay ↗</a>
+        <a href="https://www.facebook.com/ITICairoUniversityBranch/posts/pfbid0odYi6WmZcZuTQrSnVp5ZiyqY5jGha5eH1CgGsfcsNCNG7C1MAgzfmTgGXhRfvWLwl" target="_blank" class="pd-link-btn" style="margin-top:8px;">View Win Announcement ↗</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script src="../main.js"></script>
+</body>
+</html>
