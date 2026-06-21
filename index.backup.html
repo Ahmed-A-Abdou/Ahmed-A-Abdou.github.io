@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ahmed Alaa - Game Dev Portfolio</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+
+<div id="lightbox" onclick="closeLightbox()">
+  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation()">
+</div>
+
+<header>
+  <a class="header-brand" href="index.html">Ahmed Alaa</a>
+  <button class="menu-toggle" id="menuIcon" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
+  <nav id="nav-menu">
+    <a href="#about" onclick="closeMenu()">About</a>
+    <a href="#skills" onclick="closeMenu()">Skills</a>
+    <a href="#projects" onclick="closeMenu()">Projects</a>
+    <a href="#gamejam" onclick="closeMenu()">Game Jam</a>
+    <a href="#youtube" onclick="closeMenu()">YouTube</a>
+    <a href="#experience" onclick="closeMenu()">Experience</a>
+    <a href="#pathway" onclick="closeMenu()">Early Work</a>
+    <a href="#contact" onclick="closeMenu()">Contact</a>
+    <a href="Ahmed_Alaa_Unity_Game_Developer.pdf" target="_blank" class="nav-btn">Resume</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<div id="hero" class="hero">
+  <div>
+    <img src="profile Picture.jpg" alt="Ahmed Alaa">
+    <h1>Unity Game Developer</h1>
+    <p>Gameplay Systems · AI · Multiplayer · VR</p>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <h2>About Me</h2>
+  <div class="card">
+    <p>Unity Game Developer specializing in gameplay systems, AI mechanics, and interactive experiences across PC and VR platforms. I focus on building scalable, maintainable systems using clean architecture principles and design patterns, with strong attention to performance and player experience.</p>
+    <p style="margin-top:12px;">Professionally, I have contributed to both single-player and multiplayer projects, including a Photon PUN-based endless runner and system-driven gameplay prototypes. I enjoy solving complex technical problems and translating ideas into polished, responsive gameplay.</p>
+    <p style="margin-top:12px;">Alongside development, I have 3+ years of experience as a Game Development Instructor, designing structured learning paths, mentoring students, and helping them ship real projects.</p>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <h2>Skills</h2>
+  <div class="card skills">
+    <span>Unity Engine</span>
+    <span>C# Programming</span>
+    <span>Gameplay Systems Design</span>
+    <span>AI (State Machines)</span>
+    <span>Event-Driven Architecture</span>
+    <span>Object Pooling</span>
+    <span>Scriptable Objects</span>
+    <span>Multiplayer (Photon PUN)</span>
+    <span>Firebase Integration</span>
+    <span>VR (Meta Quest)</span>
+    <span>Physics &amp; Player Controllers</span>
+    <span>Optimization &amp; Performance</span>
+    <span>UI/UX Implementation</span>
+    <span>Git &amp; Version Control</span>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <h2>Projects</h2>
+  <div class="project-grid">
+
+    <a href="projects/zirunner.html" class="project-card">
+      <img class="project-card-thumb" src="https://img.youtube.com/vi/N7kuuCKZ6uI/maxresdefault.jpg" alt="ZiRunner thumbnail" onerror="this.src='https://img.youtube.com/vi/N7kuuCKZ6uI/hqdefault.jpg'">
+      <div class="project-card-body">
+        <div class="project-card-tags">
+          <span class="project-card-tag">UNITY</span>
+          <span class="project-card-tag">PHOTON PUN</span>
+          <span class="project-card-tag">MULTIPLAYER</span>
+        </div>
+        <div class="project-card-title">ZiRunner</div>
+        <div class="project-card-desc">Real-time multiplayer endless runner. Player sync, object pooling, and scalable data management systems.</div>
+      </div>
+    </a>
+
+    <a href="projects/cam3.html" class="project-card">
+      <img class="project-card-thumb" src="https://img.youtube.com/vi/mtu0YiJJ53c/maxresdefault.jpg" alt="Cam3 thumbnail" onerror="this.src='https://img.youtube.com/vi/mtu0YiJJ53c/hqdefault.jpg'">
+      <div class="project-card-body">
+        <div class="project-card-tags">
+          <span class="project-card-tag">UNITY</span>
+          <span class="project-card-tag">AI</span>
+          <span class="project-card-tag">HORROR</span>
+          <span class="project-card-tag">IN DEVELOPMENT</span>
+        </div>
+        <div class="project-card-title">Cam3 Horror Game</div>
+        <div class="project-card-desc">Solo-built horror game with a 7-state enemy AI, event-driven ScriptableObject architecture, and fully decoupled systems.</div>
+      </div>
+    </a>
+
+    <a href="projects/firebase.html" class="project-card">
+      <img class="project-card-thumb" src="https://img.youtube.com/vi/9_xd8Zw_LMM/maxresdefault.jpg" alt="Firebase Inventory thumbnail" onerror="this.src='https://img.youtube.com/vi/9_xd8Zw_LMM/hqdefault.jpg'">
+      <div class="project-card-body">
+        <div class="project-card-tags">
+          <span class="project-card-tag">UNITY</span>
+          <span class="project-card-tag">FIREBASE</span>
+          <span class="project-card-tag">BACKEND</span>
+        </div>
+        <div class="project-card-title">Firebase Inventory System</div>
+        <div class="project-card-desc">Real-time inventory system integrated with Firebase. Modular, reusable backend-connected architecture.</div>
+      </div>
+    </a>
+
+    <a href="projects/los.html" class="project-card">
+      <img class="project-card-thumb" src="https://img.youtube.com/vi/-GzE9am3SuE/maxresdefault.jpg" alt="Line-of-Sight thumbnail" onerror="this.src='https://img.youtube.com/vi/-GzE9am3SuE/hqdefault.jpg'">
+      <div class="project-card-body">
+        <div class="project-card-tags">
+          <span class="project-card-tag">UNITY</span>
+          <span class="project-card-tag">AI</span>
+          <span class="project-card-tag">RAYCASTING</span>
+        </div>
+        <div class="project-card-title">Line-of-Sight Monster Mechanic</div>
+        <div class="project-card-desc">Visibility-based AI using raycasting and frustum checks. Optimized detection logic for smooth runtime performance.</div>
+      </div>
+    </a>
+
+    <a href="projects/rpg.html" class="project-card">
+      <img class="project-card-thumb" src="https://img.youtube.com/vi/VIDlAuVy_yA/maxresdefault.jpg" alt="RPG Battle System thumbnail" onerror="this.src='https://img.youtube.com/vi/VIDlAuVy_yA/hqdefault.jpg'">
+      <div class="project-card-body">
+        <div class="project-card-tags">
+          <span class="project-card-tag">UNITY</span>
+          <span class="project-card-tag">STATE MACHINES</span>
+          <span class="project-card-tag">RPG</span>
+        </div>
+        <div class="project-card-title">RPG Battle System Prototype</div>
+        <div class="project-card-desc">Turn-based combat with modular state management architecture designed for extensibility and clean separation of concerns.</div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- GAME JAM -->
+<section id="gamejam">
+  <h2>Game Jam Achievements</h2>
+  <div class="exp-card" style="border-left-color: #f59e0b;">
+    <h3 style="color: #f59e0b;">🏆 EGY Game Jam — 1st Place, Advanced Mechanics</h3>
+    <p class="date">Egypt Game Jam · Team Project · 24 Hours</p>
+    <img src="https://img.youtube.com/vi/R4ROr8yobhI/hqdefault.jpg" alt="Artillery Aftermath" style="width:100%; border-radius:8px; margin:14px 0; object-fit:cover; max-height:200px;">
+    <p style="font-size:14px; color:rgba(255,255,255,0.7); line-height:1.7;">
+      Built and won first place in the Advanced Mechanics category in under 24 hours. The game features a fully modeled low-poly canyon environment, an artillery mechanic with a real-time trajectory ray, and a destructible environment system where structures physically break apart on impact. Worked as part of a two-person team alongside a 3D artist.
+    </p>
+    <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
+      <a href="projects/artillery.html" class="btn-outline" style="font-size:13px;">View Project →</a>
+      <a href="https://youtu.be/R4ROr8yobhI" target="_blank" class="btn-outline" style="font-size:13px;">Watch Gameplay ↗</a>
+      <a href="https://www.facebook.com/ITICairoUniversityBranch/posts/pfbid0odYi6WmZcZuTQrSnVp5ZiyqY5jGha5eH1CgGsfcsNCNG7C1MAgzfmTgGXhRfvWLwl" target="_blank" class="btn-outline" style="font-size:13px;">Win Announcement ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- YOUTUBE -->
+<section id="youtube">
+  <h2>Latest Video</h2>
+  <p style="color:rgba(255,255,255,0.5); margin-top:-14px; margin-bottom:20px; font-size:14px;">Fresh from my YouTube channel</p>
+  <div class="card" id="yt-card">
+    <div id="yt-loading">Loading latest video...</div>
+    <div id="yt-content" style="display:none;">
+      <h3 id="yt-title"></h3>
+      <iframe id="yt-iframe" width="100%" height="380" frameborder="0" allowfullscreen
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        style="border-radius:10px; margin-top:12px; display:block;"></iframe>
+      <p style="margin-top:16px; text-align:center;">
+        <a href="https://www.youtube.com/@AbuAlaa007" target="_blank" class="btn" style="text-decoration:none;">Visit Channel</a>
+      </p>
+    </div>
+    <div id="yt-error" style="display:none;">
+      Could not load video. <a href="https://www.youtube.com/@AbuAlaa007" target="_blank" style="color:var(--accent);">Visit channel directly →</a>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <h2>Experience</h2>
+
+  <div class="exp-card">
+    <h3>Junior Game Developer @ Zinad</h3>
+    <p class="date">July 2025 – Present</p>
+    <ul>
+      <li>Developing a rhythm-based fitness VR game for Meta Quest 3</li>
+      <li>Designed and implemented scalable gameplay systems</li>
+      <li>Built multiplayer mechanics using Photon PUN</li>
+      <li>Applied design patterns (State, Object Pooling) for clean architecture</li>
+      <li>Integrated Firebase systems for real-time data handling</li>
+      <li>Optimized performance and memory usage for smooth gameplay</li>
+      <li>Collaborated in Agile environment with Git-based workflows</li>
+    </ul>
+  </div>
+
+  <div class="exp-card">
+    <h3>Game Development Instructor @ Da3em Academy</h3>
+    <p class="date">2023 – 2025</p>
+    <ul>
+      <li>Delivered structured courses in Unity and Roblox development</li>
+      <li>Designed full curricula covering programming, physics, and UI systems</li>
+      <li>Mentored 30+ students from beginner level to publishing real games</li>
+      <li>Simplified complex technical concepts into practical, hands-on lessons</li>
+      <li>Helped students build portfolios and ship 30+ real-world projects</li>
+    </ul>
+  </div>
+</section>
+
+<!-- EARLY WORK -->
+<section id="pathway">
+  <h2>Early Work</h2>
+  <p style="color:rgba(255,255,255,0.5); margin-top:-14px; margin-bottom:20px; font-size:14px;">Projects from the Unity Junior Programmer Pathway — where I built the foundations</p>
+  <div class="pathway-grid">
+
+    <a href="projects/driving.html" class="pathway-card">
+      <img class="pathway-card-thumb" src="https://img.youtube.com/vi/1i45sKmSH6k/hqdefault.jpg" alt="Driving Simulator thumbnail">
+      <div class="pathway-card-body">
+        <div class="pathway-card-tag">UNIT 1 · DRIVING</div>
+        <div class="pathway-card-title">Simple Driving Simulator</div>
+        <div class="pathway-card-desc">Vehicle physics, oncoming traffic, POV switching, local multiplayer.</div>
+      </div>
+    </a>
+
+    <a href="projects/plane.html" class="pathway-card">
+      <img class="pathway-card-thumb" src="https://img.youtube.com/vi/qI8u-08rihM/hqdefault.jpg" alt="Plane Control thumbnail">
+      <div class="pathway-card-body">
+        <div class="pathway-card-tag">UNIT 1 · CHALLENGE</div>
+        <div class="pathway-card-title">Simple Plane Control</div>
+        <div class="pathway-card-desc">Flying mechanics, tilt movement, propeller animation, POV switching.</div>
+      </div>
+    </a>
+
+    <a href="projects/animals.html" class="pathway-card">
+      <img class="pathway-card-thumb" src="https://img.youtube.com/vi/kuCQOr_vzFk/hqdefault.jpg" alt="Feed the Animals thumbnail">
+      <div class="pathway-card-body">
+        <div class="pathway-card-tag">UNIT 2 · TOP-DOWN</div>
+        <div class="pathway-card-title">Feed the Animals</div>
+        <div class="pathway-card-desc">Projectile throwing, multi-directional spawning, hunger bar UI, collision detection.</div>
+      </div>
+    </a>
+
+    <a href="projects/runner.html" class="pathway-card">
+      <img class="pathway-card-thumb" src="https://img.youtube.com/vi/CKTe94QpuxU/hqdefault.jpg" alt="3D Runner thumbnail">
+      <div class="pathway-card-body">
+        <div class="pathway-card-tag">UNIT 3 · SIDE-SCROLLER</div>
+        <div class="pathway-card-title">3D Side-Scrolling Runner</div>
+        <div class="pathway-card-desc">Endless runner with obstacle spawning, scrolling background, particle effects and animations.</div>
+      </div>
+    </a>
+
+    <a href="projects/balloon.html" class="pathway-card">
+      <img class="pathway-card-thumb" src="https://img.youtube.com/vi/b5HGv3UrQv0/hqdefault.jpg" alt="Balloon Cash Collector thumbnail">
+      <div class="pathway-card-body">
+        <div class="pathway-card-tag">UNIT 3 · CHALLENGE</div>
+        <div class="pathway-card-title">Balloon Cash Collector</div>
+        <div class="pathway-card-desc">Balloon dodging bombs and collecting cash. Custom floaty physics, dual spawning system.</div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <h2>Contact</h2>
+  <div class="card">
+    <p style="margin-bottom:6px;">Email: Ahmed.A.Abdou@outlook.com</p>
+    <p style="margin-bottom:16px;">Phone: +20 102 099 4208</p>
+    <button class="btn" onclick="window.open('https://www.linkedin.com/in/ahmedalaa277/')">LinkedIn</button>
+    <button class="btn" onclick="window.open('https://github.com/Ahmed-A-Abdou')">GitHub</button>
+    <button class="btn" onclick="window.open('https://www.youtube.com/@AbuAlaa007')">YouTube</button>
+    <button class="btn" onclick="window.open('Ahmed_Alaa_Unity_Game_Developer.pdf','_blank')">Download Resume</button>
+  </div>
+</section>
+
+<script src="main.js"></script>
+<script>
+  loadYouTube('UCJfMo3Oe7bB5RyNhvE8K2Qw');
+</script>
+
+</body>
+</html>
