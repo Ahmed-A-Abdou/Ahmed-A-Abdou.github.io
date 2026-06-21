@@ -192,16 +192,6 @@ section h2 {
 
 .hero p { color: var(--text-muted); font-size: 14px; }
 
-.typing {
-  border-right: 2px solid var(--accent);
-  white-space: nowrap;
-  overflow: hidden;
-  display: inline-block;
-  animation: typing 3s steps(40), blink 0.5s infinite;
-}
-
-@keyframes typing { from { width: 0 } to { width: 100% } }
-@keyframes blink { 50% { border-color: transparent } }
 
 /* ── CARD ── */
 .card {
@@ -750,9 +740,7 @@ section h2 {
 
   .hero { height: auto; padding-top: 100px; }
   .hero h1 { font-size: 1.1rem; }
-  .typing { white-space: normal; border: none; animation: none; }
-
-  .project-grid { grid-template-columns: 1fr; }
+.project-grid { grid-template-columns: 1fr; }
   .pathway-grid { grid-template-columns: 1fr; }
 
   .pd-body { grid-template-columns: 1fr; }

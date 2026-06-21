@@ -19,9 +19,10 @@
     <a href="../index.html#about" onclick="closeMenu()">About</a>
     <a href="../index.html#skills" onclick="closeMenu()">Skills</a>
     <a href="../index.html#projects" onclick="closeMenu()">Projects</a>
-    <a href="../index.html#pathway" onclick="closeMenu()">Unity Pathway</a>
+    <a href="../index.html#gamejam" onclick="closeMenu()">Game Jam</a>
     <a href="../index.html#youtube" onclick="closeMenu()">YouTube</a>
     <a href="../index.html#experience" onclick="closeMenu()">Experience</a>
+    <a href="../index.html#pathway" onclick="closeMenu()">Early Work</a>
     <a href="../index.html#contact" onclick="closeMenu()">Contact</a>
     <a href="../Ahmed_Alaa_Unity_Game_Developer.pdf" target="_blank" class="nav-btn">Resume</a>
   </nav>
@@ -35,7 +36,8 @@
     <span class="pd-tag">Unity</span>
     <span class="pd-tag">AI / State Machines</span>
     <span class="pd-tag">Horror</span>
-    <span class="pd-tag">Work in Progress</span>
+    <span class="pd-tag">Solo Developer</span>
+    <span class="pd-tag">In Development</span>
   </div>
   <h1 class="pd-title">Cam3 Horror Game</h1>
 
@@ -49,27 +51,65 @@
 
       <div class="pd-writeup">
         <div>
-          <div class="pd-section-title">The Goal</div>
+          <div class="pd-section-title">The Concept</div>
           <div class="pd-section-text">
-            Cam3 is a personal project built around a core design tension: watching the monster through security cameras keeps you safe, but every second the camera is on it drains your battery. The goal was to create a horror game where the player's only real tool is attention — and it costs something. Beyond the concept, this project became my main sandbox for learning how to build clean, decoupled systems that could each be developed and tested independently.
+            Cam3 is built around a single deliberate constraint: the only tool that keeps you safe costs something to use. Watching the monster through security cameras keeps it at bay — but every second the camera runs drains your battery. Attention itself becomes a resource. Beyond the design concept, Cam3 became my primary architecture project — rebuilt from the ground up after a previous version failed because everything depended on everything else. Every system in this game was designed with strict boundaries and zero coupling between them.
           </div>
         </div>
+
         <div>
-          <div class="pd-section-title">What I Built</div>
+          <div class="pd-section-title">Camera System</div>
           <div class="pd-section-text">
-            <ul>
-              <li>Camera system with switching logic and battery drain mechanics</li>
-              <li>Monster state machine with states: Idle, Moving, Stunned, Shocked, Retreating, Lured, Hallway Endpoint, and At Door</li>
-              <li>Event-driven visibility system — not per-frame polling, fires only on state change</li>
-              <li>Modular folder architecture under Assets/Systems/ with a shared Core/ layer</li>
-              <li>Each system designed to be independently sellable and testable</li>
-            </ul>
+            Modular security camera management built around a Singleton-managed controller. Players switch between independent camera points, and each camera is a fully self-contained component with no dependencies on other systems. The controller handles switching logic; individual cameras handle nothing beyond their own state.
           </div>
         </div>
+
         <div>
-          <div class="pd-section-title">What I Learned</div>
+          <div class="pd-section-title">Visibility Detection</div>
           <div class="pd-section-text">
-            This is the project where decoupled architecture stopped being a theory and became a habit. After a previous project failed because everything depended on everything else, I rebuilt Cam3 from the ground up with strict system boundaries. I now understand why event-driven design outperforms per-frame checks for AI responsiveness — and how to structure a state machine that's actually readable and extendable months later, not just at the time of writing.
+            Real-time target visibility combining viewport frustum checks (<code>Camera.WorldToViewportPoint</code>) with raycasting for occlusion testing. Fires state-change events only — no per-frame polling overhead. Detection triggers on camera switches and target movement, keeping the system responsive without burning CPU cycles every frame.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Enemy AI — 7-State FSM</div>
+          <div class="pd-section-text">
+            A finite state machine with seven states — Idle, Moving, Stunned, Retreating, Lured, and two threat-escalation states — implemented using the State design pattern with a shared context object. Each state is independently testable and communicates exclusively through a centralized state machine controller. Zero coupling to unrelated systems means adding or modifying a state never touches anything outside its own class.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Resource Management</div>
+          <div class="pd-section-text">
+            Battery system with multi-source drain calculation — idle drain, active-tool drain, and instant-cost drains — all configured via ScriptableObjects, fully separated from runtime MonoBehaviour state. Includes probability-based failure triggering for unpredictable difficulty pacing that a designer can tune without touching code.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Secondary Threat System</div>
+          <div class="pd-section-text">
+            An independent timer-based escalation system with player counterplay mechanics — timed interaction to de-escalate. Completely decoupled from the primary AI system; neither system knows the other exists.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Architecture — Event-Driven SO System</div>
+          <div class="pd-section-text">
+            All inter-system communication runs through a custom ScriptableObject event system using a publisher/subscriber pattern. No direct references exist between systems. This means any system can be developed, tested, or replaced in isolation. Typed events use C# Actions where needed; everything else routes through the SO event layer. The result: zero circular dependencies across the entire project.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Player Controller</div>
+          <div class="pd-section-text">
+            Custom FPS controller built on Unity's new Input System and CharacterController, with state-based mode switching between stationary and mobile player states. Input handling is cleanly separated from movement logic.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Engineering Approach</div>
+          <div class="pd-section-text">
+            SOLID principles throughout. Single-responsibility per system. ScriptableObject-driven configuration for designer iteration without code changes. Consistent property encapsulation patterns. Every system was built to be independently sellable, testable, and replaceable — because the previous version of this project wasn't, and that's what broke it.
           </div>
         </div>
       </div>
@@ -84,12 +124,22 @@
         <div class="pd-meta-divider"></div>
         <div class="pd-meta-row">
           <div class="pd-meta-label">Status</div>
-          <div class="pd-meta-value">Work in Progress</div>
+          <div class="pd-meta-value">In Development</div>
         </div>
         <div class="pd-meta-divider"></div>
         <div class="pd-meta-row">
           <div class="pd-meta-label">Tech Stack</div>
-          <div class="pd-meta-value">Unity, C#, State Machines, Event Architecture</div>
+          <div class="pd-meta-value">Unity, C#, New Input System, ScriptableObject Events, State Pattern</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Key Systems</div>
+          <div class="pd-meta-value">7-State Enemy FSM, Visibility Detection, Battery Resource System, Secondary Threat Escalation, Custom FPS Controller</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Architecture</div>
+          <div class="pd-meta-value">Event-driven, zero coupling, SOLID, SO-configured</div>
         </div>
         <div class="pd-meta-divider"></div>
         <div class="pd-meta-row">
