@@ -549,18 +549,18 @@ section h2 {
 .pd-writeup { display: flex; flex-direction: column; gap: 22px; }
 
 .pd-section-title {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
-  color: var(--accent);
-  letter-spacing: 0.1em;
+  color: rgba(248,250,252,0.35);
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   margin-bottom: 8px;
 }
 
 .pd-section-text {
   font-size: 14px;
-  color: var(--text-muted);
-  line-height: 1.8;
+  color: rgba(248,250,252,0.72);
+  line-height: 1.85;
 }
 
 .pd-section-text code {
@@ -584,9 +584,9 @@ section h2 {
 .pd-right { display: flex; flex-direction: column; gap: 16px; }
 
 .pd-meta {
-  background: var(--card);
+  background: #0a0d14;
   border-radius: 10px;
-  border: 0.5px solid var(--border);
+  border: 0.5px solid rgba(255,255,255,0.12);
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -604,7 +604,7 @@ section h2 {
 
 .pd-meta-value {
   font-size: 13px;
-  color: var(--text);
+  color: rgba(248,250,252,0.88);
   font-weight: 500;
   line-height: 1.5;
 }
@@ -924,6 +924,115 @@ section h2 {
   color: var(--text-muted);
   line-height: 1.65;
   opacity: 0.8;
+}
+
+/* ── EARLY WORK (collapsed) ── */
+.early-work-details {
+  border-top: 0.5px solid var(--border);
+}
+
+.early-work-details summary { list-style: none; }
+.early-work-details summary::-webkit-details-marker { display: none; }
+
+.early-work-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+  cursor: pointer;
+  border-bottom: 0.5px solid var(--border);
+  user-select: none;
+  transition: 0.15s;
+}
+
+.early-work-summary:hover .early-work-heading { color: var(--text); opacity: 1; }
+
+.early-work-heading {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
+  opacity: 0.7;
+  transition: opacity 0.15s;
+  margin-bottom: 4px;
+}
+
+.early-work-hint {
+  font-size: 12px;
+  color: var(--text-muted);
+  opacity: 0.45;
+}
+
+.early-work-icon {
+  font-size: 22px;
+  color: var(--text-muted);
+  opacity: 0.35;
+  transition: transform 0.25s ease;
+  line-height: 1;
+}
+
+.early-work-details[open] .early-work-icon {
+  transform: rotate(45deg);
+}
+
+.early-work-list { display: flex; flex-direction: column; }
+
+.early-row {
+  display: grid;
+  grid-template-columns: 32px 1fr auto;
+  gap: 0 20px;
+  padding: 16px 0;
+  border-bottom: 0.5px solid var(--border);
+  text-decoration: none;
+  align-items: center;
+  transition: 0.15s;
+}
+
+.early-row-num {
+  font-size: 11px;
+  color: var(--text-muted);
+  opacity: 0.35;
+}
+
+.early-row-main {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.early-row-tag {
+  font-size: 10px;
+  color: var(--purple-light);
+  letter-spacing: 0.08em;
+  opacity: 0.5;
+}
+
+.early-row-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  opacity: 0.8;
+  transition: opacity 0.15s;
+}
+
+.early-row:hover .early-row-title { opacity: 1; }
+
+.early-row-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  opacity: 0.5;
+  line-height: 1.5;
+}
+
+.early-row-arrow {
+  font-size: 13px;
+  color: var(--text-muted);
+  opacity: 0.25;
+  transition: 0.15s;
+}
+
+.early-row:hover .early-row-arrow {
+  opacity: 0.6;
+  transform: translateX(3px);
 }
 
 /* ── CONTACT BLOCK ── */
