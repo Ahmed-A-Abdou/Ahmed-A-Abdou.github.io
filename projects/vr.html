@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VR Rhythm-Action Game – Ahmed Alaa</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div id="lightbox" onclick="closeLightbox()">
+  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation()">
+</div>
+<header>
+  <a class="header-brand" href="../index.html">Ahmed Alaa</a>
+  <button class="menu-toggle" id="menuIcon" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
+  <nav id="nav-menu">
+    <a href="../index.html#about" onclick="closeMenu()">About</a>
+    <a href="../index.html#skills" onclick="closeMenu()">Skills</a>
+    <a href="../index.html#projects" onclick="closeMenu()">Projects</a>
+    <a href="../index.html#gamejam" onclick="closeMenu()">Game Jam</a>
+    <a href="../index.html#youtube" onclick="closeMenu()">YouTube</a>
+    <a href="../index.html#experience" onclick="closeMenu()">Experience</a>
+    <a href="../index.html#pathway" onclick="closeMenu()">Early Work</a>
+    <a href="../index.html#contact" onclick="closeMenu()">Contact</a>
+    <a href="../Ahmed_Alaa_Unity_Game_Developer.pdf" target="_blank" class="nav-btn">Resume</a>
+  </nav>
+</header>
+
+<div class="page-content">
+
+  <a href="../index.html#projects" class="pd-back">← Back to Projects</a>
+
+  <div class="pd-tags">
+    <span class="pd-tag">Unity</span>
+    <span class="pd-tag">VR</span>
+    <span class="pd-tag">Meta Quest 3</span>
+    <span class="pd-tag">C#</span>
+    <span class="pd-tag">Rhythm-Action</span>
+    <span class="pd-tag">Professional</span>
+  </div>
+  <h1 class="pd-title">VR Rhythm-Action Game</h1>
+
+  <div class="pd-body">
+    <div class="pd-left">
+
+      <div class="pd-video">
+        <iframe width="100%" height="340" src="https://www.youtube.com/embed/V0Gc7n_zKLQ?si=Ib3Fm3zyXVvGuLsY" frameborder="0" allowfullscreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+      </div>
+
+      <div class="pd-writeup">
+
+        <div>
+          <div class="pd-section-title">The Project</div>
+          <div class="pd-section-text">
+            A VR rhythm-action game for Meta Quest 3 where players use controller-tracked sabers to categorize incoming passwords as strong or weak — with an integrated quiz layer that tests cybersecurity knowledge between gameplay segments. Developed professionally at Zinad.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">SDK Migration</div>
+          <div class="pd-section-text">
+            Migrated the project from Oculus Integration SDK 0.46.0 to Meta XR All-in-One SDK 72.0.0. Rebuilt the player prefab using Building Blocks (controller-only, no hand tracking), rewrote broken hand-tracking API calls across multiple systems, and resolved Android build failures caused by a TMP3D shader incompatibility with GLES3 multiview stereo rendering.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Gameplay & Physics</div>
+          <div class="pd-section-text">
+            Implemented a dual-saber hit detection system using Unity's trigger collider pipeline. Passwords spawn from an object pool and travel toward the player; each password carries a <code>CollisionHandler</code> that classifies hits as correct or incorrect based on saber/password tag combinations.
+            <ul>
+              <li>Solved a same-frame double-hit problem where Unity queues multiple <code>OnTriggerEnter</code> callbacks in a single physics step before any callback can execute</li>
+              <li>Fixed by introducing a hit guard bool on the password side coordinated with a <code>WasHit</code> property on the saber</li>
+              <li>Script Execution Order enforced to guarantee collision processing sequence</li>
+            </ul>
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Scoring & Combo System</div>
+          <div class="pd-section-text">
+            Built a <code>ScoreKeeper</code> MonoBehaviour tracking score, combo multiplier, and hits-in-a-row, exposing a <code>WhenChanged</code> C# event for reactive UI. Integrated a ScriptableObject-based score variable (<code>IntSO</code>) that fires change events independently of GameObject active state — solving a persistent UI update bug where <code>ScoreCardUI</code> was subscribing to the wrong <code>ScoreKeeper</code> instance after quiz answers. Scoring applies a velocity multiplier using a per-frame saber velocity tracker, rewarding faster swings with bonus points.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Audio Sync</div>
+          <div class="pd-section-text">
+            Implemented a DSP clock-based password spawner that syncs object pool releases to the BPM of the selected track, keeping gameplay tightly coupled to the music regardless of frame rate variation.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Quiz System</div>
+          <div class="pd-section-text">
+            Built a <code>QuizManager</code> loading questions from a JSON file in <code>StreamingAssets</code> using <code>UnityWebRequest</code> for Android compatibility. Implemented a crossfade transition using DOTween — screen fades to black, state machine switches to quiz state, panel fades in, answer flashes green or red, then reverses on exit. Supports Arabic and English with live locale switching mid-session.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">State Machine & Architecture</div>
+          <div class="pd-section-text">
+            Used a ScriptableObject-based state machine to switch between gameplay and quiz states, with <code>BoolSO</code> variables driving spawner pause/resume and <code>IntSO</code> variables driving combo and score display across decoupled UI components. All cross-system communication runs through the SO data layer — UI, spawning, scoring, and audio react to SO variable changes rather than direct references, keeping systems loosely coupled across scene boundaries.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="pd-right">
+      <div class="pd-meta">
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Role</div>
+          <div class="pd-meta-value">Junior Game Developer @ Zinad</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Platform</div>
+          <div class="pd-meta-value">Meta Quest 3 (VR)</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Tech Stack</div>
+          <div class="pd-meta-value">Unity, C#, Meta XR SDK 72.0.0, DOTween, ScriptableObjects, JSON / StreamingAssets</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Key Systems</div>
+          <div class="pd-meta-value">Dual-Saber Hit Detection, DSP Clock Spawner, SO State Machine, Quiz Manager, Velocity-Based Scoring, SDK Migration</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Architecture</div>
+          <div class="pd-meta-value">ScriptableObject data layer, decoupled SO events, BoolSO / IntSO variables across scene boundaries</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Timeline</div>
+          <div class="pd-meta-value">2025 – Present</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <a href="https://www.youtube.com/watch?v=V0Gc7n_zKLQ" target="_blank" class="pd-link-btn">Watch on YouTube ↗</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script src="../main.js"></script>
+</body>
+</html>
