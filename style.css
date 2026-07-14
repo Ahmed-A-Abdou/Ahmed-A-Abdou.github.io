@@ -708,7 +708,7 @@ section h2 {
 }
 
 /* ── ABOUT ── */
-.about-text { max-width: 740px; }
+.about-text { max-width: 920px; }
 .about-text p {
   font-size: 15px;
   line-height: 1.85;
