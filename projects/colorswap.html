@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ColorSwap – Ahmed Alaa</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23070b14'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-weight='700' font-size='18' fill='%2394a3b8'>A</text></svg>">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div id="lightbox" onclick="closeLightbox()">
+  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation()">
+</div>
+<header>
+  <a class="header-brand" href="../index.html">Ahmed Alaa</a>
+  <button class="menu-toggle" id="menuIcon" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
+  <nav id="nav-menu">
+    <a href="../index.html#about" onclick="closeMenu()">About</a>
+    <a href="../index.html#skills" onclick="closeMenu()">Skills</a>
+    <a href="../index.html#projects" onclick="closeMenu()">Projects</a>
+    <a href="../index.html#gamejam" onclick="closeMenu()">Game Jam</a>
+    <a href="../index.html#youtube" onclick="closeMenu()">YouTube</a>
+    <a href="../index.html#experience" onclick="closeMenu()">Experience</a>
+    <a href="../index.html#pathway" onclick="closeMenu()">Early Work</a>
+    <a href="../index.html#contact" onclick="closeMenu()">Contact</a>
+    <a href="../Ahmed_Alaa_Unity_Game_Developer.pdf" target="_blank" class="nav-btn">Resume</a>
+  </nav>
+</header>
+
+<div class="page-content">
+
+  <a href="../index.html#projects" class="pd-back">← Back to Projects</a>
+
+  <div class="pd-tags">
+    <span class="pd-tag">Unity 6</span>
+    <span class="pd-tag">C#</span>
+    <span class="pd-tag">Mobile</span>
+    <span class="pd-tag">Android</span>
+    <span class="pd-tag">Puzzle</span>
+    <span class="pd-tag">Solo Developer</span>
+  </div>
+  <h1 class="pd-title">ColorSwap</h1>
+
+  <div class="pd-body">
+    <div class="pd-left">
+
+      <div class="pd-video">
+        <iframe width="100%" height="340" src="https://www.youtube.com/embed/_fB-zVBE8gI?si=fPN18uaZXiGQGKHu" frameborder="0" allowfullscreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+      </div>
+
+      <div class="pd-writeup">
+
+        <div>
+          <div class="pd-section-title">The Game</div>
+          <div class="pd-section-text">
+            A 2D mobile puzzle game where players resolve a graph-coloring problem disguised as a swap mechanic. Nodes connected by edges must never share a color with a directly connected neighbor — players drag colored tokens onto adjacent nodes to swap colors until the graph is properly colored.
+            <br><br>
+            The win condition is a proper graph coloring: the system walks every connection in the level and fails if any two connected nodes share a color. Swaps are only legal between directly connected nodes, so puzzle design boils down to picking node layouts and color assignments that create solvable coloring conflicts.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Data-Driven Level Authoring</div>
+          <div class="pd-section-text">
+            Levels are ScriptableObjects holding a list of nodes (viewport-normalized position + starting color) and index-pair edge connections. New levels can be authored entirely as assets without touching gameplay code.
+            <br><br>
+            Node positions convert from normalized viewport space to world space via <code>Camera.main.ViewportToWorldPoint</code>, keeping layouts resolution-independent across all Android screen sizes automatically.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Decoupled Architecture</div>
+          <div class="pd-section-text">
+            Systems communicate through static C# events wired in <code>OnEnable</code>/<code>OnDisable</code>. No system holds a direct reference to another — input detection, swap validation, and UI stay fully decoupled through a lightweight pub/sub layer. The result is a codebase where each system can be modified or replaced without touching anything else.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Interaction & Feedback</div>
+          <div class="pd-section-text">
+            Drag detection uses <code>Physics2D.OverlapPoint</code> against oversized colliders for forgiving touch input — small targets feel large in hand. Invalid swaps and drag cancellations both resolve through a DOTween <code>Ease.OutBack</code> return animation, giving the player clear physical feedback without hard snapping. Tween configuration is centralized in a static <code>TweenHelper</code> wrapper so animation behaviour is consistent across the entire game and can be tuned from one place.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="pd-right">
+      <div class="pd-meta">
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Role</div>
+          <div class="pd-meta-value">Solo Developer</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Platform</div>
+          <div class="pd-meta-value">Android (Mobile)</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Tech Stack</div>
+          <div class="pd-meta-value">Unity 6, C#, DOTween, ScriptableObjects, Physics2D</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Key Systems</div>
+          <div class="pd-meta-value">Graph Coloring Validation, Data-Driven Level SO, Static Event Pub/Sub, DOTween Feedback, Viewport-Space Layout</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Architecture</div>
+          <div class="pd-meta-value">Static C# events via OnEnable/OnDisable · fully decoupled systems · ScriptableObject-authored levels</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <a href="https://www.youtube.com/watch?v=_fB-zVBE8gI" target="_blank" class="pd-link-btn">Watch on YouTube ↗</a>
+        <div class="pd-meta-divider"></div>
+        <a href="https://github.com/Ahmed-A-Abdou/ColorSwap" target="_blank" class="pd-link-btn">View on GitHub ↗</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script src="../main.js"></script>
+</body>
+</html>

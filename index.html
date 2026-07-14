@@ -23,6 +23,7 @@
     <a href="#about" onclick="closeMenu()">About</a>
     <a href="#skills" onclick="closeMenu()">Skills</a>
     <a href="#projects" onclick="closeMenu()">Projects</a>
+    <a href="#systems" onclick="closeMenu()">Systems</a>
     <a href="#gamejam" onclick="closeMenu()">Game Jam</a>
     <a href="#youtube" onclick="closeMenu()">YouTube</a>
     <a href="#experience" onclick="closeMenu()">Experience</a>
@@ -45,9 +46,9 @@
 <section id="about">
   <h2>About Me</h2>
   <div class="about-text">
-    <p>Unity Game Developer specializing in gameplay systems, AI mechanics, and interactive experiences across PC and VR platforms. I focus on building scalable, maintainable systems using clean architecture principles and design patterns, with strong attention to performance and player experience.</p>
-    <p>Professionally, I have contributed to both single-player and multiplayer projects, including a Photon PUN-based endless runner and system-driven gameplay prototypes. I enjoy solving complex technical problems and translating ideas into polished, responsive gameplay.</p>
-    <p>Alongside development, I have 3+ years of experience as a Game Development Instructor, designing structured learning paths, mentoring students, and helping them ship real projects.</p>
+    <p>Unity Game Developer focused on gameplay systems, AI, and VR. I build scalable, decoupled architectures using ScriptableObjects, state machines, and event-driven design — with a strong bias toward code that's easy to extend and hard to break.</p>
+    <p>Shipped projects include a rhythm-based VR fitness game for Meta Quest 3, a real-time multiplayer endless runner built on Photon PUN, and a solo horror game with a graph-based enemy AI system currently in active development.</p>
+    <p>I also have 2 years of experience as a Game Development Instructor, where I designed curricula and helped 30+ students ship real projects.</p>
   </div>
 </section>
 
@@ -142,8 +143,25 @@
       <span class="project-row-arrow">→</span>
     </a>
 
-    <a href="projects/firebase.html" class="project-row">
+    <a href="projects/colorswap.html" class="project-row">
       <span class="project-num">04</span>
+      <div class="project-row-main">
+        <div class="project-row-header">
+          <span class="project-row-title">ColorSwap</span>
+          <div class="project-row-tags">
+            <span class="project-row-tag">UNITY 6</span>
+            <span class="project-row-tag">MOBILE</span>
+            <span class="project-row-tag">PUZZLE</span>
+            <span class="project-row-tag">ANDROID</span>
+          </div>
+        </div>
+        <div class="project-row-desc">Graph-coloring puzzle on Android. Data-driven SO levels, decoupled static event architecture, and DOTween touch feedback.</div>
+      </div>
+      <span class="project-row-arrow">→</span>
+    </a>
+
+    <a href="projects/firebase.html" class="project-row">
+      <span class="project-num">05</span>
       <div class="project-row-main">
         <div class="project-row-header">
           <span class="project-row-title">Firebase Inventory System</span>
@@ -159,7 +177,7 @@
     </a>
 
     <a href="projects/los.html" class="project-row">
-      <span class="project-num">05</span>
+      <span class="project-num">06</span>
       <div class="project-row-main">
         <div class="project-row-header">
           <span class="project-row-title">Line-of-Sight Monster Mechanic</span>
@@ -175,7 +193,7 @@
     </a>
 
     <a href="projects/rpg.html" class="project-row">
-      <span class="project-num">06</span>
+      <span class="project-num">07</span>
       <div class="project-row-main">
         <div class="project-row-header">
           <span class="project-row-title">RPG Battle System Prototype</span>
@@ -186,6 +204,30 @@
           </div>
         </div>
         <div class="project-row-desc">Turn-based combat with modular state management. Open for extension, closed for modification.</div>
+      </div>
+      <span class="project-row-arrow">→</span>
+    </a>
+
+  </div>
+</section>
+
+<!-- SYSTEMS -->
+<section id="systems">
+  <h2>Systems</h2>
+  <div class="project-list">
+
+    <a href="projects/so-architecture.html" class="project-row">
+      <span class="project-num">01</span>
+      <div class="project-row-main">
+        <div class="project-row-header">
+          <span class="project-row-title">ScriptableObject Architecture System</span>
+          <div class="project-row-tags">
+            <span class="project-row-tag">UNITY</span>
+            <span class="project-row-tag">C#</span>
+            <span class="project-row-tag">REUSABLE</span>
+          </div>
+        </div>
+        <div class="project-row-desc">Lightweight SO event and variable system. Zero direct references, Inspector-wired events, no singletons. Used as the backbone of Cam3.</div>
       </div>
       <span class="project-row-arrow">→</span>
     </a>

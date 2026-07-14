@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ScriptableObject Architecture System – Ahmed Alaa</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23070b14'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-weight='700' font-size='18' fill='%2394a3b8'>A</text></svg>">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div id="lightbox" onclick="closeLightbox()">
+  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation()">
+</div>
+<header>
+  <a class="header-brand" href="../index.html">Ahmed Alaa</a>
+  <button class="menu-toggle" id="menuIcon" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
+  <nav id="nav-menu">
+    <a href="../index.html#about" onclick="closeMenu()">About</a>
+    <a href="../index.html#skills" onclick="closeMenu()">Skills</a>
+    <a href="../index.html#projects" onclick="closeMenu()">Projects</a>
+    <a href="../index.html#systems" onclick="closeMenu()">Systems</a>
+    <a href="../index.html#gamejam" onclick="closeMenu()">Game Jam</a>
+    <a href="../index.html#youtube" onclick="closeMenu()">YouTube</a>
+    <a href="../index.html#experience" onclick="closeMenu()">Experience</a>
+    <a href="../index.html#pathway" onclick="closeMenu()">Early Work</a>
+    <a href="../index.html#contact" onclick="closeMenu()">Contact</a>
+    <a href="../Ahmed_Alaa_Unity_Game_Developer.pdf" target="_blank" class="nav-btn">Resume</a>
+  </nav>
+</header>
+
+<div class="page-content">
+
+  <a href="../index.html#systems" class="pd-back">← Back to Systems</a>
+
+  <div class="pd-tags">
+    <span class="pd-tag">Unity</span>
+    <span class="pd-tag">C#</span>
+    <span class="pd-tag">Reusable</span>
+    <span class="pd-tag">Architecture</span>
+  </div>
+  <h1 class="pd-title">ScriptableObject Architecture System</h1>
+
+  <div class="pd-body">
+    <div class="pd-left">
+
+      <div class="pd-video">
+        <iframe width="100%" height="340" src="https://www.youtube.com/embed/Mf8WT9wPAm4?si=ANkMD7a0ocvvIQ-a" frameborder="0" allowfullscreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+      </div>
+
+      <div class="pd-writeup">
+
+        <div>
+          <div class="pd-section-title">The System</div>
+          <div class="pd-section-text">
+            A lightweight event and variable system that eliminates direct script dependencies in Unity projects. Systems communicate through ScriptableObject assets — any script can raise an event or read a shared variable without knowing who's listening or who set the value. No singletons, no service locators, no tight coupling.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Variable Library</div>
+          <div class="pd-section-text">
+            A full typed variable library covering the most common Unity data types:
+            <ul>
+              <li><code>IntSO</code>, <code>FloatSO</code>, <code>BoolSO</code>, <code>StringSO</code></li>
+              <li><code>Vector3SO</code>, <code>GameObjectSO</code></li>
+            </ul>
+            Each variable asset holds a runtime value and a default value. On scene load or game reset, calling <code>ResetToDefault()</code> restores the asset to its original state — no manual cleanup code required. Variables fire a C# event on every value change, so any listener updates automatically without polling.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Event System</div>
+          <div class="pd-section-text">
+            Asset-driven events wirable entirely through the Inspector without writing any connection code. A <code>GameEventSO</code> asset acts as the channel — raisers hold a reference and call <code>Raise()</code>, listeners subscribe via a <code>GameEventListener</code> component that invokes a UnityEvent in response. Adding or removing a listener is a drag-and-drop operation in the Inspector, keeping system wiring visible and editable by designers without touching code.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">In Production</div>
+          <div class="pd-section-text">
+            Currently used as the communication backbone in Cam3. Every inter-system message — enemy state changes, battery drain events, camera switches, player input signals — routes through this layer. No system in Cam3 holds a direct reference to another; all cross-system communication goes through SO variables and events, making each system independently testable and replaceable.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="pd-right">
+      <div class="pd-meta">
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Type</div>
+          <div class="pd-meta-value">Reusable Unity System</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Tech Stack</div>
+          <div class="pd-meta-value">Unity, C#, ScriptableObjects, UnityEvents</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Includes</div>
+          <div class="pd-meta-value">Int, Float, Bool, String, Vector3, GameObject variables · Asset-driven event channel · Default value reset</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Architecture</div>
+          <div class="pd-meta-value">Zero direct references · Inspector-wired events · No singletons or service locators</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Used In</div>
+          <div class="pd-meta-value">Cam3 Horror Game</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <a href="https://www.youtube.com/watch?v=Mf8WT9wPAm4" target="_blank" class="pd-link-btn">Watch on YouTube ↗</a>
+        <div class="pd-meta-divider"></div>
+        <a href="https://github.com/Ahmed-A-Abdou/ScriptableObject-based-Event-Variable-system" target="_blank" class="pd-link-btn">View on GitHub ↗</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script src="../main.js"></script>
+</body>
+</html>
