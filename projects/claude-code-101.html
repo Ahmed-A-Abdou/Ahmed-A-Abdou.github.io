@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code 101 – Ahmed Alaa</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23070b14'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-weight='700' font-size='18' fill='%2394a3b8'>A</text></svg>">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div id="lightbox" onclick="closeLightbox()">
+  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation()">
+</div>
+<header>
+  <a class="header-brand" href="../index.html">Ahmed Alaa</a>
+  <button class="menu-toggle" id="menuIcon" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
+  <nav id="nav-menu">
+    <a href="../index.html#about" onclick="closeMenu()">About</a>
+    <a href="../index.html#skills" onclick="closeMenu()">Skills</a>
+    <a href="../index.html#projects" onclick="closeMenu()">Projects</a>
+    <a href="../index.html#credentials" onclick="closeMenu()">Credentials</a>
+    <a href="../index.html#youtube" onclick="closeMenu()">YouTube</a>
+    <a href="../index.html#experience" onclick="closeMenu()">Experience</a>
+    <a href="../index.html#contact" onclick="closeMenu()">Contact</a>
+    <a href="../Ahmed_Alaa_Unity_Game_Developer.pdf" target="_blank" class="nav-btn">Resume</a>
+  </nav>
+</header>
+
+<div class="page-content">
+
+  <a href="../index.html#credentials" class="pd-back">← Back to Credentials</a>
+
+  <div class="pd-tags">
+    <span class="pd-tag">Anthropic</span>
+    <span class="pd-tag">AI Tools</span>
+    <span class="pd-tag">Developer Tooling</span>
+    <span class="pd-tag">Certificate</span>
+  </div>
+  <h1 class="pd-title">Claude Code 101</h1>
+
+  <div class="pd-body">
+    <div class="pd-left">
+
+      <div class="pd-writeup">
+
+        <div>
+          <div class="pd-section-title">The Course</div>
+          <div class="pd-section-text">
+            Claude Code 101 is Anthropic's official introductory course on AI-assisted software development using Claude Code — an agentic coding tool that operates directly in the terminal and IDE. The course is aimed at developers new to AI coding agents and covers everything from installation to building custom workflows with subagents, skills, and MCP servers. Estimated completion time: ~1 hour.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">What It Covers</div>
+          <div class="pd-section-text">
+            The course is built around a single repeatable development rhythm — <strong>Explore → Plan → Code → Commit</strong> — and covers 10 modules:
+            <ul>
+              <li>What Claude Code is and how the agentic loop works (context window, tools, permissions)</li>
+              <li>Installing Claude Code across terminal, VS Code, JetBrains, and Claude Desktop</li>
+              <li>The Explore → Plan → Code → Commit workflow for real development tasks</li>
+              <li>Context management — <code>/compact</code>, <code>/clear</code>, and long-session hygiene</li>
+              <li>Code review workflows with Claude Code</li>
+              <li>The <code>CLAUDE.md</code> file — project memory that persists across sessions</li>
+              <li>Subagents, Skills, and MCP servers for connecting external tools</li>
+              <li>Hooks — deterministic guardrails controlling what Claude can and can't do</li>
+            </ul>
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">What I Took Away</div>
+          <div class="pd-section-text">
+            The course formalised how I use Claude Code day-to-day — particularly the Explore → Plan phase before writing any code, and the CLAUDE.md system for keeping project context consistent across sessions. The hooks and MCP sections introduced tooling I now use to keep Claude Code's behaviour predictable and auditable on real projects.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="pd-right">
+      <div class="pd-meta">
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Issuer</div>
+          <div class="pd-meta-value">Anthropic Academy</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Platform</div>
+          <div class="pd-meta-value">Skilljar</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Completed</div>
+          <div class="pd-meta-value">July 15, 2026</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Type</div>
+          <div class="pd-meta-value">Course Certificate</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Topics</div>
+          <div class="pd-meta-value">Agentic AI, Developer Tooling, Context Management, MCP, Hooks, CLAUDE.md</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <img src="https://cc.sj-cdn.net/certificate/tk9do23ky8ac/certificate-rz3qzmhgzcxv-1784160802.jpg"
+             alt="Claude Code 101 Certificate"
+             style="width:100%; border-radius:6px; border:0.5px solid var(--border); display:block; margin-bottom:2px;">
+        <div class="pd-meta-divider"></div>
+        <a href="https://verify.skilljar.com/c/rz3qzmhgzcxv" target="_blank" class="pd-link-btn">Verify Certificate ↗</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script src="../main.js"></script>
+</body>
+</html>

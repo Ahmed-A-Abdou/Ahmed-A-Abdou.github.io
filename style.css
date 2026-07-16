@@ -876,6 +876,70 @@ section h2 {
 
 .jam-link:hover { color: var(--text); opacity: 1; }
 
+/* ── SECTION SUB-LABEL ── */
+.section-sub-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.5;
+  margin: 48px 0 4px;
+}
+
+/* ── CREDENTIAL CARDS ── */
+.cred-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.cred-card {
+  background: var(--card);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 0.5px solid var(--border);
+  text-decoration: none;
+  display: block;
+  transition: border-color 0.2s;
+}
+.cred-card:hover { border-color: rgba(255,255,255,0.18); }
+
+.cred-card-thumb {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+  background: #0a1628;
+}
+
+.cred-card-body { padding: 12px 14px 14px; }
+
+.cred-card-issuer {
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+  opacity: 0.55;
+}
+
+.cred-card-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.cred-card-type {
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.45;
+}
+
 /* ── EXPERIENCE LIST (resume style) ── */
 .exp-list { display: flex; flex-direction: column; }
 
@@ -1154,10 +1218,15 @@ a.contact-line:hover { color: var(--text); }
   .project-row-header { flex-direction: column; gap: 6px; }
 
   .jam-row { grid-template-columns: 1fr; gap: 20px; }
+  .cred-grid { grid-template-columns: 1fr 1fr; }
 
   .exp-row { grid-template-columns: 1fr; gap: 6px; padding: 20px 0; }
   .exp-row-left { display: flex; gap: 10px; align-items: baseline; }
 
   .contact-links { flex-direction: column; }
   .contact-btn { text-align: center; }
+}
+
+@media (max-width: 480px) {
+  .cred-grid { grid-template-columns: 1fr; }
 }
