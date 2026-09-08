@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C-RAM Air Defence System – Ahmed Alaa</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23000000'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-weight='700' font-size='18' fill='%23ffffff'>A</text></svg>">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div id="lightbox" onclick="closeLightbox()">
+  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation()">
+</div>
+<header>
+  <a class="header-brand" href="../index.html">Ahmed Alaa</a>
+  <button class="menu-toggle" id="menuIcon" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
+  <nav id="nav-menu">
+    <a href="../index.html#about" onclick="closeMenu()">About</a>
+    <a href="../index.html#skills" onclick="closeMenu()">Skills</a>
+    <a href="../index.html#projects" onclick="closeMenu()">Projects</a>
+    <a href="../index.html#credentials" onclick="closeMenu()">Credentials</a>
+    <a href="../index.html#youtube" onclick="closeMenu()">YouTube</a>
+    <a href="../index.html#experience" onclick="closeMenu()">Experience</a>
+    <a href="../index.html#contact" onclick="closeMenu()">Contact</a>
+    <a href="../Ahmed_Alaa_Unity_Game_Developer.pdf" target="_blank" class="nav-btn">Resume</a>
+  </nav>
+</header>
+
+<div class="page-content">
+
+  <a href="../index.html#projects" class="pd-back">← Back to Projects</a>
+
+  <div class="pd-tags">
+    <span class="pd-tag">Unity 6</span>
+    <span class="pd-tag">C#</span>
+    <span class="pd-tag">State Machines</span>
+    <span class="pd-tag">ScriptableObjects</span>
+    <span class="pd-tag">Technical Demo</span>
+  </div>
+  <h1 class="pd-title">C-RAM Air Defence System</h1>
+
+  <div class="pd-body">
+    <div class="pd-left">
+
+      <div class="pd-video">
+        <iframe width="100%" height="340" src="https://www.youtube.com/embed/il7kz8ZwacM?si=mhJKQ8LSytHZxwoZ" frameborder="0" allowfullscreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+      </div>
+
+      <div class="pd-carousel" data-id="cram">
+        <div class="pd-carousel-track-wrap"><div class="pd-carousel-track">
+          <img src="../Images/CRAM/1v1Edit.jpg" alt="C-RAM engaging a drone at night, tracer stream tracking the target">
+          <img src="../Images/CRAM/V1Edit.jpg" alt="C-RAM turret model, front and rear views">
+          <img src="../Images/CRAM/V4.jpg" alt="C-RAM barrel and radar dome close-up at dusk">
+          <img src="../Images/CRAM/V3.jpg" alt="C-RAM autocannon and traverse assembly detail">
+          <img src="../Images/CRAM/Drone%20Final%20Texture%20V2.jpg" alt="Drone models, final texture pass">
+          <img src="../Images/CRAM/Drone%20Final%20Texture%20V3.jpg" alt="Drone pair in flight, final texture">
+          <img src="../Images/CRAM/Drone%20Final%20Texture%20V4.jpg" alt="Drone pair rendered under thermal-style lighting">
+        </div></div>
+        <button class="pd-carousel-btn prev" onclick="carouselMove('cram',-1)">&#8249;</button>
+        <button class="pd-carousel-btn next" onclick="carouselMove('cram',1)">&#8250;</button>
+        <div class="pd-carousel-dots" id="dots-cram"></div>
+      </div>
+
+      <div class="pd-writeup">
+
+        <div>
+          <div class="pd-section-title">The Project</div>
+          <div class="pd-section-text">
+            A C-RAM (Counter Rocket, Artillery, Mortar) air defence simulation in Unity 6, built as a modular framework for military systems rather than as a game. An autonomous radar-guided autocannon acquires, tracks, leads and intercepts incoming drone swarms. The architectural goal was that new behaviour — a formation, an ammunition type, a targeting doctrine — should require a new asset and at most an additive class, never an edit to an existing file. Personal project.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Assembly Architecture</div>
+          <div class="pd-section-text">
+            Nine assembly definitions with a strictly one-directional dependency graph: Shared → nothing, Data → Shared, and each system referencing only Shared and Data. <code>CramDemo.CRAM</code> has no reference to <code>CramDemo.Drone</code>, so the fire control code cannot name <code>DroneController</code> — targeting runs entirely through an <code>ITargetable</code> contract exposing position, velocity and liveness. Accidental coupling between systems produces a compile error rather than a code review comment.
+            <br><br>
+            <code>CramDemo.Camera</code> uses root namespace <code>CramDemo.CameraSystem</code>; a namespace named <code>Camera</code> shadows <code>UnityEngine.Camera</code> for every file inside it.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Generic Systems</div>
+          <div class="pd-section-text">
+            <code>StateMachine&lt;T&gt; where T : class, IState</code> — pure C# with no UnityEngine reference, unit-testable in isolation, and constrained to a per-FSM abstract base so <code>droneMachine.TransitionTo(gunState)</code> fails to compile. Three FSMs run on it; the CRAM runs two concurrently, since the carriage can traverse while the barrel holds fire. The class constraint keeps state identity reference-based rather than value-based.
+            <br><br>
+            Rejected an earlier tutorial-derived FSM that polled <code>GetNextState()</code> on the current state each frame — that design is self-driving only, and an external command would have survived exactly one frame. Transition policy belongs to the caller, which is what lets one machine serve both an autonomous drone and an externally commanded gun with no mode flag.
+            <br><br>
+            <code>ObjectPool&lt;T&gt; where T : Component</code> — <code>Component</code> rather than <code>MonoBehaviour</code> as the loosest constraint providing <code>gameObject</code>. Queue-backed rather than stack-backed, so a returned instance gets maximum time before reuse. Logs an error and returns null on exhaustion rather than growing; exhaustion is made unreachable at authoring time by clamping swarm size to pool size in <code>OnValidate</code>. Serves drones, projectiles, AudioSources and VFX instances.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Data Layer</div>
+          <div class="pd-section-text">
+            Authored values live on ScriptableObjects and are never written at runtime; mutable state lives in plain-C# context objects seeded from the config on <code>Start</code>. Config holds the starting value, context holds the current one.
+            <br><br>
+            <code>CramSettings</code> is the exception that proves the rule — a ScriptableObject both the UI and CRAM assemblies hold, allowing runtime control across an assembly boundary neither side can cross. None of its runtime fields are <code>[SerializeField]</code>: in the Unity editor, writing to a serialised ScriptableObject field at runtime persists to disk, silently mutating authored tuning data and committing it. Verified by moving every runtime control, exiting play mode and confirming no <code>.asset</code> shows as modified.
+            <br><br>
+            Formations and target-priority algorithms are abstract ScriptableObjects rather than enums. Added <code>VFormation</code> and <code>DiamondFormation</code> three weeks after <code>SwarmSpawner&lt;T&gt;</code> was written, with zero changes to the spawner.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Swarm &amp; Pooling</div>
+          <div class="pd-section-text">
+            <code>SwarmSpawner&lt;T&gt; where T : Component, ISpawnable</code> — two constraints for two distinct permissions. <code>DroneSpawner</code> is a one-line subclass with an empty body. Formations return local-space offsets, so <code>TransformPoint</code> handles world placement and orientation for every formation implementation.
+            <br><br>
+            Solved a multi-spawner cross-talk bug where running two spawners produced "pool empty" errors and double-return warnings — the static <code>GameEvents</code> bus meant every spawner received every drone's death event and attempted to reclaim instances it did not own. Fixed with a <code>HashSet&lt;T&gt;</code> ownership check gating the return.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Fire Control</div>
+          <div class="pd-section-text">
+            <code>GunMovementFSM</code> and <code>GunCombatFSM</code> are commanded by an Orchestrator through intent-level methods (<code>TrackTarget</code>, <code>StandDown</code>, <code>OpenFire</code>, <code>HoldFire</code>); state instances stay private and the Orchestrator never learns that <code>Aiming</code> or <code>Engaging</code> exist. Readiness is polled (<code>IsLocked</code>, <code>IsOutOfAmmo</code>) rather than evented — same assembly, direct reference, and static events would cross-talk between multiple emplacements.
+            <br><br>
+            Cut a <code>Locked</code> state entirely: being locked is not a mode the gun occupies but a fact about current aim error, so <code>IsLocked</code> is a computed property with no backing field and no transition to manage. Cut a <code>Reloading</code> state after researching the real system — C-RAM fires continuous bursts and the pause between them is the slew, which the movement FSM already models. Bursts became emergent and matched the real 100–150 rounds-per-target figure.
+            <br><br>
+            The target registry is fed by <code>OnTargetEnabled</code> / <code>OnTargetIntercepted</code> / <code>OnTargetLeaked</code> rather than physics sweeps, so range filtering is arithmetic over a list already held — no <code>OverlapSphere</code>, no per-frame allocation. The candidate list is a reused field cleared each selection rather than reallocated.
+            <br><br>
+            Target commitment follows real kill-assessment doctrine: the gun holds a target until it is dead, which eliminates thrashing and reduces full filter-and-sort to target-loss events rather than every frame.
+            <br><br>
+            Solved a fire rate running 20% slow — measured 59.6 rounds/sec against a configured 75. The inter-round timer decrement sat inside an <code>else if</code>, so the tick that fired never advanced the clock, wasting one frame per round. Fixed by moving the decrement outside the branch and accumulating with <code>+=</code> rather than <code>=</code> to preserve overshoot. Verified at 1,550 rounds in 21s against a theoretical 20.7s.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Ballistics &amp; Collision Detection</div>
+          <div class="pd-section-text">
+            Projectiles carry no colliders or Rigidbodies. Each round performs a <code>Physics.SphereCast</code> in <code>FixedUpdate</code> across speed × fixedDeltaTime, using a layer mask, casting before translating.
+            <br><br>
+            Solved projectile tunnelling. Physics samples at a fixed 0.02s timestep, so a 300 m/s round advances 6m per step and never overlaps a 1m drone at any sampled instant. A hairline raycast tests where the target was; the sphere radius absorbs sub-frame target movement. The radius is taken from <code>RoundData</code> and doubles as the round's lethal radius, making APDS, HE and flak three assets with no code. Governing relationship: max engageable target speed = hitRadius ÷ fixedDeltaTime.
+            <br><br>
+            <code>ProjectilePool</code> holds a <code>Dictionary&lt;GameObject, ObjectPool&lt;Projectile&gt;&gt;</code> keyed on the prefab rather than the round asset, so two rounds sharing a prefab share a pool. Sub-pools are created lazily on first fire and sized per round as fireRate × (MaxRange ÷ ProjectileSpeed) × headroom, allowing mid-run ammunition swaps.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Lead Targeting</div>
+          <div class="pd-section-text">
+            Replaced a first-order approximation that systematically over-led. The original computed <code>time = distance(target, muzzle) / projectileSpeed</code>, measuring to the target's current position while the round actually flies to the intercept — a shorter journey for a closing target.
+            <br><br>
+            Replaced with a closed-form solution. The round travels s·t and the target reaches P + V·t; squaring |P + V·t| = s·t yields a quadratic whose coefficients are built from dot products of relative position and velocity:
+            <div class="pd-formula">(V·V − s²)t² + 2(P·V)t + (P·P) = 0</div>
+            Returns <code>Vector3?</code> — a negative discriminant means the round cannot catch the target, which is a real answer the iterative approach could not produce. Order is load-bearing: discriminant tested before <code>Mathf.Sqrt</code> (a NaN would silently poison the aim with no error), a degenerate case guarded when |a| approaches zero, and the smallest strictly positive root selected — <code>Mathf.Min</code> is wrong here, because a faster projectile makes a negative and one root always negative.
+            <br><br>
+            Origin is the pitch pivot, not the yaw base: a 4.4-unit height offset introduces a systematic atan(4.4 / range) bias, roughly 2.5° at 100 units, exceeding lock tolerance.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Runtime Tuning</div>
+          <div class="pd-section-text">
+            Lock tolerance is derived rather than authored:
+            <div class="pd-formula">Min( Max(yawSpeed, pitchSpeed) × Time.deltaTime × factor, maxTolerance )</div>
+            <code>Mathf.MoveTowardsAngle</code> does not overshoot, so residual aim error is caused by target motion during traverse, not by step size. For any trackable target the angular rate is bounded by traverse speed, making one frame of traverse a sufficient bound — which means a traverse slider cannot push the gun into a state where it never locks. The cap exists because that bound governs reachability, not accuracy; miss distance is range × tan(tolerance).
+            <br><br>
+            A minimum tracking range falls out of the same relationship at roughly 107 units for these values — targets crossing closer outrun the traverse regardless of tolerance, mirroring the real system's minimum engagement range.
+            <br><br>
+            Solved a 60 Hz state machine thrash surfacing as a buzzing audio artifact. The Orchestrator commanded <code>OpenFire()</code> every frame regardless of ammunition, so the combat FSM entered and exited <code>Engaging</code> once per frame, restarting the firing loop clip from sample zero. Fixed with an <code>IsOutOfAmmo</code> computed property polled by the Orchestrator, which stands down instead of commanding a dry gun.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Presentation</div>
+          <div class="pd-section-text">
+            Audio ownership splits three ways by lifetime: the gun's firing loop on a single manager-held source driven by state-entry events rather than per-round, explosions through <code>ObjectPool&lt;AudioSource&gt;</code>, and drone engine noise on the drone prefab itself so it tracks position with no per-frame copying. Round self-destruct pops use a separate pool so a constant cosmetic sound can never starve a kill sound. Doppler disabled — at simulation speeds the shift is roughly 8×.
+            <br><br>
+            <code>CameraManager</code> cycles a <code>List&lt;Camera&gt;</code> on a single serialized <code>InputAction</code>, making the binding authored data; adding a camera requires no code. The flythrough camera flies the drones' route rather than following a drone, since a followed target dies within seconds.
+            <br><br>
+            <code>OnRoundExpired(Vector3, float)</code> carries the round's lethal radius in the payload, allowing the VFX assembly — which references Shared only — to size a burst from the round that produced it without referencing the data layer. Empty effect pools fail silently while an empty drone pool logs loudly: a missing effect is cosmetic, an unavailable drone means a simulation guarantee has broken.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Art</div>
+          <div class="pd-section-text">
+            All models and textures produced in Blender and Substance Painter. Blender origins imported unusable, so the scene uses empties as logical transforms with meshes as offset children — code only ever touches the empties, making the model re-exportable without any code change.
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <div class="pd-right">
+      <div class="pd-meta">
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Type</div>
+          <div class="pd-meta-value">Personal Project · Technical Demo</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Engine</div>
+          <div class="pd-meta-value">Unity 6000.3 · URP 17.3</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Tech Stack</div>
+          <div class="pd-meta-value">C#, New Input System, TextMeshPro, Blender, Substance Painter</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Platform</div>
+          <div class="pd-meta-value">Windows Standalone (PC) · Unity 6000.3 or later</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Architecture</div>
+          <div class="pd-meta-value">9 assembly definitions, one-directional dependency graph</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Patterns</div>
+          <div class="pd-meta-value">Layered State Machines, ScriptableObject Strategies, Object Pooling, Event Bus</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Extracted Into</div>
+          <div class="pd-meta-value"><a href="emplacement.html" style="color:var(--accent);">Emplacement — Unity Package →</a></div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <a href="https://www.youtube.com/watch?v=il7kz8ZwacM" target="_blank" class="pd-link-btn">Watch on YouTube ↗</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script src="../main.js"></script>
+</body>
+</html>

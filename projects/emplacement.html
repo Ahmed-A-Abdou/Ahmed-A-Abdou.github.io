@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emplacement – Ahmed Alaa</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23000000'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-weight='700' font-size='18' fill='%23ffffff'>A</text></svg>">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div id="lightbox" onclick="closeLightbox()">
+  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation()">
+</div>
+<header>
+  <a class="header-brand" href="../index.html">Ahmed Alaa</a>
+  <button class="menu-toggle" id="menuIcon" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
+  <nav id="nav-menu">
+    <a href="../index.html#about" onclick="closeMenu()">About</a>
+    <a href="../index.html#skills" onclick="closeMenu()">Skills</a>
+    <a href="../index.html#projects" onclick="closeMenu()">Projects</a>
+    <a href="../index.html#credentials" onclick="closeMenu()">Credentials</a>
+    <a href="../index.html#youtube" onclick="closeMenu()">YouTube</a>
+    <a href="../index.html#experience" onclick="closeMenu()">Experience</a>
+    <a href="../index.html#contact" onclick="closeMenu()">Contact</a>
+    <a href="../Ahmed_Alaa_Unity_Game_Developer.pdf" target="_blank" class="nav-btn">Resume</a>
+  </nav>
+</header>
+
+<div class="page-content">
+
+  <a href="../index.html#projects" class="pd-back">← Back to Projects</a>
+
+  <div class="pd-tags">
+    <span class="pd-tag">Unity Package</span>
+    <span class="pd-tag">C#</span>
+    <span class="pd-tag">UPM</span>
+    <span class="pd-tag">Generics</span>
+    <span class="pd-tag">Open Source</span>
+  </div>
+  <h1 class="pd-title">Emplacement — Unity Package</h1>
+
+  <div class="pd-body">
+    <div class="pd-left">
+
+      <div class="pd-writeup">
+
+        <div>
+          <div class="pd-section-title">The Project</div>
+          <div class="pd-section-text">
+            A Unity package containing the parts of a C-RAM air defence simulation that proved reusable. Eight runtime files in a single assembly with zero dependencies, distributed via UPM and installable from a git URL. Extracted rather than designed up front — every type in it had already been consumed by at least three unrelated systems in the source project before being pulled out.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Packaging</div>
+          <div class="pd-section-text">
+            Structured as a UPM package: <code>package.json</code> at repository root, an assembly definition under <code>Runtime/</code>, and hand-written <code>.meta</code> files so asset GUIDs stay stable across updates rather than being regenerated per install.
+            <br><br>
+            <code>.meta</code> format was verified by diffing against Unity's own output for the same asset types. Unity 6 writes script metas in a short form — <code>fileFormatVersion</code> and <code>guid</code> only, no <code>MonoImporter</code> block, no trailing newline — and pads <code>userData:</code> with a trailing space. An initial hand-written set used the older explicit form; Unity silently rewrote all thirteen files on import, which would have shown every meta as modified in the first commit after install. Corrected to match byte-for-byte and confirmed untouched on re-import.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">StateMachine&lt;T&gt;</div>
+          <div class="pd-section-text">
+            Pure C# with no UnityEngine reference — drivable from a MonoBehaviour's <code>Update</code>, from a single manager ticking many instances, or from a test with no scene. That last property is what makes the scaling path from a component-per-actor to one manager and a list a change of caller rather than a rewrite.
+            <br><br>
+            Constrained as <code>where T : class, IState</code>, two constraints for two distinct reasons:
+            <ul>
+              <li>The type parameter is an abstract base per machine, not <code>IState</code> directly. A machine holding <code>IState</code> lets one FSM's state be passed to another and fails at runtime, far from the cause. This makes it a compile error, and lets <code>CurrentState</code> expose whatever the base carries with no downcasting.</li>
+              <li>The <code>class</code> constraint keeps state identity reference-based. With value types, the same-state guard would compare contents rather than instances, treating two distinct states holding equal data as one.</li>
+            </ul>
+            <code>TransitionTo</code> owns the whole sequence — null guard, same-state guard, <code>Exit</code>, assign, <code>Enter</code> — so callers may command every frame without re-entering a state they already occupy.
+            <br><br>
+            Deliberately does not poll states for a next state. That design makes a machine self-driving only, and an external command survives exactly one frame. Transition policy belongs to the caller, which is what lets one machine type serve both an autonomous actor and an externally commanded one with no mode flag.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">ObjectPool&lt;T&gt;</div>
+          <div class="pd-section-text">
+            Constrained to <code>Component</code> rather than <code>MonoBehaviour</code> — the loosest constraint providing <code>gameObject</code>, so pools of <code>AudioSource</code>, <code>ParticleSystem</code> or <code>Collider</code> remain possible. In the source project the same class pools drones, projectiles, audio sources and VFX instances.
+            <br><br>
+            Queue-backed rather than stack-backed: FIFO gives a returned instance maximum time before reuse, so a destroyed object does not visibly reappear on the next frame.
+            <br><br>
+            Never grows. On exhaustion it logs and returns null, because a pool that quietly expands is an allocator with extra steps and hides the sizing bug rather than reporting it. Null is returned rather than thrown so the caller can decide what it means — dropping a cosmetic effect is correct, while an unavailable simulation object is a failure.
+            <br><br>
+            Double-returns are guarded using the instance's own <code>activeSelf</code>, the only signal available at the <code>Component</code> level.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">TransformReference / TransformProvider</div>
+          <div class="pd-section-text">
+            A ScriptableObject holding a live scene <code>Transform</code>, solving the constraint that a prefab cannot reference a scene object. Both sides hold the asset instead: a provider in the scene publishes its own transform on <code>Awake</code>, and any prefab reads the live value back. Alternatives — a singleton, <code>FindObjectOfType</code>, or post-spawn wiring — all couple objects that had no reason to know about each other.
+            <br><br>
+            The held value is deliberately not <code>[SerializeField]</code>. In the Unity editor, writing to a serialised ScriptableObject field at runtime persists to disk, so the asset mutates as a side effect of entering play mode and that change reaches the next commit.
+            <br><br>
+            Null assignment is ignored, so a scene unloading cannot blank a reference another scene is still using.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Contracts</div>
+          <div class="pd-section-text">
+            <code>ITargetable</code> (position, velocity, liveness), <code>ISpawnable</code> (one method), <code>IHittable</code> (one method). Kept separate because they have different consumers: a spawner writes, a targeting system reads, a projectile strikes, and none should be handed another's surface.
+            <br><br>
+            <code>ITargetable</code> exposes velocity rather than requiring consumers to derive it from position deltas, so one vector serves speed comparison, heading tests and lead calculation with no per-target history. <code>IsAlive</code> exists rather than a null check because pooled objects are deactivated, never destroyed — Unity's fake-null does not fire for them.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Verification</div>
+          <div class="pd-section-text">
+            Validated outside the editor as well as inside it:
+            <ul>
+              <li>Compiled against Unity 6000.3.9f1's <code>UnityEngine.dll</code> and <code>UnityEngine.CoreModule.dll</code> targeting netstandard2.1 — 0 errors, 0 warnings</li>
+              <li><code>StateMachine&lt;T&gt;</code> executed as plain .NET, since it has no engine dependency, covering the null guard, the same-state guard, Exit-before-Enter ordering, and reference-versus-value identity</li>
+              <li>29 in-editor assertions across all three systems, including pool exhaustion, double-return rejection, FIFO reuse order, and confirmation via <code>SerializedObject</code> that the transform reference exposes no serialised field</li>
+              <li><code>.meta</code> files confirmed unmodified after a full Unity import cycle</li>
+            </ul>
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Scope</div>
+          <div class="pd-section-text">
+            Two components from the source project were deliberately excluded. The global event bus, because a single static bus means every listener hears every source and cross-talks as soon as there are two of anything — a known weakness, not something to distribute. And the generic spawner, because it still depends on a project-specific config type and is therefore not yet project-agnostic.
+            <br><br>
+            The rule the package is built on: something is not known to be reusable until it has been reused.
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <div class="pd-right">
+      <div class="pd-meta">
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Type</div>
+          <div class="pd-meta-value">Unity Package (UPM) · Open Source</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">License</div>
+          <div class="pd-meta-value">MIT</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Tech Stack</div>
+          <div class="pd-meta-value">Unity 6000.3+, C#, netstandard2.1, assembly definitions</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Dependencies</div>
+          <div class="pd-meta-value">None</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Platform</div>
+          <div class="pd-meta-value">Any Unity target · runtime code only</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Extracted From</div>
+          <div class="pd-meta-value"><a href="cram.html" style="color:var(--accent);">C-RAM Air Defence System →</a></div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <a href="https://github.com/Ahmed-A-Abdou/emplacement" target="_blank" class="pd-link-btn">View on GitHub ↗</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script src="../main.js"></script>
+</body>
+</html>

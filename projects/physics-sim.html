@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ThreeJs Physics Lab – Ahmed Alaa</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23000000'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-weight='700' font-size='18' fill='%23ffffff'>A</text></svg>">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div id="lightbox" onclick="closeLightbox()">
+  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation()">
+</div>
+<header>
+  <a class="header-brand" href="../index.html">Ahmed Alaa</a>
+  <button class="menu-toggle" id="menuIcon" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
+  <nav id="nav-menu">
+    <a href="../index.html#about" onclick="closeMenu()">About</a>
+    <a href="../index.html#skills" onclick="closeMenu()">Skills</a>
+    <a href="../index.html#projects" onclick="closeMenu()">Projects</a>
+    <a href="../index.html#credentials" onclick="closeMenu()">Credentials</a>
+    <a href="../index.html#youtube" onclick="closeMenu()">YouTube</a>
+    <a href="../index.html#experience" onclick="closeMenu()">Experience</a>
+    <a href="../index.html#contact" onclick="closeMenu()">Contact</a>
+    <a href="../Ahmed_Alaa_Unity_Game_Developer.pdf" target="_blank" class="nav-btn">Resume</a>
+  </nav>
+</header>
+
+<div class="page-content">
+
+  <a href="../index.html#projects" class="pd-back">← Back to Projects</a>
+
+  <div class="pd-tags">
+    <span class="pd-tag">three.js</span>
+    <span class="pd-tag">JavaScript</span>
+    <span class="pd-tag">Numerical Physics</span>
+    <span class="pd-tag">Vitest</span>
+    <span class="pd-tag">Technical Assessment</span>
+  </div>
+  <h1 class="pd-title">ThreeJs Physics Lab</h1>
+
+  <div class="pd-body">
+    <div class="pd-left">
+
+      <div class="pd-video">
+        <iframe width="100%" height="340" src="https://www.youtube.com/embed/xptYP1OT0NU?si=Ue3ucxK-992H7kI5" frameborder="0" allowfullscreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+      </div>
+
+      <div class="pd-writeup">
+
+        <div>
+          <div class="pd-section-title">The Project</div>
+          <div class="pd-section-text">
+            A physics simulation platform built in three.js, running three interactive experiments — a nonlinear pendulum, a projectile with air resistance, and a damped spring-mass oscillator — on one shared, schema-driven framework where experiments are fully interchangeable modules.
+            <br><br>
+            Built as a technical assessment for a mid-level 3D developer role explicitly graded on architecture, physics correctness, and AI-assisted development practice; developed collaboratively with Claude Code across a full planning-then-implementation cycle.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Framework Architecture</div>
+          <div class="pd-section-text">
+            Designed a runtime-enforced <code>Experiment</code> interface — five lifecycle methods plus a static parameter schema — that the entire framework talks to exclusively: sim loop, UI panel, graph and registry all have zero knowledge of which concrete experiment is active.
+            <br><br>
+            Since the project is plain JavaScript with no compiler to enforce an interface, the enforcement is built by hand. A constructor guard using <code>new.target</code> blocks instantiating the abstract base class directly, and a prototype-comparison check fails construction immediately, naming the exact missing method, if a subclass omits any required override.
+            <ul>
+              <li>Adding a new experiment costs exactly two new files — one physics module, one experiment class — plus a single registry line. Verified concretely by adding three real experiments and one throwaway proof-of-concept, with zero framework files ever touched.</li>
+              <li>UI is entirely schema-driven: a generic panel reads each experiment's <code>{key, label, min, max, step, default}</code> parameter array and auto-generates sliders, with no per-experiment UI code anywhere in the framework.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Physics Implementation</div>
+          <div class="pd-section-text">
+            Implemented all three experiments using semi-implicit (symplectic) Euler integration rather than explicit Euler, specifically because explicit Euler injects energy into oscillators every step — visible as a pendulum or spring swinging progressively higher over time with no damping added, which is physically impossible. Used the real, non-linearised equation of motion throughout (<code>sin(theta)</code> for the pendulum, not the small-angle approximation), so the simulation stays correct at large-amplitude, clearly nonlinear swings rather than only near equilibrium.
+            <br><br>
+            <strong>The half-period bug.</strong> When instrumenting the pendulum's oscillation period and the spring's natural frequency, naively timing between any consecutive zero-crossing produces exactly half the true period — a released pendulum crosses equilibrium twice per full swing, once in each direction, before returning to its starting phase. Fixed by filtering zero-crossings to one fixed direction only, so "time between the two most recently recorded crossings" is a full period by construction, with no ×2 correction anywhere in the code. Verified with a hand-built synthetic trajectory test that would fail if the direction filter were ever removed.
+            <br><br>
+            Modelled projectile motion with quadratic (velocity-squared) air resistance — the standard drag model for a macroscopic thrown object — while keeping a separate, deliberately idealised drag-free analytic formula (<code>range = v²·sin(2θ)/g</code>) as a fixed comparison baseline, since the coupled drag equations have no closed-form solution and can only be evaluated by simulating.
+            <br><br>
+            Demonstrated and unit-tested a genuine physical contrast between the pendulum and the spring: the spring's frequency is amplitude-independent (isochronism, a consequence of Hooke's law being exactly linear), while the pendulum's real period measurably lengthens at large amplitude — the opposite test assertion for each, on purpose.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Testing &amp; Verification</div>
+          <div class="pd-section-text">
+            Every physics module is a pure function — plain numbers in, plain numbers out, zero imports, zero dependency on three.js or a browser — enabling a Vitest suite that runs the full symplectic-Euler correctness and period/frequency-vs-theory checks in milliseconds with no rendering context.
+            <br><br>
+            Tests were specifically designed to catch integrator-ordering mistakes rather than just final output. For example: releasing an oscillator from rest and asserting that position <em>does</em> change on the very first step — explicit Euler would leave it exactly unchanged, using the old, zero velocity, while semi-implicit Euler would not.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Rendering &amp; Data Pipeline</div>
+          <div class="pd-section-text">
+            Built a fixed-timestep accumulator loop decoupling physics from render rate — real elapsed time is banked and drained in identical fixed-size chunks regardless of frame rate, with a clamp preventing a "spiral of death" if the tab is backgrounded and resumes after a long gap.
+            <br><br>
+            Enforced strictly one-directional data flow: each experiment's physics module computes new state, and only then does the experiment class copy those numbers onto three.js mesh transforms. Physics never reads anything back off a mesh.
+            <br><br>
+            Built a canvas-based live graph that auto-scales to whatever quantity any experiment hands it and exports the full recorded history as CSV, with zero experiment-specific knowledge anywhere in its drawing code.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">AI-Collaborative Development Process</div>
+          <div class="pd-section-text">
+            Planned architecture and derived the governing physics equations by hand before writing any code, then implemented file-by-file with Claude Code, reviewing and defending every line rather than accepting output wholesale.
+            <br><br>
+            Documented two concrete cases where AI output needed correction on review:
+            <ul>
+              <li>A test file that hardcoded the experiment count as a literal number, which would break every time an experiment was added or removed — later codified as a standing project rule to prevent recurrence.</li>
+              <li>An early request for the experiment registry to be a class, corrected after review to a plain frozen array once it was clear nothing about the registry needed instantiation or polymorphism.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <div class="pd-right">
+      <div class="pd-meta">
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Type</div>
+          <div class="pd-meta-value">Technical Assessment · Mid-Level 3D Developer</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Role</div>
+          <div class="pd-meta-value">Solo</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Tech Stack</div>
+          <div class="pd-meta-value">three.js, JavaScript (ES modules), Vitest, HTML Canvas</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Experiments</div>
+          <div class="pd-meta-value">Nonlinear pendulum · Projectile with quadratic drag · Damped spring-mass oscillator</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Integrator</div>
+          <div class="pd-meta-value">Semi-implicit (symplectic) Euler, fixed timestep</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Extensibility</div>
+          <div class="pd-meta-value">New experiment = 2 files + 1 registry line, zero framework changes</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Built With</div>
+          <div class="pd-meta-value"><a href="claude-code-101.html" style="color:var(--accent);">Claude Code →</a></div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <a href="https://github.com/Ahmed-A-Abdou/ThreeJs-Physics-Lab" target="_blank" class="pd-link-btn">View on GitHub ↗</a>
+        <a href="https://www.youtube.com/watch?v=xptYP1OT0NU" target="_blank" class="pd-link-btn">Watch on YouTube ↗</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script src="../main.js"></script>
+</body>
+</html>

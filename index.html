@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ahmed Alaa - Game Dev Portfolio</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23070b14'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-weight='700' font-size='18' fill='%2394a3b8'>A</text></svg>">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23000000'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-weight='700' font-size='18' fill='%23ffffff'>A</text></svg>">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -45,8 +45,8 @@
   <h2>About Me</h2>
   <div class="about-text">
     <p>Unity Game Developer focused on gameplay systems, AI, and VR. I build scalable, decoupled architectures using ScriptableObjects, state machines, and event-driven design — with a strong bias toward code that's easy to extend and hard to break.</p>
-    <p>Shipped projects include a rhythm-based VR fitness game for Meta Quest 3, a real-time multiplayer endless runner built on Photon PUN, and a solo horror game with a graph-based enemy AI system currently in active development.</p>
-    <p>I also have 2 years of experience as a Game Development Instructor, where I designed curricula and helped 30+ students ship real projects.</p>
+    <p>Shipped work includes <strong>Cyber Ninja</strong>, a rhythm-action VR game for Meta Quest 3, and <strong>ZiRunner</strong>, a bilingual English/Arabic multiplayer training game built on Photon PUN 2. Alongside those I build systems for their own sake — <strong>C-RAM</strong>, an air defence simulation whose module boundaries are enforced by nine assembly definitions, and <strong>Emplacement</strong>, the reusable half of it released as an open-source Unity package.</p>
+    <p>I also spent 2 years as a Game Development Instructor, designing curricula and helping 30+ students ship real projects — which is where most of my instinct for explaining a system in plain terms came from.</p>
   </div>
 </section>
 
@@ -57,9 +57,11 @@
     <div class="skills-group">
       <div class="skills-group-label">Engine & Language</div>
       <div class="skills-group-items">
-        <span>Unity Engine</span>
+        <span>Unity 6</span>
         <span>C# Programming</span>
+        <span>URP</span>
         <span>VR (Meta Quest)</span>
+        <span>New Input System</span>
       </div>
     </div>
     <div class="skills-group">
@@ -70,17 +72,23 @@
         <span>Event-Driven Architecture</span>
         <span>Object Pooling</span>
         <span>Scriptable Objects</span>
+        <span>Assembly Definitions</span>
+        <span>SOLID Principles</span>
         <span>Physics & Player Controllers</span>
       </div>
     </div>
     <div class="skills-group">
       <div class="skills-group-label">Tools & Integration</div>
       <div class="skills-group-items">
-        <span>Multiplayer (Photon PUN)</span>
+        <span>Multiplayer (Photon PUN 2)</span>
         <span>Firebase</span>
+        <span>Localization & RTL (Arabic)</span>
+        <span>Addressables</span>
+        <span>UPM Package Authoring</span>
         <span>Optimization & Performance</span>
         <span>UI/UX Implementation</span>
-        <span>Git & Version Control</span>
+        <span>Git, GitHub & GitLab</span>
+        <span>Blender & Substance Painter</span>
       </div>
     </div>
   </div>
@@ -91,11 +99,28 @@
   <h2>Projects</h2>
   <div class="project-list">
 
-    <a href="projects/vr.html" class="project-row">
+    <a href="projects/cram.html" class="project-row">
       <span class="project-num">01</span>
       <div class="project-row-main">
         <div class="project-row-header">
-          <span class="project-row-title">VR Rhythm-Action Game</span>
+          <span class="project-row-title">C-RAM Air Defence System</span>
+          <div class="project-row-tags">
+            <span class="project-row-tag">UNITY 6</span>
+            <span class="project-row-tag">C#</span>
+            <span class="project-row-tag">ARCHITECTURE</span>
+            <span class="project-row-tag">TECHNICAL DEMO</span>
+          </div>
+        </div>
+        <div class="project-row-desc">A modular C-RAM air defence simulation in Unity, built to demonstrate extensible architecture — layered state machines, ScriptableObject strategies, and assembly-enforced boundaries.</div>
+      </div>
+      <span class="project-row-arrow">→</span>
+    </a>
+
+    <a href="projects/vr.html" class="project-row">
+      <span class="project-num">02</span>
+      <div class="project-row-main">
+        <div class="project-row-header">
+          <span class="project-row-title">Cyber Ninja VR Game</span>
           <div class="project-row-tags">
             <span class="project-row-tag">UNITY</span>
             <span class="project-row-tag">VR</span>
@@ -109,7 +134,7 @@
     </a>
 
     <a href="projects/cam3.html" class="project-row">
-      <span class="project-num">02</span>
+      <span class="project-num">03</span>
       <div class="project-row-main">
         <div class="project-row-header">
           <span class="project-row-title">Cam3 Horror Game</span>
@@ -120,29 +145,31 @@
             <span class="project-row-tag">IN DEVELOPMENT</span>
           </div>
         </div>
-        <div class="project-row-desc">Solo-built horror game with a 7-state enemy FSM, event-driven ScriptableObject architecture, and zero system coupling.</div>
+        <div class="project-row-desc">Solo-built horror game where watching the monster costs battery — and pushes it away. 7-state FSM over a weighted node graph, event-driven ScriptableObject architecture.</div>
       </div>
       <span class="project-row-arrow">→</span>
     </a>
 
     <a href="projects/zirunner.html" class="project-row">
-      <span class="project-num">03</span>
+      <span class="project-num">04</span>
       <div class="project-row-main">
         <div class="project-row-header">
           <span class="project-row-title">ZiRunner</span>
           <div class="project-row-tags">
-            <span class="project-row-tag">UNITY</span>
-            <span class="project-row-tag">PHOTON PUN</span>
+            <span class="project-row-tag">UNITY 6</span>
+            <span class="project-row-tag">PHOTON PUN 2</span>
             <span class="project-row-tag">MULTIPLAYER</span>
+            <span class="project-row-tag">BILINGUAL</span>
+            <span class="project-row-tag">PROFESSIONAL</span>
           </div>
         </div>
-        <div class="project-row-desc">Real-time multiplayer endless runner with Photon PUN, object pooling, and scalable data management.</div>
+        <div class="project-row-desc">Shipped bilingual (EN/AR) multiplayer endless runner built as cybersecurity awareness training. Outcome-authoritative Photon networking, SO-driven architecture, JSON content pipeline.</div>
       </div>
       <span class="project-row-arrow">→</span>
     </a>
 
     <a href="projects/colorswap.html" class="project-row">
-      <span class="project-num">04</span>
+      <span class="project-num">05</span>
       <div class="project-row-main">
         <div class="project-row-header">
           <span class="project-row-title">ColorSwap</span>
@@ -159,7 +186,7 @@
     </a>
 
     <a href="projects/firebase.html" class="project-row">
-      <span class="project-num">05</span>
+      <span class="project-num">06</span>
       <div class="project-row-main">
         <div class="project-row-header">
           <span class="project-row-title">Firebase Inventory System</span>
@@ -175,7 +202,7 @@
     </a>
 
     <a href="projects/los.html" class="project-row">
-      <span class="project-num">06</span>
+      <span class="project-num">07</span>
       <div class="project-row-main">
         <div class="project-row-header">
           <span class="project-row-title">Line-of-Sight Monster Mechanic</span>
@@ -191,7 +218,7 @@
     </a>
 
     <a href="projects/rpg.html" class="project-row">
-      <span class="project-num">07</span>
+      <span class="project-num">08</span>
       <div class="project-row-main">
         <div class="project-row-header">
           <span class="project-row-title">RPG Battle System Prototype</span>
@@ -211,8 +238,25 @@
   <div class="section-sub-label">Systems</div>
   <div class="project-list">
 
-    <a href="projects/so-architecture.html" class="project-row">
+    <a href="projects/emplacement.html" class="project-row">
       <span class="project-num">01</span>
+      <div class="project-row-main">
+        <div class="project-row-header">
+          <span class="project-row-title">Emplacement — Unity Package</span>
+          <div class="project-row-tags">
+            <span class="project-row-tag">UNITY PACKAGE</span>
+            <span class="project-row-tag">UPM</span>
+            <span class="project-row-tag">GENERICS</span>
+            <span class="project-row-tag">OPEN SOURCE</span>
+          </div>
+        </div>
+        <div class="project-row-desc">Reusable Unity building blocks for simulation systems: a generic state machine, a generic object pool, and asset-based references for cross-prefab wiring — distributed as an installable UPM package.</div>
+      </div>
+      <span class="project-row-arrow">→</span>
+    </a>
+
+    <a href="projects/so-architecture.html" class="project-row">
+      <span class="project-num">02</span>
       <div class="project-row-main">
         <div class="project-row-header">
           <span class="project-row-title">ScriptableObject Architecture System</span>
@@ -223,6 +267,28 @@
           </div>
         </div>
         <div class="project-row-desc">Lightweight SO event and variable system. Zero direct references, Inspector-wired events, no singletons. Used as the backbone of Cam3.</div>
+      </div>
+      <span class="project-row-arrow">→</span>
+    </a>
+
+  </div>
+
+  <div class="section-sub-label">Simulation & Web</div>
+  <div class="project-list">
+
+    <a href="projects/physics-sim.html" class="project-row">
+      <span class="project-num">01</span>
+      <div class="project-row-main">
+        <div class="project-row-header">
+          <span class="project-row-title">ThreeJs Physics Lab</span>
+          <div class="project-row-tags">
+            <span class="project-row-tag">THREE.JS</span>
+            <span class="project-row-tag">JAVASCRIPT</span>
+            <span class="project-row-tag">NUMERICAL PHYSICS</span>
+            <span class="project-row-tag">VITEST</span>
+          </div>
+        </div>
+        <div class="project-row-desc">Three interchangeable physics experiments on one schema-driven three.js framework. Symplectic Euler integration, runtime-enforced interfaces, unit-tested pure physics modules.</div>
       </div>
       <span class="project-row-arrow">→</span>
     </a>
@@ -323,12 +389,24 @@
 
     <a href="projects/claude-code-101.html" class="cred-card">
       <img class="cred-card-thumb"
-           src="../Certificates%26Course/claude-code-10.jpg"
+           src="Certificates%26Course/claude-code-10.jpg"
            alt="Claude Code 101 Certificate">
       <div class="cred-card-body">
         <div class="cred-card-issuer">Anthropic Academy</div>
         <div class="cred-card-name">Claude Code 101</div>
         <span class="cred-card-type">Certificate · Jul 2026</span>
+      </div>
+    </a>
+
+    <a href="https://cert.efset.org/mbhzrM" target="_blank" class="cred-card">
+      <img class="cred-card-thumb"
+           src="Certificates%26Course/English%20Test%20EF%20SET-1.jpg"
+           alt="EF SET English Certificate — 71/100, C2 Proficient"
+           style="object-position: center 22%;">
+      <div class="cred-card-body">
+        <div class="cred-card-issuer">EF SET</div>
+        <div class="cred-card-name">English Certificate — C2 Proficient</div>
+        <span class="cred-card-type">71/100 · Apr 2026</span>
       </div>
     </a>
 
@@ -346,11 +424,11 @@
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         style="border-radius:8px; margin-top:12px; display:block;"></iframe>
       <p style="margin-top:14px; text-align:center;">
-        <a href="https://www.youtube.com/@AbuAlaa007" target="_blank" class="btn" style="text-decoration:none;">Visit Channel</a>
+        <a href="https://www.youtube.com/@AbuAlaaMakesGames" target="_blank" class="btn" style="text-decoration:none;">Visit Channel</a>
       </p>
     </div>
     <div id="yt-error" style="display:none;">
-      Could not load video. <a href="https://www.youtube.com/@AbuAlaa007" target="_blank" style="color:var(--accent);">Visit channel directly →</a>
+      Could not load video. <a href="https://www.youtube.com/@AbuAlaaMakesGames" target="_blank" style="color:var(--accent);">Visit channel directly →</a>
     </div>
   </div>
 </section>
@@ -368,10 +446,10 @@
       <div class="exp-row-right">
         <div class="exp-row-role">Junior Game Developer</div>
         <ul>
-          <li>Developing a rhythm-based fitness VR game for Meta Quest 3</li>
-          <li>Designed and implemented scalable gameplay systems</li>
-          <li>Built multiplayer mechanics using Photon PUN</li>
-          <li>Applied design patterns (State, Object Pooling) for clean architecture</li>
+          <li>Developing Cyber Ninja, a rhythm-action VR game for Meta Quest 3 — including a full Oculus SDK to Meta XR All-in-One SDK migration</li>
+          <li>Shipped ZiRunner, a bilingual English/Arabic multiplayer training game on Photon PUN 2</li>
+          <li>Designed and implemented scalable gameplay systems using ScriptableObject event architectures and state machines</li>
+          <li>Applied design patterns (State, Object Pooling) for clean, decoupled architecture</li>
           <li>Integrated Firebase systems for real-time data handling</li>
           <li>Optimized performance and memory usage for smooth gameplay</li>
         </ul>
@@ -380,7 +458,7 @@
 
     <div class="exp-row">
       <div class="exp-row-left">
-        <div class="exp-row-date">2023 – 2025</div>
+        <div class="exp-row-date">May 2023 – Aug 2025</div>
         <div class="exp-row-company">Da3em Academy</div>
       </div>
       <div class="exp-row-right">
@@ -408,7 +486,7 @@
     <div class="contact-links">
       <a href="https://www.linkedin.com/in/ahmedalaa277/" target="_blank" class="contact-btn">LinkedIn ↗</a>
       <a href="https://github.com/Ahmed-A-Abdou" target="_blank" class="contact-btn">GitHub ↗</a>
-      <a href="https://www.youtube.com/@AbuAlaa007" target="_blank" class="contact-btn">YouTube ↗</a>
+      <a href="https://www.youtube.com/@AbuAlaaMakesGames" target="_blank" class="contact-btn">YouTube ↗</a>
       <a href="Ahmed_Alaa_Unity_Game_Developer.pdf" target="_blank" class="contact-btn">Resume ↗</a>
     </div>
   </div>

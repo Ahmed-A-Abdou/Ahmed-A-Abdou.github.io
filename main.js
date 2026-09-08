@@ -71,7 +71,7 @@ document.addEventListener("click", function(e) {
 
   function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#00c3d1';
+    ctx.fillStyle = '#ffffff';
     particles.forEach(function(p) {
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);

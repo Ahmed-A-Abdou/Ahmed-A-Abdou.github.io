@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ZiRunner – Ahmed Alaa</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23070b14'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-weight='700' font-size='18' fill='%2394a3b8'>A</text></svg>">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23000000'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-weight='700' font-size='18' fill='%23ffffff'>A</text></svg>">
 <link rel="stylesheet" href="../style.css">
 </head>
 <body>
@@ -33,10 +33,11 @@
   <a href="../index.html#projects" class="pd-back">← Back to Projects</a>
 
   <div class="pd-tags">
-    <span class="pd-tag">Unity</span>
-    <span class="pd-tag">Photon PUN</span>
+    <span class="pd-tag">Unity 6</span>
+    <span class="pd-tag">Photon PUN 2</span>
     <span class="pd-tag">Multiplayer</span>
-    <span class="pd-tag">C#</span>
+    <span class="pd-tag">Bilingual EN/AR</span>
+    <span class="pd-tag">Professional</span>
   </div>
   <h1 class="pd-title">ZiRunner</h1>
 
@@ -44,16 +45,15 @@
     <div class="pd-left">
 
       <div class="pd-video">
-        <iframe width="100%" height="340" src="https://www.youtube.com/embed/N7kuuCKZ6uI" frameborder="0" allowfullscreen
+        <iframe width="100%" height="340" src="https://www.youtube.com/embed/gWnemuBXjl0?si=jmATxKUWlHVvyXBc" frameborder="0" allowfullscreen
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
       </div>
 
-      <!-- CAROUSEL — add your images here -->
-      <!--
+      <!-- CAROUSEL — add images to ../Images/ZiRunner/ and uncomment
       <div class="pd-carousel" data-id="zirunner">
         <div class="pd-carousel-track-wrap"><div class="pd-carousel-track">
-          <img src="../Images/ZiRunner1.jpg" alt="ZiRunner screenshot 1">
-          <img src="../Images/ZiRunner2.jpg" alt="ZiRunner screenshot 2">
+          <img src="../Images/ZiRunner/shot1.jpg" alt="ZiRunner screenshot 1">
+          <img src="../Images/ZiRunner/shot2.jpg" alt="ZiRunner screenshot 2">
         </div></div>
         <button class="pd-carousel-btn prev" onclick="carouselMove('zirunner',-1)">&#8249;</button>
         <button class="pd-carousel-btn next" onclick="carouselMove('zirunner',1)">&#8250;</button>
@@ -62,30 +62,161 @@
       -->
 
       <div class="pd-writeup">
+
         <div>
           <div class="pd-section-title">The Goal</div>
           <div class="pd-section-text">
-            ZiRunner started as a challenge to build a real-time multiplayer endless runner where multiple players can race simultaneously with smooth, reliable synchronization across all clients. The goal wasn't just to make a game — it was to design systems where data ownership and network authority were deliberately thought through from day one, not patched in later.
+            ZiRunner started as a deceptively simple brief: a multiplayer endless runner. What it became was a shipped, content-driven security awareness training tool disguised as an arcade game — one that runs head-to-head races between players, teaches real cybersecurity concepts through its core loop rather than through a quiz bolted onto the side, and ships fully bilingual in English and Arabic with proper right-to-left rendering.
+            <br><br>
+            The engineering goal was never just "make it work." It was to build systems where data ownership, network authority, and content ownership were decided deliberately on day one — so that adding a player, changing a question, or retuning difficulty never means touching code, and so the multiplayer layer never becomes the thing that breaks under load.
           </div>
         </div>
+
         <div>
-          <div class="pd-section-title">What I Built</div>
+          <div class="pd-section-title">Multiplayer — Outcome-Authoritative Networking on Photon PUN 2</div>
+          <div class="pd-section-text">
+            Rather than replicating player transforms every tick, I designed the race around a shared-simulation, master-authoritative-outcome model:
+            <ul>
+              <li>The host creates a named room with <code>MaxPlayers</code> driven by a ScriptableObject, not a constant. Joiners authenticate against the room name and enter a waiting state.</li>
+              <li>The master client is the sole authority on when the race starts — it gates the start behind a player-count check and broadcasts a single <code>RPC_StartGame</code> to all clients. No client can start early; no client starts late.</li>
+              <li>Each client owns and simulates its own run — its input, its movement, its collisions, its score. That is data the client legitimately owns.</li>
+              <li>On run completion, each client submits its final score via an RPC targeted specifically at the master client (<code>RpcTarget.MasterClient</code>), not broadcast. The master aggregates results in a dictionary keyed by Photon <code>ActorNumber</code>, waits until every expected score has landed, resolves the winner, and broadcasts the result to all clients.</li>
+              <li>Teardown is explicit and ordered: announce → brief delay for UI/SFX → <code>LeaveRoom</code> → <code>Disconnect</code>, with callbacks handling each stage.</li>
+            </ul>
+            <strong>The tradeoff I chose, and why:</strong> per-frame transform replication would have meant interpolation, lag compensation, and bandwidth scaling as O(players × tickrate) — for a race where players never physically interact. By networking only the outcome, bandwidth is effectively O(1) per run, there is no reconciliation code to maintain, and race fairness comes from a shared config plus master-authoritative scoring instead of from netcode complexity. Player count is a data value — a single <code>IntSO</code> — so scaling from 2 to N racers is a config change, not a code change.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Architecture — ScriptableObject Event/Data Layer</div>
+          <div class="pd-section-text">
+            The entire game is wired through a ScriptableObject framework, maintained as a shared git submodule reused across the studio's projects, which I consumed and extended:
+            <ul>
+              <li><code>EventSO</code> / <code>EventListenerSO</code> — a typed, asset-based pub/sub system with ~16 gameplay events (<code>PlusScore</code>, <code>MinusScore</code>, <code>QuestionRequest</code>, <code>ShieldHit</code>, <code>TimerNearFinished</code>, <code>PauseGameEvent</code>, …). Publishers and subscribers never hold references to each other; they hold references to an asset. Events support deferred (end-of-frame) and immediate raising, with per-event debug toggles and inline documentation fields.</li>
+              <li><code>VariableSO&lt;T&gt;</code> — typed, observable shared state (<code>IntSO</code>, <code>FloatSO</code>, <code>BoolSO</code>, <code>StringSO</code>, <code>Vector2/3SO</code>, <code>GameObjectSO</code>, enum SOs) with change subscriptions, optional persistence caching, implicit conversion to <code>T</code>, and reset-on-exit semantics. ~15 runtime variables (Score, MovementSpeed, Timer, IsMultiplayer, IsPowerUpActive, RequiredPlayers, …) are the game's single source of truth.</li>
+              <li><strong>A ScriptableObject-driven view state machine</strong> — the whole game runs in one scene. Loading, Main Menu, Tutorial, Mode Selection, Room Entry, Gameplay, and Game End are seven <code>GameStateSM</code> assets driven by a single state variable, with enter/exit UnityEvent hooks and an <code>IStateListener</code> interface for code-side listeners. No scene loads, no loading screens between menus, no cross-scene reference problems.</li>
+              <li><strong>Custom editor tooling</strong> — property drawers and inspectors for every SO type, plus an Event Manager editor window for auditing which listeners are bound to which events. This was the difference between the SO architecture being a liability and being usable by designers.</li>
+            </ul>
+            The practical result: <code>BarrierScript</code> raises <code>MinusScore</code> and <code>OnCollision</code> and knows nothing about the score system, the camera shake, or the audio manager. The question system pauses gameplay without holding a reference to the player. Systems are genuinely independent and individually testable.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Runner Core — Allocation-Free at Steady State</div>
           <div class="pd-section-text">
             <ul>
-              <li>Multiplayer synchronization using Photon PUN with clean authority separation between host and clients</li>
-              <li>Core endless runner gameplay loop with procedural obstacle generation</li>
-              <li>Object pooling system to keep runtime performance stable as the game speeds up</li>
-              <li>Modular data management architecture for player state and score synchronization</li>
-              <li>Scalable systems designed to support variable player counts without code changes</li>
+              <li><strong>Road segment recycling:</strong> track segments are held in a Z-sorted ring. When the player crosses an end trigger, the trailing segment is repositioned to the head at a fixed offset. Nothing is instantiated or destroyed during a run.</li>
+              <li><strong>Entity reuse:</strong> collectibles, obstacles, and power-ups recycle by toggling collider and renderer state with timed re-enable, rather than spawn/despawn cycles — the same principle applied at object granularity.</li>
+              <li><strong>Environment variation without cost:</strong> roadside props swap meshes from a pool on trigger crossing, so a recycled segment does not visibly read as recycled.</li>
+            </ul>
+            Net effect: no GC allocation spikes as the game accelerates, which matters precisely at the moment the game is hardest and frame consistency matters most.
+            <br><br>
+            Difficulty ramps by driving a single shared <code>MovementSpeed</code> float toward a cap over time. Road, roadside content, and collision-response logic all read that one value — so speed, penalties, and recovery stay coherent by construction rather than by manual synchronisation.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Player Controller</div>
+          <div class="pd-section-text">
+            <code>CharacterController</code>-based with hand-rolled vertical physics rather than rigidbody gravity: explicit gravity accumulation, jump velocity derived from a designer-set jump height (<code>√(2gh)</code>) rather than a magic impulse number, a fall-speed clamp to prevent tunnelling through colliders at high speed, and lateral movement clamped to road bounds by computing the delta actually applied rather than clamping after the fact. Trigger events are guarded by a cooldown coroutine so a single boundary crossing cannot double-fire. Built on Unity's Input System with keyboard and gamepad (Xbox) support.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Content Pipeline — Designers Ship Changes Without a Build</div>
+          <div class="pd-section-text">
+            <ul>
+              <li><code>Questions.json</code> in <code>StreamingAssets</code> holds 37 bilingual security-awareness questions with parallel EN/AR answer arrays and 1-based correct-answer indices, normalised to 0-based on load and defensively clamped.</li>
+              <li><code>config.json</code> exposes run duration and the coins-per-question interval.</li>
+              <li>Both load asynchronously at boot via <code>UnityWebRequest</code> coroutines (StreamingAssets-safe across platforms), with explicit fallback defaults on failure so a missing or malformed config degrades to a playable game instead of a crash, then raise a "loaded" event that gates dependent systems.</li>
+              <li>Question selection uses a non-repeating pool that auto-reshuffles on exhaustion, so a player never sees the same question twice in a run.</li>
+            </ul>
+            This was a deliberate ownership decision: question content and difficulty tuning belong to the client and the designers, not to the codebase. They can be edited post-ship without a programmer or a rebuild.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Localization — English/Arabic with Real RTL</div>
+          <div class="pd-section-text">
+            <ul>
+              <li>Unity Localization plus Addressables for UI string tables.</li>
+              <li>RTL TextMeshPro for correct Arabic glyph shaping, ligature joining, and bidirectional text — the part that separates "we support Arabic" from "Arabic actually reads correctly."</li>
+              <li>A locale manager that swaps TMP font assets across the entire scene at runtime, including inactive objects, and flips RTL flags on locale change, with forced mesh updates so Arabic renders immediately rather than one frame late.</li>
+              <li>Question content localises from JSON; UI chrome localises from string tables; the tutorial re-renders its current slide live when the player switches language mid-tutorial.</li>
             </ul>
           </div>
         </div>
+
+        <div>
+          <div class="pd-section-title">Game Feel &amp; Supporting Systems</div>
+          <div class="pd-section-text">
+            Coin collection drives progression: every N coins (config-driven) raises a question event that pauses the run, presents a localised question, gives DOTween colour-flash feedback with distinct correct/incorrect SFX, applies the score delta, and resumes — pause and resume both routed through events so any system can opt in.
+            <br><br>
+            Also built: a singleton <code>AudioManager</code> with a dictionary-keyed SFX library and separated music/SFX buses with independent volume control; EZ Camera Shake on impact; Epic Toon FX particles; a shield power-up with timed expiry that gates all damage sources through a shared <code>IsPowerUpActive</code> flag; a countdown timer with a configurable warning threshold that fires an event in the final seconds (colour shift plus audio cue); a star-rating results screen; and a localised slide-based tutorial.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Key Engineering Decisions</div>
+          <div class="pd-section-text">
+            <div class="pd-table-wrap">
+              <table class="pd-table prose">
+                <tr><th>Decision</th><th>Alternative</th><th>Why this one</th></tr>
+                <tr>
+                  <td>Network the outcome, not the simulation</td>
+                  <td>Per-tick transform replication</td>
+                  <td>Players never interact physically. O(1) bandwidth per run, zero interpolation/reconciliation code, no desync class of bugs.</td>
+                </tr>
+                <tr>
+                  <td>Master client owns start and winner; clients own their own run</td>
+                  <td>Fully authoritative server</td>
+                  <td>Matches actual trust needs for a training tool. Clean, explicit authority boundary with no server infrastructure cost.</td>
+                </tr>
+                <tr>
+                  <td>Player count as a ScriptableObject</td>
+                  <td>Hardcoded 2-player</td>
+                  <td>Variable player counts ship as configuration, not as a code branch.</td>
+                </tr>
+                <tr>
+                  <td>Single scene plus SO state machine</td>
+                  <td>Scene-per-screen</td>
+                  <td>No load hitches between menus, no cross-scene reference fragility, one place to reason about game state.</td>
+                </tr>
+                <tr>
+                  <td>SO events/variables as the wiring layer</td>
+                  <td>Direct references or a central GameManager</td>
+                  <td>Systems stay decoupled and independently testable; designers rewire behaviour in the Inspector without a programmer.</td>
+                </tr>
+                <tr>
+                  <td>Recycle segments and entities</td>
+                  <td>Instantiate/Destroy</td>
+                  <td>No steady-state allocation, so frame times stay flat exactly when the game is fastest.</td>
+                </tr>
+                <tr>
+                  <td>Content in StreamingAssets JSON</td>
+                  <td>Content baked into assets or code</td>
+                  <td>Questions and tuning are editable post-ship by non-programmers.</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+
         <div>
           <div class="pd-section-title">What I Learned</div>
           <div class="pd-section-text">
-            This project pushed me to properly understand the difference between what a client owns and what the server owns. I learned how to design systems around network constraints rather than fighting them. Object pooling went from a concept I knew about to something I now reach for by default in any performance-sensitive context. Most importantly, I saw firsthand how early architectural decisions either create problems or prevent them — and that lesson carries into everything I build now.
+            <strong>Authority is a design decision, not an implementation detail.</strong> The most valuable thing this project taught me was to ask "who owns this data?" before writing a line of network code. Once I could answer that per-field — the client owns its run, the master owns the start signal and the verdict — the netcode almost wrote itself, and an entire category of sync bugs never got the chance to exist. I also learned to design around network constraints rather than fight them: the cheapest sync problem is the one you architect out of existence.
+            <br><br>
+            <strong>Decoupling has to be tooled to survive.</strong> A ScriptableObject event system is elegant on day one and unmaintainable on day thirty unless you can answer "what listens to this?" So I invested in editor tooling and inline documentation fields on the assets themselves. That investment is what kept the architecture usable as the project grew past fifty systems.
+            <br><br>
+            <strong>Object pooling stopped being a technique and became a default.</strong> In a game that continuously accelerates, allocation spikes land precisely where the player is least forgiving. Building the runner around reuse from the start — track segments, collectibles, obstacles, props — meant performance was a property of the design instead of an optimisation pass at the end. I now reach for reuse by default in any performance-sensitive context.
+            <br><br>
+            <strong>Localization is architecture, not a translation task.</strong> Supporting Arabic properly meant runtime font swapping, RTL-aware text shaping, forced mesh rebuilds, and a content format with parallel localised arrays — decisions that had to be made early. Retrofitting any of it would have meant rewriting the UI layer.
+            <br><br>
+            <strong>Making content someone else's job is a feature.</strong> Moving questions and tuning into JSON meant the people who actually own the training content could iterate without me. That is the decision I would defend hardest, and the one I would make first on the next project.
           </div>
         </div>
+
       </div>
 
     </div>
@@ -97,21 +228,41 @@
         </div>
         <div class="pd-meta-divider"></div>
         <div class="pd-meta-row">
+          <div class="pd-meta-label">Status</div>
+          <div class="pd-meta-value">Shipped</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
           <div class="pd-meta-label">Timeline</div>
-          <div class="pd-meta-value">2025 – Present</div>
+          <div class="pd-meta-value">Aug 2025 – Feb 2026 · ~6 months</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Engine</div>
+          <div class="pd-meta-value">Unity 6 (6000.0.62f1) · URP 17.0.4</div>
         </div>
         <div class="pd-meta-divider"></div>
         <div class="pd-meta-row">
           <div class="pd-meta-label">Tech Stack</div>
-          <div class="pd-meta-value">Unity, C#, Photon PUN, Firebase</div>
+          <div class="pd-meta-value">C#, Photon PUN 2, Unity Input System, Unity Localization + Addressables, Cinemachine, DOTween, TextMesh Pro + RTL TMP, Post Processing, EZ Camera Shake, Epic Toon FX</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Architecture</div>
+          <div class="pd-meta-value">SO event bus and shared state · SO-driven FSM · object/segment recycling · interface-based collectibles (ICollectible) · singleton audio service · async data-driven config · custom editor tooling</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Scope</div>
+          <div class="pd-meta-value">54 commits · two contributors · GitLab with a shared framework submodule</div>
         </div>
         <div class="pd-meta-divider"></div>
         <div class="pd-meta-row">
           <div class="pd-meta-label">Platform</div>
-          <div class="pd-meta-value">PC</div>
+          <div class="pd-meta-value">Windows standalone · 1080p</div>
         </div>
         <div class="pd-meta-divider"></div>
-        <a href="https://www.youtube.com/watch?v=N7kuuCKZ6uI" target="_blank" class="pd-link-btn">Watch on YouTube ↗</a>
+        <a href="https://www.youtube.com/watch?v=gWnemuBXjl0" target="_blank" class="pd-link-btn">Watch on YouTube ↗</a>
       </div>
     </div>
   </div>

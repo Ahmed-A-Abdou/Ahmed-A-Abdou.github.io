@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cam3 Horror Game – Ahmed Alaa</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23070b14'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-weight='700' font-size='18' fill='%2394a3b8'>A</text></svg>">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23000000'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-weight='700' font-size='18' fill='%23ffffff'>A</text></svg>">
 <link rel="stylesheet" href="../style.css">
 </head>
 <body>
@@ -33,7 +33,7 @@
   <a href="../index.html#projects" class="pd-back">← Back to Projects</a>
 
   <div class="pd-tags">
-    <span class="pd-tag">Unity</span>
+    <span class="pd-tag">Unity 6</span>
     <span class="pd-tag">AI / State Machines</span>
     <span class="pd-tag">Horror</span>
     <span class="pd-tag">Solo Developer</span>
@@ -45,73 +45,138 @@
     <div class="pd-left">
 
       <div class="pd-video">
-        <iframe width="100%" height="340" src="https://www.youtube.com/embed/mtu0YiJJ53c" frameborder="0" allowfullscreen
+        <iframe width="100%" height="340" src="https://www.youtube.com/embed/Z4pJOM7E3WE?si=s2L7yBh8Q-_rPt3Q" frameborder="0" allowfullscreen
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
       </div>
 
       <div class="pd-writeup">
+
         <div>
           <div class="pd-section-title">The Concept</div>
           <div class="pd-section-text">
-            Cam3 is built around a single deliberate constraint: the only tool that keeps you safe costs something to use. Watching the monster through security cameras keeps it at bay — but every second the camera runs drains your battery. Attention itself becomes a resource. Beyond the design concept, Cam3 became my primary architecture project — rebuilt from the ground up after a previous version failed because everything depended on everything else. Every system in this game was designed with strict boundaries and zero coupling between them.
+            Cam3 is built around a single deliberate constraint: the only tool that keeps you safe costs something to use. Watching the monster through security cameras keeps it at bay — but every second the camera runs drains your battery. Attention itself becomes a resource.
+            <br><br>
+            Beyond the design concept, Cam3 became my primary architecture project — rebuilt from the ground up after a previous version failed because everything depended on everything else. Every system was designed with strict boundaries and minimal coupling.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Architecture — Event-Driven ScriptableObject Layer</div>
+          <div class="pd-section-text">
+            Two complementary asset-driven layers carry all cross-system communication:
+            <ul>
+              <li><code>SO_Event</code> / <code>SOEventListener</code> — publisher/subscriber. Publishers hold a <code>SO_Event</code> asset reference and call <code>Raise()</code>; listeners are MonoBehaviours that self-register in <code>OnEnable</code>, unregister in <code>OnDisable</code>, and fire a UnityEvent response wired in the inspector. 11 event assets currently in the project.</li>
+              <li><code>ScriptableVariable</code> — an abstract base with <code>BoolVariable</code>, <code>FloatVariable</code>, <code>IntVariable</code>, <code>StringVariable</code>, <code>Vector3Variable</code> and <code>GameObjectVariable</code> subclasses. Shared runtime state — is the camera up, is the monster visible, current night minute — lives in assets rather than in any single owner, so producers and consumers never meet.</li>
+            </ul>
+            Typed C# Action events cover the two cases where the payload matters and the inspector cannot carry it: <code>CameraSystem.OnCameraPointSwitched(CameraPoint)</code> and <code>MonsterContext.OnNodeChanged(MonsterNode)</code>.
           </div>
         </div>
 
         <div>
           <div class="pd-section-title">Camera System</div>
           <div class="pd-section-text">
-            Modular security camera management built around a Singleton-managed controller. Players switch between independent camera points, and each camera is a fully self-contained component with no dependencies on other systems. The controller handles switching logic; individual cameras handle nothing beyond their own state.
+            Singleton-managed controller (<code>CameraSystem.Instance</code>) over a <code>List&lt;CameraPoint&gt;</code>. Each <code>CameraPoint</code> is fully self-contained — a name, a <code>Camera</code> reference, and an <code>IsActive</code> flag; it knows nothing about the controller or any other system. Switching is overloaded by index and by name. Toggling the monitor writes to an <code>IsCameraEnabled</code> <code>BoolVariable</code> rather than notifying anyone directly.
+            <br><br>
+            The singleton is the one deliberate exception to the no-direct-reference rule. There is exactly one monitor in the game, so the instance is genuinely unique rather than incidentally global, and cross-system access to it is read-only — the visibility check reads the current camera point and nothing writes back. Routing a single read through an event asset would add indirection without removing the dependency.
           </div>
         </div>
 
         <div>
           <div class="pd-section-title">Visibility Detection</div>
           <div class="pd-section-text">
-            Real-time target visibility combining viewport frustum checks (<code>Camera.WorldToViewportPoint</code>) with raycasting for occlusion testing. Fires state-change events only — no per-frame polling overhead. Detection triggers on camera switches and target movement, keeping the system responsive without burning CPU cycles every frame.
+            Visibility is a declarative authoring model rather than a geometric one. Every <code>MonsterNode</code> carries a <code>WatchedByCamera</code> reference, and the monster is visible when <code>currentNode.WatchedByCamera == CameraSystem.CurrentCameraPoint</code>. There is no frustum projection and no raycasting.
+            <br><br>
+            It is purely event-driven — visibility recomputes only on a node change or a camera switch, never per frame — and <code>OnVisibilityChanged</code> fires only on an actual state transition, guarded against redundant raises.
+            <br><br>
+            The tradeoff is designer-authored coverage instead of geometric truth. It gives up cases like "the monster is technically half-behind a pillar" in exchange for a system that is deterministic, debuggable, tunable per node, and costs zero CPU between events. In a game where each camera view is a fixed shot, geometric occlusion buys nothing that authored coverage does not already express — the camera cannot move to a position the designer did not anticipate.
           </div>
         </div>
 
         <div>
           <div class="pd-section-title">Enemy AI — 7-State FSM</div>
           <div class="pd-section-text">
-            A finite state machine with seven states — Idle, Moving, Stunned, Retreating, Lured, and two threat-escalation states — implemented using the State design pattern with a shared context object. Each state is independently testable and communicates exclusively through a centralized state machine controller. Zero coupling to unrelated systems means adding or modifying a state never touches anything outside its own class.
+            State pattern over a shared <code>MonsterContext</code>, driven by <code>MonsterStateMachine</code>. The seven states:
+            <div class="pd-table-wrap">
+              <table class="pd-table">
+                <tr><th>State</th><th>Role</th></tr>
+                <tr><td>IdleState</td><td>Waits out <code>MoveTimer</code> — but only while unobserved. Watching freezes the timer.</td></tr>
+                <tr><td>MovingState</td><td>Weighted-random traversal of the node graph, then routes to the correct next state</td></tr>
+                <tr><td>HallwayEndpointState</td><td>Visible-to-player node; countdown to the next move, shockable</td></tr>
+                <tr><td>AtDoorState</td><td>Terminal threat — jumpscare countdown, shockable</td></tr>
+                <tr><td>StunnedState</td><td>Freeze after a shock, then forced retreat</td></tr>
+                <tr><td>RetreatingState</td><td>Sends the monster back to the starting node</td></tr>
+                <tr><td>LuredState</td><td>Probabilistic relocation with diminishing returns</td></tr>
+              </table>
+            </div>
+            Node graph: <code>MonsterNode</code> MonoBehaviours hold <code>ConnectedNodes</code>, a <code>NodeWeight</code>, <code>CanSeePlayer</code> / <code>IsFinalPosition</code> flags, and their watching camera. 16 nodes in the playable scene.
+            <br><br>
+            <strong>The AI's core tension — camera avoidance.</strong> In <code>MovingState.FindNextNode()</code>, any candidate node currently on screen has its weight multiplied by <code>CameraAvoidanceMultiplier</code> (0.5) before the weighted roll. So watching a hallway both freezes the monster's idle timer and pushes it away from where you are looking. That is the mechanic the battery cost is paying for.
+            <br><br>
+            <strong>Escalation floor.</strong> <code>CheckChargeMinuteInterval()</code> — once the night clock passes <code>ForceToOfficeMinuteInterval</code>, the monster is teleported to the final node once and only once, guarded by <code>hasChargedOffice</code>. The night cannot be stalled indefinitely by good camera play.
+            <br><br>
+            <strong>Lure.</strong> Success chance is <code>1 - (usedLureCount × lureResistance)</code> — each use is weaker than the last, and a failed lure still consumes a use.
           </div>
         </div>
 
         <div>
-          <div class="pd-section-title">Resource Management</div>
+          <div class="pd-section-title">Resource Management — Battery</div>
           <div class="pd-section-text">
-            Battery system with multi-source drain calculation — idle drain, active-tool drain, and instant-cost drains — all configured via ScriptableObjects, fully separated from runtime MonoBehaviour state. Includes probability-based failure triggering for unpredictable difficulty pacing that a designer can tune without touching code.
+            Multi-source drain, all configured in a <code>BatteryData</code> ScriptableObject with zero runtime state:
+            <ul>
+              <li><strong>Idle drain</strong> — constant baseline</li>
+              <li><strong>Continuous tool drain</strong> — camera monitor and flashlight, each its own rate</li>
+              <li><strong>Instant-cost drain</strong> — shocking the monster is a flat lump-sum charge, gated so it cannot fire below cost</li>
+            </ul>
+            Probability-based failure: once the battery drops past <code>PowerOutageThreshold</code>, a <code>PowerOutageProbability</code> roll can trigger a one-time blackout event — so the exact moment the lights go is not memorisable across runs. A designer tunes threshold and probability independently, with no code changes.
           </div>
         </div>
 
         <div>
-          <div class="pd-section-title">Secondary Threat System</div>
+          <div class="pd-section-title">Secondary Threat — Window Monster</div>
           <div class="pd-section-text">
-            An independent timer-based escalation system with player counterplay mechanics — timed interaction to de-escalate. Completely decoupled from the primary AI system; neither system knows the other exists.
+            Independent staged escalation. A timer advances the threat through a series of discrete positions; reaching the final stage is an instant loss. Player counterplay is sustained rather than instant: holding the flashlight on it both freezes the advance timer and runs a separate repel timer that pushes it back one stage.
+            <br><br>
+            Completely decoupled from the primary AI — neither system references the other, and both raise their own kill events into the same win/loss layer.
           </div>
         </div>
 
         <div>
-          <div class="pd-section-title">Architecture — Event-Driven SO System</div>
+          <div class="pd-section-title">Time System</div>
           <div class="pd-section-text">
-            All inter-system communication runs through a custom ScriptableObject event system using a publisher/subscriber pattern. No direct references exist between systems. This means any system can be developed, tested, or replaced in isolation. Typed events use C# Actions where needed; everything else routes through the SO event layer. The result: zero circular dependencies across the entire project.
+            Drives the night as discrete minute intervals rather than a continuous clock: <code>RealSecondsPerMinutePeriod</code> real seconds per in-game minute, publishing to a <code>FloatVariable</code> and raising <code>OnIntervalChanged</code> on each tick. The monster's forced-endgame check hangs off that event. Reaching the ending period raises <code>onNightComplete</code> — the win condition.
+            <br><br>
+            Current config: minutes 1 through 10, which is nine intervals of 15 seconds — a 135-second night, with the forced charge at minute 8.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Task System</div>
+          <div class="pd-section-text">
+            <code>TaskBase</code> — an abstract MonoBehaviour, chosen over an interface because there is real shared behaviour: duration, countdown, active/failed guards, and success/fail event raising all live in the base. Subclasses implement only <code>ExecuteTaskLogic()</code>. <code>BreakerTask</code> is the greybox implementation.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Win / Loss</div>
+          <div class="pd-section-text">
+            <code>GameStateManager</code> collects four <code>SO_Event</code>s through listeners — monster kill, window kill, battery depletion, night complete — behind a single <code>isGameOver</code> latch so no two outcomes can both fire. Zero references to any system that feeds it.
           </div>
         </div>
 
         <div>
           <div class="pd-section-title">Player Controller</div>
           <div class="pd-section-text">
-            Custom FPS controller built on Unity's new Input System and CharacterController, with state-based mode switching between stationary and mobile player states. Input handling is cleanly separated from movement logic.
+            Two separate control modes as separate components: <code>PlayerController</code> (new Input System plus <code>CharacterController</code>, <code>OnMove</code>/<code>OnLook</code> message-based input, <code>SetCanMove</code> gating) for the mobile state, and <code>DeskLookController</code> (screen-position-driven panning with a dead zone) for the stationary desk state. <code>TorchController</code> binds a held input action to a <code>BoolVariable</code>, so the flashlight's state is what other systems read — not the light component.
           </div>
         </div>
 
         <div>
           <div class="pd-section-title">Engineering Approach</div>
           <div class="pd-section-text">
-            SOLID principles throughout. Single-responsibility per system. ScriptableObject-driven configuration for designer iteration without code changes. Consistent property encapsulation patterns. Every system was built to be independently sellable, testable, and replaceable — because the previous version of this project wasn't, and that's what broke it.
+            SOLID throughout. Static config in <code>XData</code> ScriptableObjects, runtime state in <code>XSystem</code> MonoBehaviours, never mixed. Consistent <code>[SerializeField] private</code> with read-only <code>=&gt;</code> property encapsulation. One-shot triggers guarded by explicit <code>has*</code> bools so no event can double-fire. Every system built to be developed, tested, and replaced in isolation.
           </div>
         </div>
+
       </div>
 
     </div>
@@ -128,18 +193,28 @@
         </div>
         <div class="pd-meta-divider"></div>
         <div class="pd-meta-row">
+          <div class="pd-meta-label">Engine</div>
+          <div class="pd-meta-value">Unity 6000.3.9f1 · URP</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Scale</div>
+          <div class="pd-meta-value">~30 gameplay scripts across 11 systems</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
           <div class="pd-meta-label">Tech Stack</div>
           <div class="pd-meta-value">Unity, C#, New Input System, ScriptableObject Events, State Pattern</div>
         </div>
         <div class="pd-meta-divider"></div>
         <div class="pd-meta-row">
           <div class="pd-meta-label">Key Systems</div>
-          <div class="pd-meta-value">7-State Enemy FSM, Visibility Detection, Battery Resource System, Secondary Threat Escalation, Custom FPS Controller</div>
+          <div class="pd-meta-value">7-State Enemy FSM, Node-Graph Traversal, Declarative Visibility, Battery Resource System, Secondary Threat Escalation, Time System, Custom FPS Controller</div>
         </div>
         <div class="pd-meta-divider"></div>
         <div class="pd-meta-row">
           <div class="pd-meta-label">Architecture</div>
-          <div class="pd-meta-value">Event-driven, zero coupling, SOLID, SO-configured</div>
+          <div class="pd-meta-value">Event-driven, minimal coupling, SOLID, SO-configured</div>
         </div>
         <div class="pd-meta-divider"></div>
         <div class="pd-meta-row">
@@ -147,7 +222,15 @@
           <div class="pd-meta-value">PC</div>
         </div>
         <div class="pd-meta-divider"></div>
-        <a href="https://www.youtube.com/watch?v=mtu0YiJJ53c" target="_blank" class="pd-link-btn">Watch on YouTube ↗</a>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Related</div>
+          <div class="pd-meta-value">
+            <a href="so-architecture.html" style="color:var(--accent);">ScriptableObject Architecture →</a><br>
+            <a href="los.html" style="color:var(--accent);">Line-of-Sight Mechanic →</a>
+          </div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <a href="https://www.youtube.com/watch?v=Z4pJOM7E3WE" target="_blank" class="pd-link-btn">Watch on YouTube ↗</a>
       </div>
     </div>
   </div>
