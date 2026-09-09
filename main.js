@@ -155,24 +155,34 @@ function carouselMove(id, dir) {
 }
 
 // ── YOUTUBE RSS ──
-function loadYouTube(channelId) {
+function loadYouTube(channelId, fallbackVideoId) {
+  function show(videoId, title) {
+    const t = document.getElementById('yt-title');
+    if (title) { t.textContent = title; t.style.display = ''; }
+    else { t.style.display = 'none'; }
+    document.getElementById('yt-iframe').src = 'https://www.youtube.com/embed/' + videoId + '?rel=0&modestbranding=1';
+    document.getElementById('yt-loading').style.display = 'none';
+    document.getElementById('yt-content').style.display = 'block';
+  }
+
+  // YouTube's channel feed stays empty for videos switched to public after upload,
+  // so fall back to a pinned video rather than showing an error.
+  function fallback() {
+    if (fallbackVideoId) { show(fallbackVideoId, null); return; }
+    document.getElementById('yt-loading').style.display = 'none';
+    document.getElementById('yt-error').style.display = 'block';
+  }
+
   const api = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent('https://www.youtube.com/feeds/videos.xml?channel_id=' + channelId);
   fetch(api)
     .then(function(r) { return r.json(); })
     .then(function(data) {
       if (data.status === 'ok' && data.items && data.items.length > 0) {
         const video = data.items[0];
-        const videoId = video.link.split('v=')[1];
-        document.getElementById('yt-title').textContent = video.title;
-        document.getElementById('yt-iframe').src = 'https://www.youtube.com/embed/' + videoId + '?rel=0&modestbranding=1';
-        document.getElementById('yt-loading').style.display = 'none';
-        document.getElementById('yt-content').style.display = 'block';
-      } else { throw new Error(); }
+        show(video.link.split('v=')[1], video.title);
+      } else { fallback(); }
     })
-    .catch(function() {
-      document.getElementById('yt-loading').style.display = 'none';
-      document.getElementById('yt-error').style.display = 'block';
-    });
+    .catch(fallback);
 }
 
 document.addEventListener('DOMContentLoaded', function() {
