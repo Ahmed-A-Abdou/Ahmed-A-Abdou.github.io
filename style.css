@@ -746,6 +746,12 @@ section h2 {
 #yt-content { text-align: center; }
 #yt-content h3 { color: var(--text); margin-bottom: 12px; font-weight: 600; }
 
+#yt-iframe {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+}
+
 /* ── EXPERIENCE ── */
 .exp-card {
   background: var(--card);
@@ -1255,7 +1261,7 @@ a.contact-line:hover { color: var(--text); }
 
   .menu-toggle { display: block; }
 
-  section { padding: 48px 16px; }
+  section { padding: 34px 16px; }
 
   .hero { height: auto; padding-top: 84px; }
   .hero h1 { font-size: 1.8rem; }
@@ -1284,7 +1290,7 @@ a.contact-line:hover { color: var(--text); }
   .jam-row { grid-template-columns: 1fr; gap: 20px; }
   .cred-grid { grid-template-columns: 1fr 1fr; }
 
-  .exp-row { grid-template-columns: 1fr; gap: 6px; padding: 20px 0; }
+  .exp-row { grid-template-columns: 1fr; gap: 6px; padding: 15px 0; }
   .exp-row-left { display: flex; gap: 10px; align-items: baseline; }
 
   .contact-links { flex-direction: column; }
