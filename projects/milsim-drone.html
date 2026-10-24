@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drone Swarm – Ahmed Alaa</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23000000'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-weight='700' font-size='18' fill='%23ffffff'>A</text></svg>">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div id="lightbox" onclick="closeLightbox()">
+  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation()">
+</div>
+<header>
+  <a class="header-brand" href="../index.html">Ahmed Alaa</a>
+  <button class="menu-toggle" id="menuIcon" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
+  <nav id="nav-menu">
+    <a href="../index.html#about" onclick="closeMenu()">About</a>
+    <a href="../index.html#skills" onclick="closeMenu()">Skills</a>
+    <a href="../index.html#projects" onclick="closeMenu()">Projects</a>
+    <a href="../index.html#events" onclick="closeMenu()">Events</a>
+    <a href="../index.html#credentials" onclick="closeMenu()">Credentials</a>
+    <a href="../index.html#youtube" onclick="closeMenu()">YouTube</a>
+    <a href="../index.html#experience" onclick="closeMenu()">Experience</a>
+    <a href="../index.html#contact" onclick="closeMenu()">Contact</a>
+    <a href="../Ahmed_Alaa_Unity_Game_Developer.pdf" target="_blank" class="nav-btn">Resume</a>
+  </nav>
+</header>
+
+<div class="page-content">
+
+  <a href="milsim.html" class="pd-back">← Military Simulation</a>
+
+  <div class="pd-tags">
+    <span class="pd-tag">Unity 6</span>
+    <span class="pd-tag">C#</span>
+    <span class="pd-tag">State Machines</span>
+    <span class="pd-tag">Generics</span>
+    <span class="pd-tag">Object Pooling</span>
+  </div>
+  <h1 class="pd-title">Drone Swarm</h1>
+
+  <div class="pd-body">
+    <div class="pd-left">
+
+      <div class="pd-loop">
+        <video src="../Images/MilSim/drone-solo.mp4" poster="../Images/MilSim/drone-solo.jpg" muted loop playsinline autoplay></video>
+      </div>
+      <p class="play-note">One drone, chase camera. About 4 seconds in, its impact point (green) starts to move, and the drone turns after it.</p>
+      <div class="pd-loop">
+        <video src="../Images/MilSim/drone.mp4" poster="../Images/MilSim/drone.jpg" muted loop playsinline autoplay></video>
+      </div>
+      <p class="play-note">Three V formations, a chase camera behind them, and the C-RAM's tracers coming up to meet them.</p>
+
+      <div class="pd-writeup">
+
+        <div>
+          <div class="pd-section-title">The System</div>
+          <div class="pd-section-text">
+            One-way attack drones that fly in formation at a defended point, wave after wave. They're the first threat in MilSim and the first thing that announces <em>I'm a target</em>: the air defence engages them through a contract, never by name.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">The Drone</div>
+          <div class="pd-section-text">
+            <code>DroneController</code> answers three small contracts: <code>ITargetable</code> (position, velocity, alive), <code>ISpawnable</code> (place yourself here) and <code>IHittable</code> (you were hit). It owns a <code>StateMachine&lt;DroneState&gt;</code> with three states: Flying, Intercepted and Leaked. Callers report what happened through intent methods (<code>Intercepted()</code>, <code>ReachedTarget()</code>), and the controller decides what that means; the machine and its states stay private.<br><br>Two details that matter: <code>Velocity</code> is exactly the value the drone moved by, so the air defence's lead calculation can't drift out of sync with the flight; and the arrival threshold is larger than one frame of movement, or a drone steps over its target and circles forever.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Following a Moving Target</div>
+          <div class="pd-section-text">
+            A drone never stores where it's going. Its target is a <code>TransformReference</code>, an asset the impact point publishes itself into, and <code>FlyingState</code> asks for its current position every frame: <em>am I there yet?</em> If not, aim at it and move. So when the impact point moves, every drone in the air turns after it on the next frame, with no event, no re-targeting code and no reference from the prefab to the scene. The clip above shows exactly that.
+            <br><br>
+            The order inside that state matters. It checks for arrival <em>first</em> and returns straight after reporting it, because a state that keeps running after it has handed over is a real class of bug: here it would aim along a near-zero vector and log every frame.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">The Swarm</div>
+          <div class="pd-section-text">
+            <code>SwarmSpawner&lt;T&gt; where T : Component, ISpawnable</code>: two constraints for two permissions, the pool's <code>gameObject</code> and the <code>Spawn</code> call. <code>DroneSpawner</code> is a one-line subclass with an empty body, because Unity can't serialise an open generic component.<br><br>Formations are ScriptableObject strategies (V, diamond, random) that return local-space offsets, so <code>TransformPoint</code> places and aims every formation from one transform. V and diamond were added weeks after the spawner was written, with no change to it.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Waves and the Pool</div>
+          <div class="pd-section-text">
+            One wave at a time, not waves on a timer. Overlapping waves would mean the number of live drones depends on how fast the defence kills, which can't be known in advance; one at a time makes pool exhaustion impossible by construction, and <code>OnValidate</code> clamps the swarm size to the pool size so an invalid combination can't be authored.<br><br>A bug worth recording: running two spawners produced "pool empty" errors and double returns, because every spawner heard every drone's death on the shared event bus and tried to reclaim drones it didn't own. Fixed with a <code>HashSet&lt;T&gt;</code> ownership check before the return. The counter that starts the next wave tests <code>&lt;= 0</code>, never <code>== 0</code>, so a miscount can't hang the swarm forever.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Role in the Framework</div>
+          <div class="pd-section-text">
+            The drone plugs into the C-RAM through <code>ITargetable</code> and <code>IHittable</code> alone. That same contract is what later let an artillery shell become a target without the air defence changing.
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <div class="pd-right">
+      <div class="pd-meta">
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Type</div>
+          <div class="pd-meta-value">Personal project · part of MilSim</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Engine</div>
+          <div class="pd-meta-value">Unity 6000.3 · URP</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Patterns</div>
+          <div class="pd-meta-value">State machine, generic spawner, ScriptableObject strategies, object pool</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Contracts</div>
+          <div class="pd-meta-value">ITargetable · ISpawnable · IHittable</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Framework</div>
+          <div class="pd-meta-value"><a href="milsim.html" style="color:var(--accent);">MilSim →</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sys-nav"><a href="cram.html">← C-RAM</a><a href="milsim-mstab.html">2A65 Msta-B →</a></div>
+
+</div>
+<script src="../main.js"></script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Military Simulation – Ahmed Alaa</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23000000'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-weight='700' font-size='18' fill='%23ffffff'>A</text></svg>">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div id="lightbox" onclick="closeLightbox()">
+  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation()">
+</div>
+<header>
+  <a class="header-brand" href="../index.html">Ahmed Alaa</a>
+  <button class="menu-toggle" id="menuIcon" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
+  <nav id="nav-menu">
+    <a href="../index.html#about" onclick="closeMenu()">About</a>
+    <a href="../index.html#skills" onclick="closeMenu()">Skills</a>
+    <a href="../index.html#projects" onclick="closeMenu()">Projects</a>
+    <a href="../index.html#events" onclick="closeMenu()">Events</a>
+    <a href="../index.html#credentials" onclick="closeMenu()">Credentials</a>
+    <a href="../index.html#youtube" onclick="closeMenu()">YouTube</a>
+    <a href="../index.html#experience" onclick="closeMenu()">Experience</a>
+    <a href="../index.html#contact" onclick="closeMenu()">Contact</a>
+    <a href="../Ahmed_Alaa_Unity_Game_Developer.pdf" target="_blank" class="nav-btn">Resume</a>
+  </nav>
+</header>
+
+<div class="page-content">
+
+  <a href="../index.html#projects" class="pd-back">← Back to Projects</a>
+
+  <div class="pd-tags">
+    <span class="pd-tag">Unity 6</span>
+    <span class="pd-tag">C#</span>
+    <span class="pd-tag">Modular Framework</span>
+    <span class="pd-tag">In Development</span>
+  </div>
+  <h1 class="pd-title">MilSim: Military Simulation</h1>
+
+  <div class="hub-hero">
+    <img src="../Images/MilSim/milsim.jpg" alt="C-RAM tracer fire breaking up a drone formation">
+    <video src="../Images/MilSim/milsim.mp4" poster="../Images/MilSim/milsim.jpg" muted loop playsinline autoplay data-autoplay></video>
+  </div>
+
+  <p class="hub-lead">A framework of military systems, built one system at a time. Each system stands on its own, in its own assembly, and they work together without knowing about each other: the air defence engages anything that says <em>I'm a target</em>, whether it's a drone or a shell from a howitzer it has never heard of. New behaviour arrives as a new asset or a small new class, never as an edit to what already works.</p>
+  <p class="hub-lead" style="font-size:14px;opacity:0.8;">Built entirely from public information, in Unity 6 with URP. The shared building blocks are released as <a href="emplacement.html" style="color:var(--accent);">Emplacement</a>, an open-source Unity package.</p>
+
+  <div class="section-sub-label">Systems</div>
+  <div class="work-grid two">
+    <a href="cram.html" class="work-card">
+      <div class="work-media">
+        <img src="../Images/MilSim/cram.jpg" alt="C-RAM" loading="lazy">
+        <video src="../Images/MilSim/cram.mp4" muted loop playsinline preload="none"></video>
+      </div>
+      <div class="work-body">
+        <div class="work-tags">Air defence · System</div>
+        <div class="work-title">C-RAM</div>
+        <div class="work-desc">Detects, prioritises, leads and intercepts at 75 rounds per second, from a pool. Swappable targeting doctrines.</div>
+      </div>
+    </a>
+    <a href="milsim-drone.html" class="work-card">
+      <div class="work-media">
+        <img src="../Images/MilSim/drone-solo.jpg" alt="Drone Swarm" loading="lazy">
+        <video src="../Images/MilSim/drone-solo.mp4" muted loop playsinline preload="none"></video>
+      </div>
+      <div class="work-body">
+        <div class="work-tags">Threat · System</div>
+        <div class="work-title">Drone Swarm</div>
+        <div class="work-desc">One-way attack drones in formation, wave after wave. The first thing that announces it's a target.</div>
+      </div>
+    </a>
+    <a href="milsim-mstab.html" class="work-card">
+      <div class="work-media">
+        <img src="../Images/MilSim/mstab.jpg" alt="2A65 Msta-B Howitzer" loading="lazy">
+        <video src="../Images/MilSim/mstab.mp4" muted loop playsinline preload="none"></video>
+      </div>
+      <div class="work-body">
+        <div class="work-tags">Artillery · System</div>
+        <div class="work-title">2A65 Msta-B Howitzer</div>
+        <div class="work-desc">Fire control, the full crew drill, recoil drift, and AI or human crews in the same seat.</div>
+      </div>
+    </a>
+    <a href="milsim-shells.html" class="work-card">
+      <div class="work-media">
+        <img src="../Images/MilSim/shells.jpg" alt="Shell Behaviours" loading="lazy">
+        <video src="../Images/MilSim/shells.mp4" muted loop playsinline preload="none"></video>
+      </div>
+      <div class="work-body">
+        <div class="work-tags">Munitions · Module system</div>
+        <div class="work-title">Shell Behaviours</div>
+        <div class="work-desc">A shell's behaviour is a list of small assets: HE, smoke trail, rifling spin, report leak.</div>
+      </div>
+    </a>
+  </div>
+
+  <div class="section-sub-label">Case Study</div>
+  <div class="work-grid two">
+    <a href="milsim-interception.html" class="work-card wide">
+      <div class="work-media">
+        <img src="../Images/MilSim/interception.jpg" alt="The Interception: 76% / 67% → 100%" loading="lazy">
+        <video src="../Images/MilSim/interception.mp4" muted loop playsinline preload="none"></video>
+      </div>
+      <div class="work-body">
+        <div class="work-tags">Case study · C-RAM vs Msta-B</div>
+        <div class="work-title">The Interception: 76% / 67% → 100%</div>
+        <div class="work-desc">A howitzer's shells plugged into an air defence built for drones, without editing it. Then I measured it, found why crossing shells leaked, and fixed it once for every future threat.</div>
+      </div>
+    </a>
+  </div>
+
+  <p class="play-note" style="margin-top:22px;">Next: munitions as their own system, a quadcopter platform (spotter and FPV), and a truck platform.</p>
+
+</div>
+<script src="../main.js"></script>
+</body>
+</html>

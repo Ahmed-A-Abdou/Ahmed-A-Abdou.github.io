@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Interception – Ahmed Alaa</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23000000'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-weight='700' font-size='18' fill='%23ffffff'>A</text></svg>">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div id="lightbox" onclick="closeLightbox()">
+  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation()">
+</div>
+<header>
+  <a class="header-brand" href="../index.html">Ahmed Alaa</a>
+  <button class="menu-toggle" id="menuIcon" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
+  <nav id="nav-menu">
+    <a href="../index.html#about" onclick="closeMenu()">About</a>
+    <a href="../index.html#skills" onclick="closeMenu()">Skills</a>
+    <a href="../index.html#projects" onclick="closeMenu()">Projects</a>
+    <a href="../index.html#events" onclick="closeMenu()">Events</a>
+    <a href="../index.html#credentials" onclick="closeMenu()">Credentials</a>
+    <a href="../index.html#youtube" onclick="closeMenu()">YouTube</a>
+    <a href="../index.html#experience" onclick="closeMenu()">Experience</a>
+    <a href="../index.html#contact" onclick="closeMenu()">Contact</a>
+    <a href="../Ahmed_Alaa_Unity_Game_Developer.pdf" target="_blank" class="nav-btn">Resume</a>
+  </nav>
+</header>
+
+<div class="page-content">
+
+  <a href="milsim.html" class="pd-back">← Military Simulation</a>
+
+  <div class="pd-tags">
+    <span class="pd-tag">Case Study</span>
+    <span class="pd-tag">Unity 6</span>
+    <span class="pd-tag">Measurement</span>
+    <span class="pd-tag">Extensibility</span>
+  </div>
+  <h1 class="pd-title">The Interception</h1>
+
+  <div class="pd-body">
+    <div class="pd-left">
+
+      <div class="pd-loop">
+        <video src="../Images/MilSim/interception.mp4" poster="../Images/MilSim/interception.jpg" muted loop playsinline autoplay></video>
+      </div>
+
+      <div class="pd-writeup">
+
+        <div>
+          <div class="pd-section-title">The Problem</div>
+          <div class="pd-section-text">
+            Add a completely new threat, an artillery shell from another system, to an air defence built for drones, without editing the defence.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">The Plug-In</div>
+          <div class="pd-section-text">
+            The C-RAM only knows targets through shared contracts (<code>ITargetable</code>, <code>IHittable</code>). The shell joined through one small add-on component, <code>Interceptable</code>, and one module asset that reports a landing. The defence was untouched, and it engaged the shell the first time it flew.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Measure, Don't Assume</div>
+          <div class="pd-section-text">
+            Then I measured it, 16–23 shells per run:<div class="pd-table-wrap"><table class="pd-table prose"><tr><th>Shot</th><th>Path past the site</th><th>Caught</th></tr><tr><td>High angle at the site</td><td>straight down its line of fire</td><td>100%</td></tr><tr><td>Low angle at the site</td><td>straight in</td><td>100%</td></tr><tr><td>High angle, 450 m to the side</td><td>crossing</td><td>76%</td></tr><tr><td>Low angle, 450 m to the side</td><td>crossing</td><td>67%</td></tr></table></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Diagnose by Experiment</div>
+          <div class="pd-section-text">
+            The obvious suspect was shells slipping between collision checks. Making the physics steps four times finer changed nothing, which ruled it out. The real cause: the defence predicted a straight path for a target that is falling, which barely matters head-on and matters a lot when a shell crosses.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Fix It Once</div>
+          <div class="pd-section-text">
+            Each threat can now describe how it flies through an optional <code>IPredictable</code> interface, and the defence refines its lead against that prediction a few times. One justified edit to the defence opened it for every future falling threat: mortars and rockets get the fix for free, and drones, which don't implement it, are unaffected.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">The Result</div>
+          <div class="pd-section-text">
+            <div class="case-numbers"><div class="case-number">76% → 100%<small>high-angle crossing</small></div><div class="case-number">67% → 100%<small>low-angle crossing</small></div><div class="case-number">~300 m<small>further from the site</small></div></div><br>Straight-in shots stayed at 100%, and every intercept moved about 300 m further from the site, because the first bursts now aim where the shell is really going.
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <div class="pd-right">
+      <div class="pd-meta">
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Type</div>
+          <div class="pd-meta-value">Case study · part of MilSim</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Systems</div>
+          <div class="pd-meta-value">C-RAM · Msta-B · shell modules</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Method</div>
+          <div class="pd-meta-value">Plug in through contracts, measure, test a hypothesis, fix once</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Built From</div>
+          <div class="pd-meta-value">Public information; in development</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Framework</div>
+          <div class="pd-meta-value"><a href="milsim.html" style="color:var(--accent);">MilSim →</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sys-nav"><a href="milsim-shells.html">← Shell Behaviours</a><a href="milsim.html">All systems →</a></div>
+
+</div>
+<script src="../main.js"></script>
+</body>
+</html>

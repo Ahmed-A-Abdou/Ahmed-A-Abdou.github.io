@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shell Behaviours – Ahmed Alaa</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23000000'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-weight='700' font-size='18' fill='%23ffffff'>A</text></svg>">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div id="lightbox" onclick="closeLightbox()">
+  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation()">
+</div>
+<header>
+  <a class="header-brand" href="../index.html">Ahmed Alaa</a>
+  <button class="menu-toggle" id="menuIcon" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
+  <nav id="nav-menu">
+    <a href="../index.html#about" onclick="closeMenu()">About</a>
+    <a href="../index.html#skills" onclick="closeMenu()">Skills</a>
+    <a href="../index.html#projects" onclick="closeMenu()">Projects</a>
+    <a href="../index.html#events" onclick="closeMenu()">Events</a>
+    <a href="../index.html#credentials" onclick="closeMenu()">Credentials</a>
+    <a href="../index.html#youtube" onclick="closeMenu()">YouTube</a>
+    <a href="../index.html#experience" onclick="closeMenu()">Experience</a>
+    <a href="../index.html#contact" onclick="closeMenu()">Contact</a>
+    <a href="../Ahmed_Alaa_Unity_Game_Developer.pdf" target="_blank" class="nav-btn">Resume</a>
+  </nav>
+</header>
+
+<div class="page-content">
+
+  <a href="milsim.html" class="pd-back">← Military Simulation</a>
+
+  <div class="pd-tags">
+    <span class="pd-tag">Unity 6</span>
+    <span class="pd-tag">C#</span>
+    <span class="pd-tag">ScriptableObject Modules</span>
+    <span class="pd-tag">Composition</span>
+  </div>
+  <h1 class="pd-title">Shell Behaviours</h1>
+
+  <div class="pd-body">
+    <div class="pd-left">
+
+      <div class="pd-loop">
+        <video src="../Images/MilSim/shells.mp4" poster="../Images/MilSim/shells.jpg" muted loop playsinline autoplay></video>
+      </div>
+
+      <div class="pd-carousel" data-id="shells">
+        <div class="pd-carousel-track-wrap"><div class="pd-carousel-track">
+          <img src="../Images/MilSim/shells.jpg" alt="An HE shell exploding on impact">
+          <img src="../Images/MilSim/shellchase.jpg" alt="A shell in flight, spinning from the rifling">
+        </div></div>
+        <button class="pd-carousel-btn prev" onclick="carouselMove('shells',-1)">&#8249;</button>
+        <button class="pd-carousel-btn next" onclick="carouselMove('shells',1)">&#8250;</button>
+        <div class="pd-carousel-dots" id="dots-shells"></div>
+      </div>
+
+      <div class="pd-writeup">
+
+        <div>
+          <div class="pd-section-title">The System</div>
+          <div class="pd-section-text">
+            A shell flies; everything else it does is a module. Its behaviour is a list of small ScriptableObject assets dropped onto it, so a new kind of round is a new combination of modules, and a new behaviour is a new module asset.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">The Module Hooks</div>
+          <div class="pd-section-text">
+            <code>ShellModule</code> is an abstract ScriptableObject with three optional hooks: <code>Launch(shell)</code>, <code>Tick(shell)</code> and <code>Impact(shell, point)</code>. The shell holds a <code>List&lt;ShellModule&gt;</code> and calls each hook at its moment, passing itself; on impact it finishes landing first, then calls the modules.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">The Behaviours So Far</div>
+          <div class="pd-section-text">
+            <ul><li><b>HE</b>: the explosion and scorch on impact</li><li><b>Smoke trail</b>: propellant smoke dragged out of the barrel, gone within half a second</li><li><b>Rifling spin</b>: the spin the barrel's grooves give the shell, at a rate a camera can read</li><li><b>Report leak</b>: tells the air defence a shell got through</li></ul>Next on the list: flare, incendiary and a laser-guided round, each a new module.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Shared and Stateless</div>
+          <div class="pd-section-text">
+            One module asset serves every shell of that type, so a module may only hold authored settings; anything about one particular shell is handed in. I checked the rule with a scenario before writing code: two shells and one module that saved the impact point in a field, and the first shell explodes at the second one's landing point. The same rule caught a real bug in the first HE module, which stored the spawned explosion in its prefab field and broke the next shot.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">The Flight</div>
+          <div class="pd-section-text">
+            The shell flies by script, not a Rigidbody, so it lands exactly where fire control predicts. Each step uses the exact constant-gravity update, <code>position += v·dt + ½·g·dt²</code> then <code>v += g·dt</code>; the obvious order (velocity first) falls slightly too far every step and missed by about 2 m over a 20-second lob.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Becoming a Target</div>
+          <div class="pd-section-text">
+            An <code>Interceptable</code> add-on component makes a shell a target for the air defence through the same contracts the drones use, and the report-leak module announces when one lands. That's how the shells plugged into the C-RAM without the C-RAM changing; the story and the numbers are on <a href="milsim-interception.html" style="color:var(--accent);">The Interception</a>.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Where It Lives</div>
+          <div class="pd-section-text">
+            Today the modules live inside the artillery assembly. Moving shells and modules into their own munitions assembly, so mortars and rocket artillery can reuse them, is the next structural step.
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <div class="pd-right">
+      <div class="pd-meta">
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Type</div>
+          <div class="pd-meta-value">Personal project · part of MilSim</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Engine</div>
+          <div class="pd-meta-value">Unity 6000.3 · VFX Graph</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Pattern</div>
+          <div class="pd-meta-value">Composition with ScriptableObject modules</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Modules</div>
+          <div class="pd-meta-value">HE · Smoke trail · Rifling spin · Report leak</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Framework</div>
+          <div class="pd-meta-value"><a href="milsim.html" style="color:var(--accent);">MilSim →</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sys-nav"><a href="milsim-mstab.html">← 2A65 Msta-B</a><a href="milsim-interception.html">The Interception →</a></div>
+
+</div>
+<script src="../main.js"></script>
+</body>
+</html>

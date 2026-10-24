@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2A65 Msta-B Howitzer – Ahmed Alaa</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23000000'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-weight='700' font-size='18' fill='%23ffffff'>A</text></svg>">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div id="lightbox" onclick="closeLightbox()">
+  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation()">
+</div>
+<header>
+  <a class="header-brand" href="../index.html">Ahmed Alaa</a>
+  <button class="menu-toggle" id="menuIcon" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
+  <nav id="nav-menu">
+    <a href="../index.html#about" onclick="closeMenu()">About</a>
+    <a href="../index.html#skills" onclick="closeMenu()">Skills</a>
+    <a href="../index.html#projects" onclick="closeMenu()">Projects</a>
+    <a href="../index.html#events" onclick="closeMenu()">Events</a>
+    <a href="../index.html#credentials" onclick="closeMenu()">Credentials</a>
+    <a href="../index.html#youtube" onclick="closeMenu()">YouTube</a>
+    <a href="../index.html#experience" onclick="closeMenu()">Experience</a>
+    <a href="../index.html#contact" onclick="closeMenu()">Contact</a>
+    <a href="../Ahmed_Alaa_Unity_Game_Developer.pdf" target="_blank" class="nav-btn">Resume</a>
+  </nav>
+</header>
+
+<div class="page-content">
+
+  <a href="milsim.html" class="pd-back">← Military Simulation</a>
+
+  <div class="pd-tags">
+    <span class="pd-tag">Unity 6</span>
+    <span class="pd-tag">C#</span>
+    <span class="pd-tag">Layered FSMs</span>
+    <span class="pd-tag">Ballistics</span>
+    <span class="pd-tag">Procedure Modelling</span>
+  </div>
+  <h1 class="pd-title">2A65 Msta-B Howitzer</h1>
+
+  <div class="pd-body">
+    <div class="pd-left">
+
+      <div class="pd-loop">
+        <video src="../Images/MilSim/mstab.mp4" poster="../Images/MilSim/mstab.jpg" muted loop playsinline autoplay></video>
+      </div>
+
+      <div class="pd-carousel" data-id="mstab">
+        <div class="pd-carousel-track-wrap"><div class="pd-carousel-track">
+          <img src="../Images/MilSim/mstab.jpg" alt="The Msta-B under a moonlit sky">
+          <img src="../Images/MilSim/drill.jpg" alt="The firing jack and wheels during the drill">
+        </div></div>
+        <button class="pd-carousel-btn prev" onclick="carouselMove('mstab',-1)">&#8249;</button>
+        <button class="pd-carousel-btn next" onclick="carouselMove('mstab',1)">&#8250;</button>
+        <div class="pd-carousel-dots" id="dots-mstab"></div>
+      </div>
+
+      <div class="pd-writeup">
+
+        <div>
+          <div class="pd-section-title">The System</div>
+          <div class="pd-section-text">
+            A 152 mm towed howitzer modelled as a procedure, not an animation: the crew emplaces the gun, fire control solves the shot, the crew lays it, loads it, fires, and the recoil shoves the carriage so the next round needs re-laying. An AI crew or a human operator can take the seat at any moment.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Fire Control</div>
+          <div class="pd-section-text">
+            <code>Ballistics</code> solves the launch angle for a target, with both arcs (flat and high) for each powder charge. It computes in <code>double</code> and exposes <code>float</code>: at artillery speeds <code>v⁴</code> reaches about 4×10¹¹, and near maximum range float cancellation flipped the sign of the discriminant, reporting reachable targets as unreachable. An independent impact predictor runs the solve in reverse; laying at the angle fire control reports and predicting the impact closes to 0.0001 m on every usable arc.<br><br><code>IsLaid</code> is computed, never stored, at a 0.001° tolerance. The first value tried, 0.1°, is a 35 m miss at 20 km.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">One Seat, Two Crews</div>
+          <div class="pd-section-text">
+            The gun holds an <code>IGunOperator</code> and asks it for an order every frame. The AI and the player implement the same interface, so swapping who's in the seat is one assignment. Taking the seat copies the gun's current angles into the new operator first, so grabbing the wheels mid-slew stops the barrel under your hands instead of slamming it level. The handwheels on the model are driven by the gun's angles, never by input, so they turn when the AI lays the gun and stop at the gun's limits.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">The Crew Drill</div>
+          <div class="pd-section-text">
+            Swinging the gun beyond its ±14° traverse runs in phases on its own state: the jack lowers the gun onto its wheels, the trails lift, the gun swings, the spades go back down, the jack raises it again. The jack is two-staged like the real one: its base plate meets the ground before the wheels leave it. Each trail tilts at its hinge by <code>asin(gun drop ÷ hinge-to-spade reach)</code> so a planted spade doesn't ride up with the front of the gun.<br><br>Loading is a second FSM alongside gunnery, because the loaders work while the gunner lays: shell rammed, charge inserted, breech closed, as on the real separate-loading 2A65. Step times live on a crew-drill asset, so a faster crew is a new asset. The breech won't take the next round until the empty case has flown clear.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Recoil and Re-laying</div>
+          <div class="pd-section-text">
+            Every shot shoves and twists the carriage, hardest on the first round and settling as the spades bed in, with numbers on a ground-type asset. The AI remembers its target as a point, not angles, and re-solves after every shove, so rounds keep landing on target while the gun drifts.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Bugs Worth Recognising</div>
+          <div class="pd-section-text">
+            Measuring from the trunnion while the shell leaves the muzzle landed every round 8–9 m long. The impact marker slid with the barrel during recoil until the gun measured from a point on the cradle that elevates but doesn't recoil. And the jack froze a hair short of raised when recording at a fixed 60 fps: the stop check used <code>Mathf.Approximately</code> while the done check tested the exact end. A stop check and a done check must be the same test.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Art</div>
+          <div class="pd-section-text">
+            Modelled in Blender, textured in Substance Painter, from public references. The equilibrator rig is solved in its parent's local space, because a Unity <code>AimConstraint</code> rolled visibly under traverse.
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <div class="pd-right">
+      <div class="pd-meta">
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Type</div>
+          <div class="pd-meta-value">Personal project · part of MilSim</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Engine</div>
+          <div class="pd-meta-value">Unity 6000.3 · URP · Cinemachine</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Patterns</div>
+          <div class="pd-meta-value">Layered state machines, operator interface, ScriptableObject data</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Built From</div>
+          <div class="pd-meta-value">Public references; in development</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Framework</div>
+          <div class="pd-meta-value"><a href="milsim.html" style="color:var(--accent);">MilSim →</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sys-nav"><a href="milsim-drone.html">← Drone Swarm</a><a href="milsim-shells.html">Shell Behaviours →</a></div>
+
+</div>
+<script src="../main.js"></script>
+</body>
+</html>

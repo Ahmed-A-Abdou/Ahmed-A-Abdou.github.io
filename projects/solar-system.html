@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tunable Solar System – Ahmed Alaa</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23000000'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-weight='700' font-size='18' fill='%23ffffff'>A</text></svg>">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div id="lightbox" onclick="closeLightbox()">
+  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation()">
+</div>
+<header>
+  <a class="header-brand" href="../index.html">Ahmed Alaa</a>
+  <button class="menu-toggle" id="menuIcon" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
+  <nav id="nav-menu">
+    <a href="../index.html#about" onclick="closeMenu()">About</a>
+    <a href="../index.html#skills" onclick="closeMenu()">Skills</a>
+    <a href="../index.html#projects" onclick="closeMenu()">Projects</a>
+    <a href="../index.html#events" onclick="closeMenu()">Events</a>
+    <a href="../index.html#credentials" onclick="closeMenu()">Credentials</a>
+    <a href="../index.html#youtube" onclick="closeMenu()">YouTube</a>
+    <a href="../index.html#experience" onclick="closeMenu()">Experience</a>
+    <a href="../index.html#contact" onclick="closeMenu()">Contact</a>
+    <a href="../Ahmed_Alaa_Unity_Game_Developer.pdf" target="_blank" class="nav-btn">Resume</a>
+  </nav>
+</header>
+
+<div class="page-content">
+
+  <a href="../index.html#projects" class="pd-back">← Back to Projects</a>
+
+  <div class="pd-tags">
+    <span class="pd-tag">Unity 6</span>
+    <span class="pd-tag">WebGL</span>
+    <span class="pd-tag">Strategy Pattern</span>
+    <span class="pd-tag">ScriptableObjects</span>
+    <span class="pd-tag">NASA Space Apps Session</span>
+  </div>
+  <h1 class="pd-title">Tunable Solar System</h1>
+
+  <div class="play-frame" id="solar-frame">
+    <div class="play-poster" onclick="loadPlayable(this, '../play/solar-system/index.html')">
+      <img src="../Images/SolarSystem/overview.jpg" alt="The solar system from above">
+      <span class="play-label">▶ Play in your browser</span>
+    </div>
+  </div>
+  <div class="play-bar">
+    <span><b>Controls:</b> 1–9 follow a body · Tab next · 0 overview · drag to look · scroll to zoom · Space pause · [ ] speed</span>
+    <span class="play-actions">
+      <a href="#" onclick="var f=document.getElementById('solar-frame'); (f.requestFullscreen||f.webkitRequestFullscreen).call(f); return false;">Full screen ⛶</a>
+      <a href="../play/solar-system/index.html" target="_blank">Open in a new tab ↗</a>
+    </span>
+  </div>
+  <p class="play-note">WebGL, about 40 MB, best on desktop. Click into the frame before using the keys.</p>
+
+
+  <div class="pd-body">
+    <div class="pd-left">
+
+
+
+      <div class="pd-carousel" data-id="solar">
+        <div class="pd-carousel-track-wrap"><div class="pd-carousel-track">
+          <img src="../Images/SolarSystem/solar.jpg" alt="Saturn and its rings, with the planet's shadow across them">
+          <img src="../Images/SolarSystem/earth.jpg" alt="Earth and the Moon">
+          <img src="../Images/SolarSystem/jupiter.jpg" alt="Jupiter with two of its moons">
+          <img src="../Images/SolarSystem/overview.jpg" alt="The whole system from above">
+        </div></div>
+        <button class="pd-carousel-btn prev" onclick="carouselMove('solar',-1)">&#8249;</button>
+        <button class="pd-carousel-btn next" onclick="carouselMove('solar',1)">&#8250;</button>
+        <div class="pd-carousel-dots" id="dots-solar"></div>
+      </div>
+
+      <div class="pd-writeup">
+
+        <div>
+          <div class="pd-section-title">The Project</div>
+          <div class="pd-section-text">
+            A tunable solar system I built for the game development session I gave at <a href="space-apps-session.html" style="color:var(--accent);"><b>NASA Space Apps Shebeen El-Kom</b></a>, to show beginners the ideas that changed how I build systems. Everything on screen is driven by data assets, and every value can be tuned while it runs. Sizes and distances are compressed so everything fits on screen; the timings and angles are real: periods, eccentricities, inclinations, axial tilts, starting positions on 1 January 2000, Venus's and Uranus's backwards spin and Triton's backwards orbit.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Data Outside the Code</div>
+          <div class="pd-section-text">
+            Each body is a <code>BodyData</code> ScriptableObject: size, orbit, spin, look. One <code>CelestialBody</code> script reads it every frame, so a change in the Inspector shows up instantly. There's no Planet or Moon class: a moon is a <code>CelestialBody</code> that orbits a planet instead of the Sun, and rings are an add-on component with their own data asset.<br><br>A body's position is a function of time: its parent's position plus its own orbit at that moment. Nothing is remembered between frames, so nothing drifts, the update order never matters, and the speed can change instantly.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Orbits as Strategies</div>
+          <div class="pd-section-text">
+            <code>OrbitStrategy</code> answers one question, <em>where is this body at this time?</em>, and each subclass answers it differently. <code>CircularOrbit</code> is a circle at constant speed; <code>EllipticalOrbit</code> solves Kepler's equation, <code>M = E − e·sin E</code>, with a few steps of Newton's method, so planets speed up near the Sun. The base class handles what every orbit shares (time to angle, start position, inclination, retrograde motion), so a new orbit is a few lines and an asset, and the orbit line redraws itself from the same strategy.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Built on Emplacement</div>
+          <div class="pd-section-text">
+            The camera runs on <a href="emplacement.html" style="color:var(--accent);">Emplacement</a>'s typed <code>StateMachine&lt;T&gt;</code> (Overview and Follow, gliding between targets at a frame-rate-independent rate). Comets come from its <code>ObjectPool&lt;T&gt;</code>, are placed through <code>ISpawnable</code>, and find the Sun through a <code>TransformReference</code> asset. Each comet has two tails: dust left along its path, and an ion tail that always points away from the Sun, as the solar wind blows real ones.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">The Look</div>
+          <div class="pd-section-text">
+            No Unity lights: the Sun's position is a global shader value and each surface lights itself, with a soft day/night edge and an atmosphere rim. The Sun is HDR so bloom makes it glow, Saturn's rings take the planet's shadow, the sky is a procedural starfield with a Milky Way band, and every planet texture is painted by code with noise, so nothing was downloaded.
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <div class="pd-right">
+      <div class="pd-meta">
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Type</div>
+          <div class="pd-meta-value">Teaching demo · NASA Space Apps session</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Engine</div>
+          <div class="pd-meta-value">Unity 6000.3 · URP · WebGL</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Patterns</div>
+          <div class="pd-meta-value">Strategy, composition, state machine, object pool</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Built On</div>
+          <div class="pd-meta-value"><a href="emplacement.html" style="color:var(--accent);">Emplacement →</a></div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Scale</div>
+          <div class="pd-meta-value">Sizes and distances compressed; timings and angles real</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script src="../main.js"></script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NASA Space Apps Session – Ahmed Alaa</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23000000'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-weight='700' font-size='18' fill='%23ffffff'>A</text></svg>">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div id="lightbox" onclick="closeLightbox()">
+  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation()">
+</div>
+<header>
+  <a class="header-brand" href="../index.html">Ahmed Alaa</a>
+  <button class="menu-toggle" id="menuIcon" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
+  <nav id="nav-menu">
+    <a href="../index.html#about" onclick="closeMenu()">About</a>
+    <a href="../index.html#skills" onclick="closeMenu()">Skills</a>
+    <a href="../index.html#projects" onclick="closeMenu()">Projects</a>
+    <a href="../index.html#events" onclick="closeMenu()">Events</a>
+    <a href="../index.html#credentials" onclick="closeMenu()">Credentials</a>
+    <a href="../index.html#youtube" onclick="closeMenu()">YouTube</a>
+    <a href="../index.html#experience" onclick="closeMenu()">Experience</a>
+    <a href="../index.html#contact" onclick="closeMenu()">Contact</a>
+    <a href="../Ahmed_Alaa_Unity_Game_Developer.pdf" target="_blank" class="nav-btn">Resume</a>
+  </nav>
+</header>
+
+<div class="page-content">
+
+  <a href="../index.html#events" class="pd-back">← Back to Events</a>
+
+  <div class="pd-tags">
+    <span class="pd-tag">Host</span>
+    <span class="pd-tag">NASA Space Apps Challenge</span>
+    <span class="pd-tag">Shebeen El-Kom</span>
+    <span class="pd-tag">22 Oct 2026</span>
+  </div>
+  <h1 class="pd-title">Build Systems, Not Spaghetti</h1>
+
+  <div class="pd-body">
+    <div class="pd-left">
+
+      <div class="pd-carousel" data-id="session">
+        <div class="pd-carousel-track-wrap"><div class="pd-carousel-track">
+          <img src="../Images/Events/space-apps-session.jpg" alt="Ahmed presenting the session at NASA Space Apps Shebeen El-Kom">
+          <img src="../Images/SolarSystem/overview.jpg" alt="The tunable solar system used in the session">
+        </div></div>
+        <button class="pd-carousel-btn prev" onclick="carouselMove('session',-1)">&#8249;</button>
+        <button class="pd-carousel-btn next" onclick="carouselMove('session',1)">&#8250;</button>
+        <div class="pd-carousel-dots" id="dots-session"></div>
+      </div>
+
+      <div class="pd-writeup">
+
+        <div>
+          <div class="pd-section-title">The Session</div>
+          <div class="pd-section-text">
+            I hosted the game development session at NASA Space Apps Challenge, Shebeen El-Kom, a competition I once competed in myself. Fifty minutes for mostly beginners, built around one tunable solar system I made in Unity for the session, so every idea was shown running, not just described.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">01 · The Problem</div>
+          <div class="pd-section-text">
+            How most of us start: one <code>Update</code> and a flag for every mode (<code>isFlying</code>, <code>isExploding</code>, <code>isWaiting</code>). Nothing stops two flags being true at once, every new mode edits the same method, and teammates collide in one file.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">02 · Warm-up: the Rogue Asteroid</div>
+          <div class="pd-section-text">
+            One planet, one rock, two ideas. <b>What it is</b> lives in a data asset; <b>what it's doing</b> lives in a state machine with three states (Flying, Impact, Waiting), each a small class that answers <em>what do I do every frame, and when am I done?</em> Live: swapping a big slow rock for a small fast pebble by dragging a different asset onto the same script.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">03 · Data Outside the Code</div>
+          <div class="pd-section-text">
+            Every planet and moon is a <code>BodyData</code> ScriptableObject: size, orbit, spin, look. Tuning Earth during Play, and the gotcha that changes made to an asset during Play stay after you stop.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">04 · Reusable Building Blocks</div>
+          <div class="pd-section-text">
+            My open-source <a href="emplacement.html" style="color:var(--accent);">Emplacement</a> package: a typed <code>StateMachine&lt;T&gt;</code> (the camera and the asteroid), <code>ObjectPool&lt;T&gt;</code> (the comets), <code>ISpawnable</code> and <code>TransformReference</code>. And interfaces as a promise: the spawner never mentions <code>Comet</code>, only <em>this can be placed</em>.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">05 · Swap the Behaviour</div>
+          <div class="pd-section-text">
+            The strategy pattern: one question, <em>where is this body on its orbit right now?</em>, answered by a circular orbit and by a Kepler ellipse. Live: writing a new spiral orbit, creating its asset and dragging it onto a planet, with nothing that exists edited.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">06 · Composition</div>
+          <div class="pd-section-text">
+            Fourteen bodies, one body script, two orbit files, no Planet or Moon class. A moon is a body that orbits a planet; rings are a component plus a data asset; Saturn is a body with rings.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Why It Helps at Space Apps</div>
+          <div class="pd-section-text">
+            Tune fast (balancing is changing numbers during Play), work in parallel (teammates in different files), add late (a new feature is one new class), and drop real NASA numbers straight into assets.<div class="pd-formula">New behaviour should arrive as a new asset or a small new class, never as an edit.</div>The one rule to take home.
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <div class="pd-right">
+      <div class="pd-meta">
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Role</div>
+          <div class="pd-meta-value">Host · speaker</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Event</div>
+          <div class="pd-meta-value">NASA Space Apps Challenge, Shebeen El-Kom</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Date</div>
+          <div class="pd-meta-value">22 October 2026</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Format</div>
+          <div class="pd-meta-value">50-minute session for beginners, live demos in Unity</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Topics</div>
+          <div class="pd-meta-value">ScriptableObjects, state machines, interfaces, the strategy pattern, composition</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Demo</div>
+          <div class="pd-meta-value"><a href="solar-system.html" style="color:var(--accent);">Tunable Solar System (playable) →</a></div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <a href="https://www.linkedin.com/posts/spaceappsshebeen_lets-talk-game-development-%D9%86%D9%81%D8%B3%D9%83-%D8%AA%D9%81%D9%87%D9%85-%D8%A3%D9%83%D8%AA%D8%B1-activity-7518662965127053312-HGId" target="_blank" class="pd-link-btn">Organisers' announcement ↗</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script src="../main.js"></script>
+</body>
+</html>

@@ -23,6 +23,7 @@
     <a href="#about" onclick="closeMenu()">About</a>
     <a href="#skills" onclick="closeMenu()">Skills</a>
     <a href="#projects" onclick="closeMenu()">Projects</a>
+    <a href="#events" onclick="closeMenu()">Events</a>
     <a href="#credentials" onclick="closeMenu()">Credentials</a>
     <a href="#youtube" onclick="closeMenu()">YouTube</a>
     <a href="#experience" onclick="closeMenu()">Experience</a>
@@ -34,9 +35,9 @@
 <!-- HERO -->
 <div id="hero" class="hero">
   <div>
-    <img src="profile Picture.jpg" alt="Ahmed Alaa">
+    <img src="Images/profile.jpg" alt="Ahmed Alaa">
     <h1>Unity Game Developer</h1>
-    <p>Gameplay Systems · AI · Multiplayer · VR</p>
+    <p>Gameplay Systems · Simulation · Multiplayer · VR</p>
   </div>
 </div>
 
@@ -44,9 +45,9 @@
 <section id="about">
   <h2>About Me</h2>
   <div class="about-text">
-    <p>Unity Game Developer focused on gameplay systems, AI, and VR. I build scalable, decoupled architectures using ScriptableObjects, state machines, and event-driven design — with a strong bias toward code that's easy to extend and hard to break.</p>
-    <p>Shipped work includes <strong>Cyber Ninja</strong>, a rhythm-action VR game for Meta Quest 3, and <strong>ZiRunner</strong>, a bilingual English/Arabic multiplayer training game built on Photon PUN 2. Alongside those I build systems for their own sake — <strong>C-RAM</strong>, an air defence simulation whose module boundaries are enforced by nine assembly definitions, and <strong>Emplacement</strong>, the reusable half of it released as an open-source Unity package.</p>
-    <p>I also spent 2 years as a Game Development Instructor, designing curricula and helping 30+ students ship real projects — which is where most of my instinct for explaining a system in plain terms came from.</p>
+    <p>Unity Game Developer focused on gameplay systems, simulation and VR. I build decoupled architectures with ScriptableObjects, state machines and interfaces, where new behaviour arrives as a new asset or a small new class instead of an edit to code that already works.</p>
+    <p>Shipped work includes <strong>Cyber Ninja</strong>, a rhythm-action VR game for Meta Quest 3, and <strong>ZiRunner</strong>, a bilingual English/Arabic multiplayer training game built on Photon PUN 2. On my own I'm building <strong>MilSim</strong>, a framework of military systems (a C-RAM air defence, drone swarms and a 2A65 Msta-B howitzer) that work together without knowing about each other. Its reusable core is released as <strong>Emplacement</strong>, an open-source Unity package.</p>
+    <p>I spent 2 years as a Game Development Instructor, designing curricula and helping 30+ students ship real projects, and in October 2026 I hosted the game development session at <strong>NASA Space Apps Shebeen El-Kom</strong>, a competition I once competed in. Explaining a system in plain terms is still one of my favourite parts of the job.</p>
   </div>
 </section>
 
@@ -62,18 +63,30 @@
         <span>URP</span>
         <span>VR (Meta Quest)</span>
         <span>New Input System</span>
+        <span>Cinemachine</span>
+        <span>WebGL Builds</span>
       </div>
     </div>
     <div class="skills-group">
       <div class="skills-group-label">Systems & Architecture</div>
       <div class="skills-group-items">
         <span>Gameplay Systems Design</span>
-        <span>AI (State Machines)</span>
+        <span>Layered & Concurrent State Machines</span>
+        <span>Strategy Pattern (ScriptableObject strategies)</span>
+        <span>Interface-Based Contracts</span>
         <span>Event-Driven Architecture</span>
         <span>Object Pooling</span>
-        <span>Scriptable Objects</span>
         <span>Assembly Definitions</span>
         <span>SOLID Principles</span>
+      </div>
+    </div>
+    <div class="skills-group">
+      <div class="skills-group-label">Simulation & Math</div>
+      <div class="skills-group-items">
+        <span>Ballistics & Fire Control</span>
+        <span>Lead Targeting & Interception</span>
+        <span>Procedure Modelling (crew drills)</span>
+        <span>Measurement-Driven Debugging</span>
         <span>Physics & Player Controllers</span>
       </div>
     </div>
@@ -86,9 +99,17 @@
         <span>Addressables</span>
         <span>UPM Package Authoring</span>
         <span>Optimization & Performance</span>
-        <span>UI/UX Implementation</span>
         <span>Git, GitHub & GitLab</span>
         <span>Blender & Substance Painter</span>
+      </div>
+    </div>
+    <div class="skills-group">
+      <div class="skills-group-label">Communication</div>
+      <div class="skills-group-items">
+        <span>Technical Teaching (2 years)</span>
+        <span>Public Speaking (NASA Space Apps host)</span>
+        <span>Technical Writing & Documentation</span>
+        <span>English (C2) · Arabic (native)</span>
       </div>
     </div>
   </div>
@@ -97,269 +118,150 @@
 <!-- PROJECTS -->
 <section id="projects">
   <h2>Projects</h2>
-  <div class="project-list">
 
-    <a href="projects/cram.html" class="project-row">
-      <span class="project-num">01</span>
-      <div class="project-row-main">
-        <div class="project-row-header">
-          <span class="project-row-title">C-RAM Air Defence System</span>
-          <div class="project-row-tags">
-            <span class="project-row-tag">UNITY 6</span>
-            <span class="project-row-tag">C#</span>
-            <span class="project-row-tag">ARCHITECTURE</span>
-            <span class="project-row-tag">TECHNICAL DEMO</span>
-          </div>
-        </div>
-        <div class="project-row-desc">A modular C-RAM air defence simulation in Unity, built to demonstrate extensible architecture — layered state machines, ScriptableObject strategies, and assembly-enforced boundaries.</div>
+  <div class="section-sub-label">Military Simulation</div>
+  <div class="milsim-band">
+    <a href="projects/milsim.html" class="milsim-hero">
+      <img src="Images/MilSim/milsim.jpg" alt="C-RAM tracer fire breaking up a drone formation at night">
+      <video src="Images/MilSim/milsim.mp4" muted loop playsinline autoplay data-autoplay poster="Images/MilSim/milsim.jpg"></video>
+      <div class="milsim-hero-text">
+        <div class="milsim-kicker">Unity 6 · Modular framework · In development</div>
+        <div class="milsim-title">MilSim</div>
+        <div class="milsim-sub">Military systems built one at a time, each on its own, that work together without knowing about each other. An air defence that was built for drones now stops artillery shells, unchanged.</div>
+        <span class="milsim-cta">View all systems →</span>
       </div>
-      <span class="project-row-arrow">→</span>
     </a>
-
-    <a href="projects/vr.html" class="project-row">
-      <span class="project-num">02</span>
-      <div class="project-row-main">
-        <div class="project-row-header">
-          <span class="project-row-title">Cyber Ninja VR Game</span>
-          <div class="project-row-tags">
-            <span class="project-row-tag">UNITY</span>
-            <span class="project-row-tag">VR</span>
-            <span class="project-row-tag">META QUEST 3</span>
-            <span class="project-row-tag">PROFESSIONAL</span>
-          </div>
-        </div>
-        <div class="project-row-desc">Dual-saber cybersecurity game for Meta Quest 3. DSP-synced spawning, SO state machine, bilingual quiz layer, and a full SDK migration.</div>
-      </div>
-      <span class="project-row-arrow">→</span>
-    </a>
-
-    <a href="projects/cam3.html" class="project-row">
-      <span class="project-num">03</span>
-      <div class="project-row-main">
-        <div class="project-row-header">
-          <span class="project-row-title">Cam3 Horror Game</span>
-          <div class="project-row-tags">
-            <span class="project-row-tag">UNITY</span>
-            <span class="project-row-tag">AI</span>
-            <span class="project-row-tag">HORROR</span>
-            <span class="project-row-tag">IN DEVELOPMENT</span>
-          </div>
-        </div>
-        <div class="project-row-desc">Solo-built horror game where watching the monster costs battery — and pushes it away. 7-state FSM over a weighted node graph, event-driven ScriptableObject architecture.</div>
-      </div>
-      <span class="project-row-arrow">→</span>
-    </a>
-
-    <a href="projects/zirunner.html" class="project-row">
-      <span class="project-num">04</span>
-      <div class="project-row-main">
-        <div class="project-row-header">
-          <span class="project-row-title">ZiRunner</span>
-          <div class="project-row-tags">
-            <span class="project-row-tag">UNITY 6</span>
-            <span class="project-row-tag">PHOTON PUN 2</span>
-            <span class="project-row-tag">MULTIPLAYER</span>
-            <span class="project-row-tag">BILINGUAL</span>
-            <span class="project-row-tag">PROFESSIONAL</span>
-          </div>
-        </div>
-        <div class="project-row-desc">Shipped bilingual (EN/AR) multiplayer endless runner built as cybersecurity awareness training. Outcome-authoritative Photon networking, SO-driven architecture, JSON content pipeline.</div>
-      </div>
-      <span class="project-row-arrow">→</span>
-    </a>
-
-    <a href="projects/colorswap.html" class="project-row">
-      <span class="project-num">05</span>
-      <div class="project-row-main">
-        <div class="project-row-header">
-          <span class="project-row-title">ColorSwap</span>
-          <div class="project-row-tags">
-            <span class="project-row-tag">UNITY 6</span>
-            <span class="project-row-tag">MOBILE</span>
-            <span class="project-row-tag">PUZZLE</span>
-            <span class="project-row-tag">ANDROID</span>
-          </div>
-        </div>
-        <div class="project-row-desc">Graph-coloring puzzle on Android. Data-driven SO levels, decoupled static event architecture, and DOTween touch feedback.</div>
-      </div>
-      <span class="project-row-arrow">→</span>
-    </a>
-
-    <a href="projects/firebase.html" class="project-row">
-      <span class="project-num">06</span>
-      <div class="project-row-main">
-        <div class="project-row-header">
-          <span class="project-row-title">Firebase Inventory System</span>
-          <div class="project-row-tags">
-            <span class="project-row-tag">UNITY</span>
-            <span class="project-row-tag">FIREBASE</span>
-            <span class="project-row-tag">BACKEND</span>
-          </div>
-        </div>
-        <div class="project-row-desc">Real-time inventory synced to Firebase Realtime Database. Modular, reusable backend-connected architecture.</div>
-      </div>
-      <span class="project-row-arrow">→</span>
-    </a>
-
-    <a href="projects/los.html" class="project-row">
-      <span class="project-num">07</span>
-      <div class="project-row-main">
-        <div class="project-row-header">
-          <span class="project-row-title">Line-of-Sight Monster Mechanic</span>
-          <div class="project-row-tags">
-            <span class="project-row-tag">UNITY</span>
-            <span class="project-row-tag">AI</span>
-            <span class="project-row-tag">RAYCASTING</span>
-          </div>
-        </div>
-        <div class="project-row-desc">Visibility-based AI combining frustum checks and raycasting. Optimized to avoid per-frame polling overhead.</div>
-      </div>
-      <span class="project-row-arrow">→</span>
-    </a>
-
-    <a href="projects/rpg.html" class="project-row">
-      <span class="project-num">08</span>
-      <div class="project-row-main">
-        <div class="project-row-header">
-          <span class="project-row-title">RPG Battle System Prototype</span>
-          <div class="project-row-tags">
-            <span class="project-row-tag">UNITY</span>
-            <span class="project-row-tag">STATE MACHINES</span>
-            <span class="project-row-tag">RPG</span>
-          </div>
-        </div>
-        <div class="project-row-desc">Turn-based combat with modular state management. Open for extension, closed for modification.</div>
-      </div>
-      <span class="project-row-arrow">→</span>
-    </a>
-
+    <div class="milsim-strip">
+      <a href="projects/cram.html" class="milsim-chip"><img src="Images/MilSim/cram.jpg" alt="C-RAM" loading="lazy"><small>System</small><span>C-RAM</span></a>
+      <a href="projects/milsim-drone.html" class="milsim-chip"><img src="Images/MilSim/drone-solo.jpg" alt="Drone Swarm" loading="lazy"><small>System</small><span>Drone Swarm</span></a>
+      <a href="projects/milsim-mstab.html" class="milsim-chip"><img src="Images/MilSim/mstab.jpg" alt="2A65 Msta-B" loading="lazy"><small>System</small><span>2A65 Msta-B</span></a>
+      <a href="projects/milsim-shells.html" class="milsim-chip"><img src="Images/MilSim/shells.jpg" alt="Shell Behaviours" loading="lazy"><small>System</small><span>Shell Behaviours</span></a>
+      <a href="projects/milsim-interception.html" class="milsim-chip"><img src="Images/MilSim/interception.jpg" alt="The Interception" loading="lazy"><small>Case study</small><span>The Interception</span></a>
+    </div>
   </div>
 
-  <div class="section-sub-label">Systems</div>
-  <div class="project-list">
-
-    <a href="projects/emplacement.html" class="project-row">
-      <span class="project-num">01</span>
-      <div class="project-row-main">
-        <div class="project-row-header">
-          <span class="project-row-title">Emplacement — Unity Package</span>
-          <div class="project-row-tags">
-            <span class="project-row-tag">UNITY PACKAGE</span>
-            <span class="project-row-tag">UPM</span>
-            <span class="project-row-tag">GENERICS</span>
-            <span class="project-row-tag">OPEN SOURCE</span>
-          </div>
-        </div>
-        <div class="project-row-desc">Reusable Unity building blocks for simulation systems: a generic state machine, a generic object pool, and asset-based references for cross-prefab wiring — distributed as an installable UPM package.</div>
+  <div class="section-sub-label">Featured</div>
+  <div class="work-grid two">
+    <a href="projects/vr.html" class="work-card feature">
+      <div class="work-media">
+        <img src="Images/VRProject.png" alt="Cyber Ninja VR Game" loading="lazy"><span class="work-badge">Shipped</span>
       </div>
-      <span class="project-row-arrow">→</span>
-    </a>
-
-    <a href="projects/so-architecture.html" class="project-row">
-      <span class="project-num">02</span>
-      <div class="project-row-main">
-        <div class="project-row-header">
-          <span class="project-row-title">ScriptableObject Architecture System</span>
-          <div class="project-row-tags">
-            <span class="project-row-tag">UNITY</span>
-            <span class="project-row-tag">C#</span>
-            <span class="project-row-tag">REUSABLE</span>
-          </div>
-        </div>
-        <div class="project-row-desc">Lightweight SO event and variable system. Zero direct references, Inspector-wired events, no singletons. Used as the backbone of Cam3.</div>
+      <div class="work-body">
+        <div class="work-tags">Unity · VR · Meta Quest 3 · Professional</div>
+        <div class="work-title">Cyber Ninja VR Game</div>
+        <div class="work-desc">Dual-saber cybersecurity game for Meta Quest 3. DSP-synced spawning, SO state machine, bilingual quiz layer, and a full Oculus → Meta XR SDK migration.</div>
       </div>
-      <span class="project-row-arrow">→</span>
     </a>
+    <a href="projects/zirunner.html" class="work-card feature">
+      <div class="work-media">
+        <img src="https://img.youtube.com/vi/gWnemuBXjl0/hqdefault.jpg" alt="ZiRunner" loading="lazy"><span class="work-badge">Shipped</span>
+      </div>
+      <div class="work-body">
+        <div class="work-tags">Unity 6 · Photon PUN 2 · Multiplayer · Professional</div>
+        <div class="work-title">ZiRunner</div>
+        <div class="work-desc">Bilingual (EN/AR) multiplayer endless runner for cybersecurity training. Outcome-authoritative networking, SO-driven architecture, JSON content pipeline.</div>
+      </div>
+    </a>
+    <a href="projects/solar-system.html" class="work-card feature">
+      <div class="work-media">
+        <img src="Images/SolarSystem/solar.jpg" alt="Tunable Solar System" loading="lazy"><span class="work-badge">Play it</span>
+      </div>
+      <div class="work-body">
+        <div class="work-tags">Unity 6 · WebGL · Strategy pattern</div>
+        <div class="work-title">Tunable Solar System</div>
+        <div class="work-desc">Built for my NASA Space Apps session: Kepler orbits as swappable strategies, every value tunable live, built on Emplacement. Playable in the browser.</div>
+      </div>
+    </a>
+    <a href="projects/emplacement.html" class="work-card feature">
+      <div class="work-media">
+        <div class="work-code"><i>// one machine, typed per owner</i>
+<b>StateMachine</b>&lt;CameraState&gt;
+<b>ObjectPool</b>&lt;Comet&gt;
+<b>TransformReference</b> sun
+<b>ISpawnable</b> · <b>ITargetable</b> · <b>IHittable</b>
 
+<i>// used by MilSim and the Solar System</i></div><span class="work-badge">Open source</span>
+      </div>
+      <div class="work-body">
+        <div class="work-tags">UPM · Generics · Open source</div>
+        <div class="work-title">Emplacement: Unity Package</div>
+        <div class="work-desc">A typed state machine, an object pool and asset-based references, pulled out of MilSim and reused in a second, unrelated project.</div>
+      </div>
+    </a>
   </div>
 
-  <div class="section-sub-label">Simulation & Web</div>
-  <div class="project-list">
-
-    <a href="projects/physics-sim.html" class="project-row">
-      <span class="project-num">01</span>
-      <div class="project-row-main">
-        <div class="project-row-header">
-          <span class="project-row-title">ThreeJs Physics Lab</span>
-          <div class="project-row-tags">
-            <span class="project-row-tag">THREE.JS</span>
-            <span class="project-row-tag">JAVASCRIPT</span>
-            <span class="project-row-tag">NUMERICAL PHYSICS</span>
-            <span class="project-row-tag">VITEST</span>
-          </div>
-        </div>
-        <div class="project-row-desc">Three interchangeable physics experiments on one schema-driven three.js framework. Symplectic Euler integration, runtime-enforced interfaces, unit-tested pure physics modules.</div>
+  <div class="section-sub-label">More Projects</div>
+  <div class="work-grid four">
+    <a href="projects/cam3.html" class="work-card compact">
+      <div class="work-media"><img src="https://img.youtube.com/vi/Z4pJOM7E3WE/hqdefault.jpg" alt="Cam3 Horror Game" loading="lazy"></div>
+      <div class="work-body">
+        <div class="work-title">Cam3 Horror Game</div>
+        <div class="work-tags">Unity · AI · In development</div>
       </div>
-      <span class="project-row-arrow">→</span>
     </a>
-
+    <a href="projects/physics-sim.html" class="work-card compact">
+      <div class="work-media"><img src="https://img.youtube.com/vi/xptYP1OT0NU/hqdefault.jpg" alt="Three.js Physics Lab" loading="lazy"></div>
+      <div class="work-body">
+        <div class="work-title">Three.js Physics Lab</div>
+        <div class="work-tags">Three.js · Numerical physics</div>
+      </div>
+    </a>
+    <a href="projects/colorswap.html" class="work-card compact">
+      <div class="work-media"><img src="https://img.youtube.com/vi/_fB-zVBE8gI/hqdefault.jpg" alt="ColorSwap" loading="lazy"></div>
+      <div class="work-body">
+        <div class="work-title">ColorSwap</div>
+        <div class="work-tags">Unity 6 · Mobile puzzle</div>
+      </div>
+    </a>
+    <a href="projects/so-architecture.html" class="work-card compact">
+      <div class="work-media"><img src="https://img.youtube.com/vi/Mf8WT9wPAm4/hqdefault.jpg" alt="SO Architecture" loading="lazy"></div>
+      <div class="work-body">
+        <div class="work-title">SO Architecture</div>
+        <div class="work-tags">Unity · Reusable system</div>
+      </div>
+    </a>
+    <a href="projects/firebase.html" class="work-card compact">
+      <div class="work-media"><img src="https://img.youtube.com/vi/9_xd8Zw_LMM/hqdefault.jpg" alt="Firebase Inventory" loading="lazy"></div>
+      <div class="work-body">
+        <div class="work-title">Firebase Inventory</div>
+        <div class="work-tags">Unity · Backend</div>
+      </div>
+    </a>
+    <a href="projects/los.html" class="work-card compact">
+      <div class="work-media"><img src="https://img.youtube.com/vi/-GzE9am3SuE/hqdefault.jpg" alt="Line-of-Sight Monster" loading="lazy"></div>
+      <div class="work-body">
+        <div class="work-title">Line-of-Sight Monster</div>
+        <div class="work-tags">Unity · AI</div>
+      </div>
+    </a>
+    <a href="projects/rpg.html" class="work-card compact">
+      <div class="work-media"><img src="https://img.youtube.com/vi/VIDlAuVy_yA/hqdefault.jpg" alt="RPG Battle System" loading="lazy"></div>
+      <div class="work-body">
+        <div class="work-title">RPG Battle System</div>
+        <div class="work-tags">Unity · State machines</div>
+      </div>
+    </a>
   </div>
 </section>
 
-<!-- EARLY WORK -->
-<section id="pathway">
-  <details class="early-work-details">
-    <summary class="early-work-summary">
-      <div class="early-work-summary-left">
-        <div class="early-work-heading">Early Work</div>
-        <span class="early-work-hint">Unity Junior Programmer Pathway · 5 projects</span>
+<!-- EVENTS -->
+<section id="events">
+  <h2>Events</h2>
+  <div class="event-row">
+    <a href="projects/space-apps-session.html" class="event-media">
+      <img src="Images/Events/space-apps-session.jpg" alt="Ahmed presenting the session at NASA Space Apps Shebeen El-Kom">
+    </a>
+    <div class="event-body">
+      <div class="event-kicker">Host · Game Development Session · 22 Oct 2026</div>
+      <div class="event-title">NASA Space Apps Challenge, Shebeen El-Kom</div>
+      <p class="event-desc"><b>“Build Systems, Not Spaghetti.”</b> I hosted the game development session at a competition I once competed in myself, and walked beginners through the four ideas that changed how I build games: data outside the code, state machines, interfaces, and the strategy pattern, all shown live on a tunable solar system I built for the session.</p>
+      <div class="jam-links">
+        <a href="projects/space-apps-session.html" class="jam-link">What I covered →</a>
+        <a href="projects/solar-system.html" class="jam-link">The demo (playable) →</a>
+        <a href="https://www.linkedin.com/posts/spaceappsshebeen_lets-talk-game-development-%D9%86%D9%81%D8%B3%D9%83-%D8%AA%D9%81%D9%87%D9%85-%D8%A3%D9%83%D8%AA%D8%B1-activity-7518662965127053312-HGId" target="_blank" class="jam-link">Announcement ↗</a>
       </div>
-      <span class="early-work-icon">+</span>
-    </summary>
-    <div class="early-work-list">
-
-      <a href="projects/driving.html" class="early-row">
-        <span class="early-row-num">01</span>
-        <div class="early-row-main">
-          <span class="early-row-tag">UNIT 1 · DRIVING</span>
-          <span class="early-row-title">Simple Driving Simulator</span>
-          <span class="early-row-desc">Vehicle physics, oncoming traffic, POV switching, local multiplayer.</span>
-        </div>
-        <span class="early-row-arrow">→</span>
-      </a>
-
-      <a href="projects/plane.html" class="early-row">
-        <span class="early-row-num">02</span>
-        <div class="early-row-main">
-          <span class="early-row-tag">UNIT 1 · CHALLENGE</span>
-          <span class="early-row-title">Simple Plane Control</span>
-          <span class="early-row-desc">Flying mechanics, tilt movement, propeller animation, POV switching.</span>
-        </div>
-        <span class="early-row-arrow">→</span>
-      </a>
-
-      <a href="projects/animals.html" class="early-row">
-        <span class="early-row-num">03</span>
-        <div class="early-row-main">
-          <span class="early-row-tag">UNIT 2 · TOP-DOWN</span>
-          <span class="early-row-title">Feed the Animals</span>
-          <span class="early-row-desc">Projectile throwing, multi-directional spawning, hunger bar UI, collision detection.</span>
-        </div>
-        <span class="early-row-arrow">→</span>
-      </a>
-
-      <a href="projects/runner.html" class="early-row">
-        <span class="early-row-num">04</span>
-        <div class="early-row-main">
-          <span class="early-row-tag">UNIT 3 · SIDE-SCROLLER</span>
-          <span class="early-row-title">3D Side-Scrolling Runner</span>
-          <span class="early-row-desc">Endless runner with obstacle spawning, scrolling background, particle effects and animations.</span>
-        </div>
-        <span class="early-row-arrow">→</span>
-      </a>
-
-      <a href="projects/balloon.html" class="early-row">
-        <span class="early-row-num">05</span>
-        <div class="early-row-main">
-          <span class="early-row-tag">UNIT 3 · CHALLENGE</span>
-          <span class="early-row-title">Balloon Cash Collector</span>
-          <span class="early-row-desc">Balloon dodging bombs and collecting cash. Custom floaty physics, dual spawning system.</span>
-        </div>
-        <span class="early-row-arrow">→</span>
-      </a>
-
     </div>
-  </details>
+  </div>
 </section>
 
 <!-- CREDENTIALS -->

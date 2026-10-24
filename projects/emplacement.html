@@ -20,6 +20,7 @@
     <a href="../index.html#about" onclick="closeMenu()">About</a>
     <a href="../index.html#skills" onclick="closeMenu()">Skills</a>
     <a href="../index.html#projects" onclick="closeMenu()">Projects</a>
+    <a href="../index.html#events" onclick="closeMenu()">Events</a>
     <a href="../index.html#credentials" onclick="closeMenu()">Credentials</a>
     <a href="../index.html#youtube" onclick="closeMenu()">YouTube</a>
     <a href="../index.html#experience" onclick="closeMenu()">Experience</a>
@@ -133,6 +134,20 @@
           </div>
         </div>
 
+        <div>
+          <div class="pd-section-title">Used In</div>
+          <div class="pd-section-text">
+            The <a href="solar-system.html" style="color:var(--accent);">Tunable Solar System</a> I built for my NASA Space Apps session is a second, unrelated project, and it uses four pieces of the package unchanged:
+            <ul>
+              <li><code>StateMachine&lt;T&gt;</code>: the camera's Overview and Follow modes, typed on a <code>CameraState</code> base so only camera states fit</li>
+              <li><code>ObjectPool&lt;T&gt;</code>: a fixed set of comets, reused instead of created and destroyed</li>
+              <li><code>ISpawnable</code>: the spawner places anything that can be placed, without knowing it's a comet</li>
+              <li><code>TransformReference</code>: the comet prefab finds the Sun through an asset, since a prefab can't link to a scene object</li>
+            </ul>
+            It's a small teaching demo, so it shows the pieces travel to a new project; <a href="milsim.html" style="color:var(--accent);">MilSim</a> is where they carry weight.
+          </div>
+        </div>
+
       </div>
 
     </div>
@@ -166,6 +181,11 @@
         <div class="pd-meta-row">
           <div class="pd-meta-label">Extracted From</div>
           <div class="pd-meta-value"><a href="cram.html" style="color:var(--accent);">C-RAM Air Defence System →</a></div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Used In</div>
+          <div class="pd-meta-value"><a href="milsim.html" style="color:var(--accent);">MilSim →</a><br><a href="solar-system.html" style="color:var(--accent);">Tunable Solar System →</a></div>
         </div>
         <div class="pd-meta-divider"></div>
         <a href="https://github.com/Ahmed-A-Abdou/emplacement" target="_blank" class="pd-link-btn">View on GitHub ↗</a>

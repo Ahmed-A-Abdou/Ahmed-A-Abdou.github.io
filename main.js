@@ -188,3 +188,38 @@ function loadYouTube(channelId, fallbackVideoId) {
 document.addEventListener('DOMContentLoaded', function() {
   initCarousels();
 });
+
+// ── CARD VIDEO PREVIEWS ──
+// Cards show a still; the short muted loop plays on hover (desktop) or while on screen (touch).
+document.addEventListener('DOMContentLoaded', function() {
+  const videos = document.querySelectorAll('.work-card video, .milsim-hero video, .hub-hero video');
+  const canHover = window.matchMedia('(hover: hover)').matches;
+
+  videos.forEach(function(video) {
+    const card = video.closest('.work-card') || video.parentElement;
+    function play() { video.play().then(function() { card.classList.add('playing'); }).catch(function() {}); }
+    function stop() { video.pause(); card.classList.remove('playing'); }
+
+    // Banners loop on their own; cards wait for attention.
+    if (video.hasAttribute('data-autoplay')) { play(); return; }
+
+    if (canHover) {
+      card.addEventListener('mouseenter', play);
+      card.addEventListener('mouseleave', stop);
+    } else if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) { if (e.isIntersecting) { play(); } else { stop(); } });
+      }, { threshold: 0.6 }).observe(card);
+    }
+  });
+});
+
+// ── PLAYABLE EMBED (loads only when asked, so the page stays light) ──
+function loadPlayable(el, src) {
+  const frame = document.createElement('iframe');
+  frame.src = src;
+  frame.allow = 'fullscreen; autoplay';
+  frame.setAttribute('allowfullscreen', '');
+  el.parentElement.appendChild(frame);
+  el.remove();
+}
