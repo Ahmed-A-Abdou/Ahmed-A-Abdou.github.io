@@ -159,7 +159,7 @@ section h2 {
 }
 
 .hero img {
-  width: 240px; height: 240px;
+  width: 280px; height: 280px;
   border-radius: 50%;
   border: 1px solid var(--border);
   transition: opacity 0.3s;
@@ -1265,7 +1265,7 @@ a.contact-line:hover { color: var(--text); }
 
   .hero { height: auto; padding-top: 84px; }
   .hero h1 { font-size: 1.8rem; }
-  .hero img { width: 150px; height: 150px; }
+  .hero img { width: 175px; height: 175px; }
 
   .project-grid { grid-template-columns: 1fr; }
   .pathway-grid { grid-template-columns: 1fr; }
