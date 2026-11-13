@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7 Knocks – Ahmed Alaa</title>
+<link rel="icon" type="image/png" href="../Images/7Knocks/favicon.png">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div id="lightbox" onclick="closeLightbox()">
+  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation()">
+</div>
+<header>
+  <a class="header-brand" href="../index.html">Ahmed Alaa</a>
+  <button class="menu-toggle" id="menuIcon" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
+  <nav id="nav-menu">
+    <a href="../index.html#about" onclick="closeMenu()">About</a>
+    <a href="../index.html#skills" onclick="closeMenu()">Skills</a>
+    <a href="../index.html#projects" onclick="closeMenu()">Projects</a>
+    <a href="../index.html#events" onclick="closeMenu()">Events</a>
+    <a href="../index.html#credentials" onclick="closeMenu()">Credentials</a>
+    <a href="../index.html#youtube" onclick="closeMenu()">YouTube</a>
+    <a href="../index.html#experience" onclick="closeMenu()">Experience</a>
+    <a href="../index.html#contact" onclick="closeMenu()">Contact</a>
+    <a href="../Ahmed_Alaa_Unity_Game_Developer.pdf" target="_blank" class="nav-btn">Resume</a>
+  </nav>
+</header>
+
+<div class="page-content">
+
+  <a href="../index.html#projects" class="pd-back">← Back to Projects</a>
+
+  <div class="pd-tags">
+    <span class="pd-tag">Unity 6</span>
+    <span class="pd-tag">URP</span>
+    <span class="pd-tag">WebGL</span>
+    <span class="pd-tag">Blender</span>
+    <span class="pd-tag">Substance Painter</span>
+    <span class="pd-tag">Game Jam</span>
+  </div>
+  <h1 class="pd-title">7 Knocks</h1>
+
+  <div class="play-frame" id="knocks-frame">
+    <div class="play-poster" onclick="loadPlayable(this, '../play/7-knocks/index.html')">
+      <img src="../Images/7Knocks/cover.jpg" alt="Something standing in the open doorway, the lamp on the table">
+      <span class="play-label">▶ Play in your browser</span>
+    </div>
+  </div>
+  <div class="play-bar">
+    <span><b>Controls:</b> rest the mouse at the left, right or bottom edge (or A / D / S) to move · E or click to open the door · Q or right-click to bolt · hold E at the window to hold the curtains</span>
+    <span class="play-actions">
+      <a href="#" onclick="var f=document.getElementById('knocks-frame'); (f.requestFullscreen||f.webkitRequestFullscreen).call(f); return false;">Full screen ⛶</a>
+      <a href="../play/7-knocks/index.html" target="_blank">Open in a new tab ↗</a>
+      <a href="https://abualaa.itch.io/7-knocks" target="_blank">itch.io ↗</a>
+    </span>
+  </div>
+  <p class="play-note">WebGL, about 60 MB, best on desktop with headphones. Warning: flashing lights and loud jumpscares.</p>
+
+
+  <div class="pd-body">
+    <div class="pd-left">
+
+      <div class="pd-carousel" data-id="knocks">
+        <div class="pd-carousel-track-wrap"><div class="pd-carousel-track">
+          <img src="../Images/7Knocks/in-the-doorway.jpg" alt="Something standing in the open doorway, seen from the table">
+          <img src="../Images/7Knocks/lamp.jpg" alt="The oil lamp on the table">
+          <img src="../Images/7Knocks/doorway.jpg" alt="The door open on the fog">
+          <img src="../Images/7Knocks/window.jpg" alt="The window and the fog outside">
+          <img src="../Images/7Knocks/curtains.jpg" alt="The curtains drawn over the window">
+          <img src="../Images/7Knocks/it-runs.jpg" alt="The monster running at the player">
+        </div></div>
+        <button class="pd-carousel-btn prev" onclick="carouselMove('knocks',-1)">&#8249;</button>
+        <button class="pd-carousel-btn next" onclick="carouselMove('knocks',1)">&#8250;</button>
+        <div class="pd-carousel-dots" id="dots-knocks"></div>
+      </div>
+
+      <div class="pd-writeup">
+
+        <div>
+          <div class="pd-section-title">The Game</div>
+          <div class="pd-section-text">
+            A first-person horror game I made in a week for the <b>Official 2026 Unity Game Jam</b> (theme: <em>Lucky Number</em>). You're alone in a cabin in a dead forest, and the oil lamp is running out. All night, something knocks. Visitors knock exactly seven times, and if you open for them they bring oil. Anything that knocks any other number of times isn't a visitor. The whole game is listening, counting and deciding whether to open the door.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">My Role</div>
+          <div class="pd-section-text">
+            Solo. I designed the game and its rules, made all of the art, and directed and tested every system. The art is entirely hand-made: the cabin and its props, the monster and the dead forest, modelled and UV-unwrapped in Blender and textured in Substance Painter. I used an AI coding assistant as the programmer (see below), with me setting the architecture, reviewing every change and rejecting what didn't fit.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">One Rule for Where It Catches You</div>
+          <div class="pd-section-text">
+            The scares follow one rule, modelled on <em>Five Nights at Freddy's 4</em>. If the monster gets in where you're standing (the door or the window), that place's scare plays. If you're anywhere else, it's already inside: the lamp flickers, you're drawn back to the table, and it comes for you there. It never goes through a closed door or window.<br><br>The first version was one script that had grown four scares, and every fix to one broke another. I had it restructured: each scare became its own component, sharing one "puppet" for the monster's mechanics, and a single <code>Intrusion</code> class decides which one plays. After that, a new scare is a new component, and changing one can't break the others.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Art Pipeline</div>
+          <div class="pd-section-text">
+            Every model is low-poly and hand-made. The room was built to measured dimensions, then textured in Substance Painter with one texture set per material group. The monster has a Blender rig with an IK control rig on top, and its animations (a grab, a four-legged run and an upright run that stays on its stub tips) are keyed on it. The animations are exported as Legacy clips, because Unity's WebGL player can't sample normal clips without an Animator. That bug was invisible in the editor and only showed up in a build.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">Shipping to the Browser</div>
+          <div class="pd-section-text">
+            WebGL has no audio mixer, so the levels are baked into the clip files and the source volumes, tuned so a single knock always reads, even under the storm. The build runs in a custom page template that fills its frame, so itch's fullscreen button scales the game up instead of leaving it in a corner. I ran a playtest during the jam and acted on it: a rebuilt controls panel, an eighth knock that came too late to be fair, and a rule that no visitor knocks while you're being walked back to the table.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">How AI Was Used</div>
+          <div class="pd-section-text">
+            Parts of the C# gameplay code, some animation keyframes and some of the menu and page text were developed with an AI tool (Claude). The design, the rules of the night, the scare design, the architecture decisions and the overall direction were mine, and I reviewed, played and tested all of it. The code wasn't used as-is: versions that broke other parts of the game or didn't match the design were rejected, and the scare system's architecture was restructured at my direction until it fit. All models were made by hand in Blender and textured in Substance Painter, and no images or sounds were generated by AI. My hand-written architecture work is in <a href="milsim.html" style="color:var(--accent);">MilSim</a>.
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <div class="pd-right">
+      <div class="pd-meta">
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Type</div>
+          <div class="pd-meta-value">Game jam entry · Official 2026 Unity Game Jam</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Role</div>
+          <div class="pd-meta-value">Solo: design, all 3D art, technical direction</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Engine</div>
+          <div class="pd-meta-value">Unity 6000.3 · URP · WebGL</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Art</div>
+          <div class="pd-meta-value">Blender (modelling, UVs) · Substance Painter (texturing)</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Time</div>
+          <div class="pd-meta-value">One week</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Play</div>
+          <div class="pd-meta-value"><a href="https://abualaa.itch.io/7-knocks" target="_blank" style="color:var(--accent);">itch.io →</a></div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Sounds</div>
+          <div class="pd-meta-value">Horror Bundle SFX by AD Sounds · Freesound (CC0)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script src="../main.js"></script>
+</body>
+</html>
