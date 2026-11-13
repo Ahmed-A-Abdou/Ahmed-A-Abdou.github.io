@@ -78,6 +78,31 @@
         <div class="pd-carousel-dots" id="dots-knocks"></div>
       </div>
 
+      <div class="pd-section-title" style="margin-top:26px;">The Monster</div>
+      <div class="monster-loops">
+        <figure><div class="pd-loop"><video src="../Images/7Knocks/monster-tpose.mp4" poster="../Images/7Knocks/monster-tpose.jpg" muted loop playsinline autoplay></video></div><figcaption>T-pose turntable: modelled in Blender, textured in Substance Painter</figcaption></figure>
+        <figure><div class="pd-loop"><video src="../Images/7Knocks/monster-all4s.mp4" poster="../Images/7Knocks/monster-all4s.jpg" muted loop playsinline autoplay></video></div><figcaption>Four-legged run, on its stub tips</figcaption></figure>
+        <figure><div class="pd-loop"><video src="../Images/7Knocks/monster-grab_run.mp4" poster="../Images/7Knocks/monster-grab_run.jpg" muted loop playsinline autoplay></video></div><figcaption>The run-in, arms out to grab</figcaption></figure>
+      </div>
+      <div class="pd-carousel" data-id="monster" style="margin-top:14px;">
+        <div class="pd-carousel-track-wrap"><div class="pd-carousel-track">
+          <img src="../Images/7Knocks/monster-face.jpg" alt="Close-up of the monster's face">
+          <img src="../Images/7Knocks/monster-profile.jpg" alt="The monster's head and shoulders in profile">
+          <img src="../Images/7Knocks/monster-front.jpg" alt="The monster standing on its stub tips, front view">
+          <img src="../Images/7Knocks/monster-reach.jpg" alt="The monster reaching forward mid-run">
+          <img src="../Images/7Knocks/monster-window.jpg" alt="The monster hanging upside down outside the cabin window, lamp in front">
+        </div></div>
+        <button class="pd-carousel-btn prev" onclick="carouselMove('monster',-1)">&#8249;</button>
+        <button class="pd-carousel-btn next" onclick="carouselMove('monster',1)">&#8250;</button>
+        <div class="pd-carousel-dots" id="dots-monster"></div>
+      </div>
+      <style>
+        .monster-loops { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 10px 0 6px; }
+        .monster-loops figure { margin: 0; }
+        .monster-loops figcaption { font-size: 12px; color: var(--text-muted); margin-top: 6px; line-height: 1.4; }
+        @media (max-width: 700px) { .monster-loops { grid-template-columns: 1fr; } }
+      </style>
+
       <div class="pd-writeup">
 
         <div>
