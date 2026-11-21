@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NASA Space Apps Mentor – Ahmed Alaa</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23000000'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-weight='700' font-size='18' fill='%23ffffff'>A</text></svg>">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div id="lightbox" onclick="closeLightbox()">
+  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation()">
+</div>
+<header>
+  <a class="header-brand" href="../index.html">Ahmed Alaa</a>
+  <button class="menu-toggle" id="menuIcon" onclick="toggleMenu()" aria-label="Toggle menu">☰</button>
+  <nav id="nav-menu">
+    <a href="../index.html#about" onclick="closeMenu()">About</a>
+    <a href="../index.html#skills" onclick="closeMenu()">Skills</a>
+    <a href="../index.html#projects" onclick="closeMenu()">Projects</a>
+    <a href="../index.html#events" onclick="closeMenu()">Events</a>
+    <a href="../index.html#credentials" onclick="closeMenu()">Credentials</a>
+    <a href="../index.html#youtube" onclick="closeMenu()">YouTube</a>
+    <a href="../index.html#experience" onclick="closeMenu()">Experience</a>
+    <a href="../index.html#contact" onclick="closeMenu()">Contact</a>
+    <a href="../Ahmed_Alaa_Unity_Game_Developer.pdf" target="_blank" class="nav-btn">Resume</a>
+  </nav>
+</header>
+
+<div class="page-content">
+
+  <a href="../index.html#credentials" class="pd-back">← Back to Credentials</a>
+
+  <div class="pd-tags">
+    <span class="pd-tag">NASA Space Apps Challenge</span>
+    <span class="pd-tag">Mentor</span>
+    <span class="pd-tag">Hackathon</span>
+    <span class="pd-tag">Certificate</span>
+  </div>
+  <h1 class="pd-title">Galactic Local Mentor</h1>
+
+  <div class="pd-body">
+    <div class="pd-left">
+
+      <div class="pd-carousel" data-id="mentor">
+        <div class="pd-carousel-track-wrap"><div class="pd-carousel-track">
+          <img src="../Certificates%26Course/nasa-space-apps-2026-mentor.jpg" alt="NASA Space Apps Challenge 2026 Galactic Local Mentor certificate">
+          <img src="../Images/Events/space-apps-mentor.jpg" alt="Ahmed beside the NASA Space Apps Shebeen El-Kom banner, and his Mentor badge">
+        </div></div>
+        <button class="pd-carousel-btn prev" onclick="carouselMove('mentor',-1)">&#8249;</button>
+        <button class="pd-carousel-btn next" onclick="carouselMove('mentor',1)">&#8250;</button>
+        <div class="pd-carousel-dots" id="dots-mentor"></div>
+      </div>
+
+      <div class="pd-writeup">
+
+        <div>
+          <div class="pd-section-title">The Event</div>
+          <div class="pd-section-text">
+            The 2026 NASA Space Apps Challenge, Shebeen El-Kom: a two-day hackathon where teams build solutions to challenges set by NASA and its partner space agencies. I was invited back as a mentor a month after hosting the event's game development session, and was recognised as a Galactic Local Mentor.
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">What I Helped With</div>
+          <div class="pd-section-text">
+            <ul>
+              <li><b>Designing the game:</b> turning a challenge into a game idea.</li>
+              <li><b>Making it actually entertaining:</b> what makes a game fun to play, not just a challenge with a game around it.</li>
+              <li><b>Developing mechanics:</b> how to build the specific mechanics each team's game needed.</li>
+              <li><b>Writing the GDD:</b> getting the design onto paper so the whole team builds the same game.</li>
+              <li><b>Managing scope:</b> cutting the plan down to what a team can actually finish before the deadline, and deciding what to build first.</li>
+              <li><b>Choosing and using the technology:</b> web-based games, Three.js, and Unity, picking what fits each team's skills and the time they had.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div>
+          <div class="pd-section-title">What I Took Away</div>
+          <div class="pd-section-text">
+            Scope is where most teams struggle under a deadline. The most useful thing I could do was help them decide early what to leave out, so they finished something playable instead of half of something bigger.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="pd-right">
+      <div class="pd-meta">
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Issuer</div>
+          <div class="pd-meta-value">NASA Space Apps Challenge</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Role</div>
+          <div class="pd-meta-value">Galactic Local Mentor</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Location</div>
+          <div class="pd-meta-value">Shebeen El-Kom</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Date</div>
+          <div class="pd-meta-value">November 14–15, 2026</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <div class="pd-meta-row">
+          <div class="pd-meta-label">Topics</div>
+          <div class="pd-meta-value">Game design, making games fun, mechanics, GDDs, scope management, web games, Three.js, Unity</div>
+        </div>
+        <div class="pd-meta-divider"></div>
+        <img src="../Certificates%26Course/nasa-space-apps-2026-mentor.jpg"
+             alt="NASA Space Apps Challenge 2026 Galactic Local Mentor certificate"
+             style="width:100%; border-radius:6px; border:0.5px solid var(--border); display:block; margin-bottom:2px;">
+        <div class="pd-meta-divider"></div>
+        <a href="../Certificates%26Course/NASA_Space_Apps_2026_Mentor_Certificate_Ahmed_Alaa.pdf" target="_blank" class="pd-link-btn">View Certificate (PDF) ↗</a>
+        <a href="space-apps-session.html" class="pd-link-btn">The session I hosted →</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script src="../main.js"></script>
+</body>
+</html>
